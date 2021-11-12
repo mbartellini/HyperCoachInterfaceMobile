@@ -25,4 +25,5 @@
     <string name="textview" translatable="false">TextView</string>
     <string name="all_routines">All Routines</string>
     <string name="my_routines">My Routines</string>
+    <string name="favourites_routines">Favourites</string>
 </resources>

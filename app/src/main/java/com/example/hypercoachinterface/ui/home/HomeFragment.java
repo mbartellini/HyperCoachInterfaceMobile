@@ -43,21 +43,24 @@ public class HomeFragment extends Fragment {
                 this.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false));
-        //binding.recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         binding.myRoutinesView.setAdapter(adapter);
 
         binding.allRoutinesView.setLayoutManager(new LinearLayoutManager(
                 this.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false));
-        //binding.recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         binding.allRoutinesView.setAdapter(adapter);
 
-        final TextView textView = binding.textHome;
+        binding.favouritesRoutinesView.setLayoutManager(new LinearLayoutManager(
+                this.getContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false));
+        binding.favouritesRoutinesView.setAdapter(adapter);
+
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                return;
             }
         });
         return root;

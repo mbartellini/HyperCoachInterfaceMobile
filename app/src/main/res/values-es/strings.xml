@@ -14,4 +14,5 @@
     <string name="login_failed">Error al iniciar sesión</string>
     <string name="all_routines">Todas las Rutinas</string>
     <string name="my_routines">Mis Rutinas</string>
+    <string name="favourites_routines">Favoritos</string>
 </resources>
