@@ -12,4 +12,7 @@
     <string name="invalid_password">La contraseña debe tener al menos 5 caracteres de longitud.</string>
     <string name="title_activity_login">Iniciar Sesión</string>
     <string name="login_failed">Error al iniciar sesión</string>
+    <string name="all_routines">Todas las Rutinas</string>
+    <string name="my_routines">Mis Rutinas</string>
+    <string name="favourites_routines">Favoritos</string>
 </resources>

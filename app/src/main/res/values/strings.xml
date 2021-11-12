@@ -13,4 +13,17 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="cardview_contents" translatable="false">This is a CardView widget. CardView widgets can have
+        shadows and rounded corners.
+        \n\nTo create a card with a shadow, use the <font fgcolor="#FFFFFFFF">android:elevation</font>
+        attribute.
+        \n\nTo set the corner radius in your layouts, use the <font
+            fgcolor="#FFFFFFFF">card_view:cardCornerRadius</font> attribute.
+    </string>
+    <string name="cardview_radius_seekbar_text" translatable="false">Radius</string>
+    <string name="cardview_elevation_seekbar_text" translatable="false">Elevation</string>
+    <string name="textview" translatable="false">TextView</string>
+    <string name="all_routines">All Routines</string>
+    <string name="my_routines">My Routines</string>
+    <string name="favourites_routines">Favourites</string>
 </resources>
