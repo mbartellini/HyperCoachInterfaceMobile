@@ -1,7 +1,11 @@
 package com.example.hypercoachinterface;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.example.hypercoachinterface.backend.AppPreferences;
+import com.example.hypercoachinterface.backend.App;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +20,8 @@ import com.example.hypercoachinterface.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private AppPreferences preferences;
+    private App app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        app = (App) getApplication();
+        preferences = app.getPreferences();
+
+        if(preferences.getAuthToken() == null) {
+            Toast.makeText(this, "No token", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, preferences.getAuthToken(), Toast.LENGTH_SHORT).show();
+        }
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

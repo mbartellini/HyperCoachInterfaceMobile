@@ -12,4 +12,12 @@
     <string name="invalid_password">La contraseña debe tener al menos 5 caracteres de longitud.</string>
     <string name="title_activity_login">Iniciar Sesión</string>
     <string name="login_failed">Error al iniciar sesión</string>
+    <string name="username_desc">Nombre de usuario:</string>
+    <string name="name_desc">Nombre:</string>
+    <string name="profile_pic_desc">Foto de perfil</string>
+    <string name="email_desc">Correo electrónico:</string>
+    <string name="gender_desc">Sexo:</string>
+    <string name="lastname_desc">Apellido:</string>
+    <string name="birth_desc">Fecha de nacimiento:</string>
+    <string name="logout">Cerrar sesión</string>
 </resources>
