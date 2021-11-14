@@ -1,31 +1,19 @@
 package com.example.hypercoachinterface;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.hypercoachinterface.backend.AppPreferences;
-import com.example.hypercoachinterface.backend.App;
-import com.example.hypercoachinterface.backend.api.model.Error;
-import com.example.hypercoachinterface.backend.repository.Resource;
-import com.example.hypercoachinterface.ui.login.LoginActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.AppPreferences;
 import com.example.hypercoachinterface.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.example.hypercoachinterface.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
