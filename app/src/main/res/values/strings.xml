@@ -5,7 +5,7 @@
     <string name="title_profile">Profile</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -13,6 +13,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="login_success">"Login successful"</string>
     <string name="username_desc">Username:</string>
     <string name="name_desc">Name:</string>
     <string name="profile_pic_desc">Profile picture</string>
@@ -21,4 +22,8 @@
     <string name="lastname_desc">Last name:</string>
     <string name="birth_desc">Date of birth:</string>
     <string name="logout">Log out</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="placeholder">...</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.example.hypercoachinterface.backend.api.model;
 
+import android.content.res.Resources;
+
+import com.example.hypercoachinterface.R;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -52,6 +55,7 @@ public class User {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.birthdate = birthdate;
         this.email = email;
@@ -86,7 +90,7 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getFLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -157,4 +161,5 @@ public class User {
     public void setVerified(Boolean verified) {
         this.verified = verified;
     }
+
 }

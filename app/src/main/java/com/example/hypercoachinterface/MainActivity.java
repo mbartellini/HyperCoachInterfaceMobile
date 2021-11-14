@@ -1,11 +1,16 @@
 package com.example.hypercoachinterface;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.hypercoachinterface.backend.AppPreferences;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Error;
+import com.example.hypercoachinterface.backend.repository.Resource;
+import com.example.hypercoachinterface.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(preferences.getAuthToken() == null) {
             Toast.makeText(this, "No token", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
         } else {
             Toast.makeText(this, preferences.getAuthToken(), Toast.LENGTH_SHORT).show();
         }

@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?attr/colorOnBackground"
-                android:text="johndoe"
+                android:text="@string/placeholder"
                 android:textSize="24sp"
                 android:layout_marginHorizontal="4dp" />
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:text="john"
+                android:text="@string/placeholder"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="24sp"/>
         </LinearLayout>
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:text="doe"
+                android:text="@string/placeholder"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="24sp" />
         </LinearLayout>
@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:text="johndoe@email.com"
+                android:text="@string/placeholder"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="24sp"/>
         </LinearLayout>
@@ -176,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:text="Masculine"
+                android:text="@string/placeholder"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="24sp"/>
         </LinearLayout>
@@ -205,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:text="06/09/1969"
+                android:text="@string/placeholder"
                 android:textColor="?attr/colorOnBackground"
                 android:textSize="24sp"/>
         </LinearLayout>
