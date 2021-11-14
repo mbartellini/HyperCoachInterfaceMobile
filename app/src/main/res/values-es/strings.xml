@@ -16,13 +16,13 @@
     <string name="username_desc">Nombre de usuario:</string>
     <string name="name_desc">Nombre:</string>
     <string name="profile_pic_desc">Foto de perfil</string>
-    <string name="email_desc">Correo electrónico:</string>
+    <string name="email_desc">Correo:</string>
     <string name="gender_desc">Sexo:</string>
     <string name="lastname_desc">Apellido:</string>
     <string name="birth_desc">Fecha de nacimiento:</string>
     <string name="logout">Cerrar sesión</string>
     <string name="male">Masculino</string>
     <string name="female">Femenino</string>
-    <string name="other">Mucho</string>
+    <string name="other">Otro</string>
     <string name="placeholder">...</string>
 </resources>

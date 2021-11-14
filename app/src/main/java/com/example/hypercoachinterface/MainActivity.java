@@ -32,19 +32,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         app = (App) getApplication();
         preferences = app.getPreferences();
 
-        if(preferences.getAuthToken() == null) {
-            Toast.makeText(this, "No token", Toast.LENGTH_SHORT).show();
+        if(preferences.getAuthToken() == null)
             startActivity(new Intent(this, LoginActivity.class));
-        } else {
-            Toast.makeText(this, preferences.getAuthToken(), Toast.LENGTH_SHORT).show();
-        }
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

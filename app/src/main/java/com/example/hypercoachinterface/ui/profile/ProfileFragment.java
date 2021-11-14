@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.AppPreferences;
 import com.example.hypercoachinterface.backend.api.model.Error;
@@ -60,8 +61,8 @@ public class ProfileFragment extends Fragment {
                 usernameTextView.setText(r.getData().getUsername());
                 nameTextView.setText(r.getData().getFirstName());
                 lastNameTextView.setText(r.getData().getLastName());
-                 emailTextView.setText(r.getData().getEmail());
-                genderTextView.setText(r.getData().getGender());
+                emailTextView.setText(r.getData().getEmail());
+                genderTextView.setText(translateGender(r.getData().getGender()));
                 DateFormat df = android.text.format.DateFormat.getDateFormat(getContext());
                 birthTextView.setText(df.format(r.getData().getBirthdate()));
             } else if (r.getStatus() == Status.LOADING) {
@@ -100,5 +101,13 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private String translateGender(String gender) {
+        switch (gender) {
+            case "male": return getString(R.string.male);
+            case "female": return getString(R.string.female);
+            default: return getString(R.string.other);
+        }
     }
 }
