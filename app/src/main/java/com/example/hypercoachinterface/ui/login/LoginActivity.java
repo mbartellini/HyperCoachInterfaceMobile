@@ -23,6 +23,7 @@ import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityLoginBinding;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "UI";
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         app = ((App)getApplication());
 
         Button loginBtn = findViewById(R.id.login);
-        EditText username = binding.username, password = binding.password;
+        TextInputEditText username = findViewById(R.id.username), password = findViewById(R.id.password);
         loginBtn.setOnClickListener(v -> {
             Log.d(TAG, "Username: " + username.getText().toString());
             Log.d(TAG, "Password: " + password.getText().toString());
