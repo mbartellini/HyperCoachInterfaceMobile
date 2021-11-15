@@ -93,11 +93,8 @@ public class ProfileFragment extends Fragment {
         if (data.getMetadata() != null && data.getMetadata().getImgSrc() != null) {
             String imageDataBytes = data.getMetadata().getImgSrc().substring(data.getMetadata().getImgSrc().indexOf(",")+1);
             byte[] decodedString = Base64.decode(imageDataBytes, Base64.DEFAULT);
-            Log.d(TAG, "1 " + data.getMetadata().getImgSrc());
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            Log.d(TAG, "2");
             binding.imageView.setImageBitmap(decodedByte);
-            Log.d(TAG, "3");
         }
 
     }
