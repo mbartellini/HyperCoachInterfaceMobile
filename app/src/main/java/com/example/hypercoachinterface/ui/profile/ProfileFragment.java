@@ -24,15 +24,17 @@ import com.example.hypercoachinterface.backend.AppPreferences;
 import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
+import com.example.hypercoachinterface.backend.repository.UserRepository;
 import com.example.hypercoachinterface.databinding.FragmentProfileBinding;
 import com.example.hypercoachinterface.ui.login.LoginActivity;
+import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class ProfileFragment extends Fragment {
 
-    private ProfileViewModel profileViewModel;
+    private UserViewModel userViewModel;
     private FragmentProfileBinding binding;
     private Button logoutBtn;
     private App app;
@@ -41,13 +43,14 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
+        app = (App) getActivity().getApplication();
+
+        ViewModelProvider.Factory viewModelFactory = new RepositoryViewModelFactory<>(UserRepository.class, app.getUserRepository());
+        userViewModel = new ViewModelProvider(this, viewModelFactory).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        app = (App) getActivity().getApplication();
 
         usernameTextView = binding.username;
         nameTextView = binding.name;
@@ -55,9 +58,9 @@ public class ProfileFragment extends Fragment {
         emailTextView = binding.email;
         genderTextView = binding.gender;
         birthTextView = binding.birth;
-        app.getUserRepository().getCurrentUser().observe(getViewLifecycleOwner(), r-> {
+        userViewModel.getUser().observe(getViewLifecycleOwner(), r-> {
             if (r.getStatus() == Status.SUCCESS) {
-                Log.d(TAG, "SUccess");
+                Log.d(TAG, "Success");
                 usernameTextView.setText(r.getData().getUsername());
                 nameTextView.setText(r.getData().getFirstName());
                 lastNameTextView.setText(r.getData().getLastName());
