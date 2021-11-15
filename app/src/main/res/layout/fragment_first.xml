@@ -18,10 +18,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_margin="8dp"
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="Routine"
         android:textSize="32sp"
         android:textStyle="bold"
@@ -112,21 +112,42 @@
         android:layout_margin="8dp"
         app:layout_constraintTop_toBottomOf="@+id/button_first"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="8dp">
+        tools:layout_editor_absoluteX="8dp"
+        android:elevation="25sp" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
-            <TextView
-                android:background="?android:attr/colorSecondary"
-                android:textColor="?android:attr/colorBackground"
-                android:padding="16sp"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+                android:orientation="horizontal"
+                android:elevation="10sp" >
+
+                <TextView
+                    android:background="?android:attr/colorSecondary"
+                    android:textColor="?android:attr/colorBackground"
+                    android:padding="16sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rutina"
+                    android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="x 5 reps."
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?android:attr/textColorSecondary" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,7 +169,6 @@
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
 
-
                     <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -176,7 +196,6 @@
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
 
-
                     <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -203,7 +222,6 @@
                         android:text="Ejercicio"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
-
 
                     <Space
                         android:layout_width="0dp"
