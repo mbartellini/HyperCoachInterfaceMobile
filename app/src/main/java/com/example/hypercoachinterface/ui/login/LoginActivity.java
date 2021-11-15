@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         app = ((App)getApplication());
 
         Button loginBtn = findViewById(R.id.login);
-        TextInputEditText username = findViewById(R.id.username), password = findViewById(R.id.password);
+        EditText username = findViewById(R.id.username), password = findViewById(R.id.password);
         loginBtn.setOnClickListener(v -> {
             Log.d(TAG, "Username: " + username.getText().toString());
             Log.d(TAG, "Password: " + password.getText().toString());
