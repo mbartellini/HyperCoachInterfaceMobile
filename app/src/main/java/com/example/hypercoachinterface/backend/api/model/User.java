@@ -37,6 +37,9 @@ public class User {
     @SerializedName("avatarUrl")
     @Expose
     private String avatarUrl;
+    @SerializedName("metadata")
+    @Expose
+    private Metadata metadata;
     @SerializedName("date")
     @Expose
     private Date date;
@@ -50,7 +53,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String username, String firstName, String lastName, String gender, Date birthdate, String email, String phone, String avatarUrl, Date date, Date lastActivity, Boolean verified) {
+    public User(Integer id, String username, String firstName, String lastName, String gender, Date birthdate, String email, String phone, String avatarUrl, Metadata metadata, Date date, Date lastActivity, Boolean verified) {
         super();
         this.id = id;
         this.username = username;
@@ -61,6 +64,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.avatarUrl = avatarUrl;
+        this.metadata = metadata;
         this.date = date;
         this.lastActivity = lastActivity;
         this.verified = verified;
@@ -136,6 +140,14 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
 
     public Date getDate() {
