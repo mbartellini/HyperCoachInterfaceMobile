@@ -12,4 +12,5 @@
     <string name="invalid_password">La contraseña debe tener al menos 5 caracteres de longitud.</string>
     <string name="title_activity_login">Iniciar Sesión</string>
     <string name="login_failed">Error al iniciar sesión</string>
+    <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
 </resources>
