@@ -3,12 +3,18 @@ package com.example.hypercoachinterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.AppPreferences;
@@ -30,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         app = (App) getApplication();
         preferences = app.getPreferences();
 
-        if(preferences.getAuthToken() == null)
-            startActivity(new Intent(this, LoginActivity.class));
+//        if(preferences.getAuth<Token() == null)
+//            startActivity(new Inte>nt(this, LoginActivity.class));
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -54,20 +60,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-//            BottomNavigationView navigation = findViewById(R.id.bottom_nav_menu);
-//            navigation.setRotation(90f);
-//            // navigation.requestLayout();
-//            BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigation.getChildAt(0);
-//            for (int i = 0; i < menuView.getChildCount(); i++) {
-//                final View iconView = menuView.getChildAt(i);
-//                iconView.setRotation(-90f);
-//            }
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-//            recreate();
-//        }
+        super.onConfigurationChanged(newConfig);
+        Toast.makeText(this, "landscape", Toast.LENGTH_LONG).show();
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            RecyclerView recyclerView = findViewById(R.id.all_favourites_routines_view);
+
+            int columns = 0;
+
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int screenWidth = displayMetrics.heightPixels - R.dimen.nav_menu_width;
+
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+
+            while (screenWidth > 0) {
+                columns++;
+                screenWidth -= R.dimen.routine_card_width;
+            }
+
+            recyclerView.setLayoutManager(new GridLayoutManager(
+                    getApplicationContext(),
+                    columns,
+                    GridLayoutManager.VERTICAL,
+                    false));
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            recreate();
+        }
     }
 
 }
