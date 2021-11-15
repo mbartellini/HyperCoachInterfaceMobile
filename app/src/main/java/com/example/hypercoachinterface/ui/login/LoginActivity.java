@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button loginBtn = findViewById(R.id.login);
         EditText username = findViewById(R.id.username), password = findViewById(R.id.password);
+        loginBtn.setEnabled(true);
         loginBtn.setOnClickListener(v -> {
             Log.d(TAG, "Username: " + username.getText().toString());
             Log.d(TAG, "Password: " + password.getText().toString());
