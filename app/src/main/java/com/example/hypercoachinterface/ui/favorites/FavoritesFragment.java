@@ -67,6 +67,9 @@ public class FavoritesFragment extends Fragment {
             screenWidth -= routineCardWidth + (routineCardMargin * 2);
         }
 
+        if (columns == 0) {
+            throw new IllegalStateException("Invalid screen size");
+        }
 
         binding.allFavouritesRoutinesView.setLayoutManager(new GridLayoutManager(
                 this.getContext(),

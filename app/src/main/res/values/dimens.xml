@@ -10,4 +10,5 @@
     <dimen name="seekbar_label_length">70dp</dimen>
     <dimen name="routine_radius_seekbar">1dp</dimen>
     <dimen name="nav_menu_width">170dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
 </resources>
