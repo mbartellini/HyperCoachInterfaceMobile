@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.AppPreferences;
 import com.example.hypercoachinterface.backend.api.model.Exercise;
+import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityMainBinding;
@@ -50,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        app.getRoutineRepository().getRoutines().observe(this, r -> {
+            if(r.getStatus() == Status.SUCCESS) {
+                for(Routine routine : r.getData().getContent()) {
+                    Log.d("Routine", "-----------------------------");
+                    Log.d("Routine", routine.toString());
+                }
+            }
+        });
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav_menu);
         NavigationView landNavView = findViewById(R.id.land_nav_menu);
