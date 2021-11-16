@@ -52,7 +52,10 @@ public class LoginActivity extends AppCompatActivity {
                     binding.loading.setVisibility(View.GONE);
                     Toast.makeText(this, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                     app.getPreferences().setAuthToken(r.getData().getToken());
-                    startActivity(new Intent(this, MainActivity.class));
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 } else {
                     defaultResourceHandler(r);
                 }

@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.AppPreferences;
+import com.example.hypercoachinterface.ui.login.LoginActivity;
 import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.api.model.User;
 import com.example.hypercoachinterface.backend.repository.Resource;
@@ -71,8 +72,11 @@ public class ProfileFragment extends Fragment {
             app.getUserRepository().logout().observe(getViewLifecycleOwner(), r -> {
                 if (r.getStatus() == SUCCESS) {
                     Log.d(TAG, "Success");
-                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     app.getPreferences().setAuthToken(null);
+                    getActivity().finish();
                 }
             });
         });

@@ -43,21 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
         if(preferences.getAuthToken() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(new Intent(this, LoginActivity.class));
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        app.getExerciseRepository().getExercise(1).observe(this, r -> {
-            if(r.getStatus() == Status.SUCCESS) {
-                Exercise exercise = r.getData();
-                Toast.makeText(this, exercise.getName() + " " + exercise.getDetail(), Toast.LENGTH_SHORT).show();
-                Log.d("Ex", exercise.getMetadata().getImg_src());
-            }
-        });
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav_menu);
         NavigationView landNavView = findViewById(R.id.land_nav_menu);
