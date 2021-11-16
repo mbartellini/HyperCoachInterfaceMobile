@@ -12,17 +12,19 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.R;
+import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavItemAdapter extends RecyclerView.Adapter<FavItemAdapter.ViewHolder> {
 
     private static final String TAG = "ItemAdapter";
-    private ArrayList<String> dataSet;
+    private List<Routine> dataSet;
 
-    public FavItemAdapter(ArrayList<String> dataSet) {
+    public FavItemAdapter(List<Routine> dataSet) {
         this.dataSet = dataSet;
     }
 
@@ -38,7 +40,7 @@ public class FavItemAdapter extends RecyclerView.Adapter<FavItemAdapter.ViewHold
     public void onBindViewHolder(@NonNull FavItemAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "Element " + position + " set.");
 
-        holder.textView.setText(dataSet.get(position));
+        holder.textView.setText(dataSet.get(position).getName());
     }
 
     @Override
@@ -55,7 +57,7 @@ public class FavItemAdapter extends RecyclerView.Adapter<FavItemAdapter.ViewHold
 
             itemView.setOnClickListener(view1 -> {
                 getCardView().setCardBackgroundColor(Color.BLACK);
-                Snackbar.make(itemView, "Element " + getAdapterPosition() + " clicked", BaseTransientBottomBar.LENGTH_LONG).show();
+                Snackbar.make(itemView, getItemCount() + " elements", BaseTransientBottomBar.LENGTH_LONG).show();
             });
             cardView = itemView.findViewById(R.id.cardview);
             textView = (TextView)itemView

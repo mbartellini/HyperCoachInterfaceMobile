@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         app.getRoutineRepository().getRoutines().observe(this, r -> {
             if(r.getStatus() == Status.SUCCESS) {
-                for(Routine routine : r.getData().getContent()) {
+                for(Routine routine : r.getData()) {
                     Log.d("Routine", "-----------------------------");
                     Log.d("Routine", routine.toString());
                 }
