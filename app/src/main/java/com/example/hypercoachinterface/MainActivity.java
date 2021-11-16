@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         app = (App) getApplication();
         preferences = app.getPreferences();
 
-        if(preferences.getAuthToken() == null)
-            startActivity(new Intent(this, LoginActivity.class));
+//        if(preferences.getAuthToken() == null)
+//            startActivity(new Intent(this, LoginActivity.class));
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
