@@ -22,9 +22,6 @@ public class RoutineMetadata implements Serializable {
     @SerializedName("cycles")
     @Expose
     private List<RoutineCycle> cycles = null;
-    @SerializedName("fav_count")
-    @Expose
-    private Integer favCount;
 
     public RoutineMetadata() {
     }
