@@ -92,9 +92,10 @@ public class FavoritesFragment extends Fragment {
                 int prevSize = favourites.size();
                 favourites.clear();
                 if (r.getData() != null) {
+                    int pos = binding.allFavouritesRoutinesView.getVerticalScrollbarPosition();
                     favourites.addAll(r.getData());
                     adapter.notifyDataSetChanged();
-                    binding.allFavouritesRoutinesView.scrollToPosition(prevSize);
+                    binding.allFavouritesRoutinesView.setVerticalScrollbarPosition(pos);
                 }
             }
         });
