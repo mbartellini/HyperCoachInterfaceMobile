@@ -1,10 +1,14 @@
 package com.example.hypercoachinterface.ui.favorites.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +45,12 @@ public class FavItemAdapter extends RecyclerView.Adapter<FavItemAdapter.ViewHold
         Log.d(TAG, "Element " + position + " set.");
 
         holder.textView.setText(dataSet.get(position).getName());
+        if (dataSet.get(position).getMetadata() != null && dataSet.get(position).getMetadata().getImgSrc() != null) {
+            String imageDataBytes = dataSet.get(position).getMetadata().getImgSrc().substring(dataSet.get(position).getMetadata().getImgSrc().indexOf(",")+1);
+            byte[] decodedString = Base64.decode(imageDataBytes, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.imageView.setImageBitmap(decodedByte);
+        }
     }
 
     @Override
@@ -50,6 +60,7 @@ public class FavItemAdapter extends RecyclerView.Adapter<FavItemAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final CardView cardView;
+        private ImageView imageView;
         private TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -62,10 +73,12 @@ public class FavItemAdapter extends RecyclerView.Adapter<FavItemAdapter.ViewHold
             cardView = itemView.findViewById(R.id.cardview);
             textView = (TextView)itemView
                     .findViewById(R.id.textView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
 
         public CardView getCardView() {
             return cardView;
         }
+
     }
 }
