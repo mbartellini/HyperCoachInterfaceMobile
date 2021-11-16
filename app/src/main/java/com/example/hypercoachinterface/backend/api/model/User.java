@@ -1,8 +1,5 @@
 package com.example.hypercoachinterface.backend.api.model;
 
-import android.content.res.Resources;
-
-import com.example.hypercoachinterface.R;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -39,7 +36,7 @@ public class User {
     private String avatarUrl;
     @SerializedName("metadata")
     @Expose
-    private Metadata metadata;
+    private UserMetadata metadata;
     @SerializedName("date")
     @Expose
     private Date date;
@@ -53,7 +50,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String username, String firstName, String lastName, String gender, Date birthdate, String email, String phone, String avatarUrl, Metadata metadata, Date date, Date lastActivity, Boolean verified) {
+    public User(Integer id, String username, String firstName, String lastName, String gender, Date birthdate, String email, String phone, String avatarUrl, UserMetadata metadata, Date date, Date lastActivity, Boolean verified) {
         super();
         this.id = id;
         this.username = username;
@@ -142,11 +139,11 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
-    public Metadata getMetadata() {
+    public UserMetadata getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(Metadata metadata) {
+    public void setMetadata(UserMetadata metadata) {
         this.metadata = metadata;
     }
 
