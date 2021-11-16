@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.AppPreferences;
 import com.example.hypercoachinterface.backend.api.model.Exercise;
+import com.example.hypercoachinterface.backend.api.model.Review;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
