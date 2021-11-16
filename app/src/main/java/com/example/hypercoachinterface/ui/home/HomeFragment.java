@@ -1,6 +1,7 @@
 package com.example.hypercoachinterface.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,25 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Routine;
+import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentHomeBinding;
 import com.example.hypercoachinterface.ui.home.adapter.ItemAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
 
+    private static final String TAG = "HOME";
+    private static final int NUMBER_PER_CATEGORY = 5;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     private ArrayList<String> dataSet = new ArrayList<>();
     private ItemAdapter adapter;
+    private App app;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -34,28 +43,45 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        app = (App) getActivity().getApplication();
+
         for (int i = 1; i <= 50; i++)
             dataSet.add("Item " + i);
 
         adapter = new ItemAdapter(dataSet);
 
-        binding.myRoutinesView.setLayoutManager(new LinearLayoutManager(
-                this.getContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false));
-        binding.myRoutinesView.setAdapter(adapter);
 
+        /* All Routines */
         binding.allRoutinesView.setLayoutManager(new LinearLayoutManager(
                 this.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false));
         binding.allRoutinesView.setAdapter(adapter);
 
+        /* My Routines */
+        binding.myRoutinesView.setLayoutManager(new LinearLayoutManager(
+                this.getContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false));
+        binding.myRoutinesView.setAdapter(adapter);
+
+        /* Favourites */
         binding.favouritesRoutinesView.setLayoutManager(new LinearLayoutManager(
                 this.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false));
-        binding.favouritesRoutinesView.setAdapter(adapter);
+        List<String> favourites = new ArrayList<>();
+        ItemAdapter favouriteAdapter = new ItemAdapter(favourites);
+        app.getRoutineRepository().getFavourites(0, NUMBER_PER_CATEGORY).observe(getViewLifecycleOwner(), r -> {
+            if (r.getStatus() == Status.SUCCESS) {
+                Log.d(TAG, "onCreateView: " + r.getData().size());
+                favourites.addAll(r.getData().stream().map(Routine::getName).collect(Collectors.toList()));
+                favouriteAdapter.notifyItemRangeInserted(0, r.getData().size());
+            }
+        });
+        binding.favouritesRoutinesView.setAdapter(favouriteAdapter);
+
+
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
