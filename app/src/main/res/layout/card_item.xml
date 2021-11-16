@@ -7,12 +7,14 @@
     android:layout_marginLeft="@dimen/margin_medium"
     android:layout_marginTop="@dimen/margin_medium"
     android:layout_marginRight="@dimen/margin_medium"
-    android:elevation="100dp"
-    card_view:cardBackgroundColor="@color/purple_200"
+    android:elevation="300dp"
+    card_view:strokeColor="?attr/colorPrimary"
+    card_view:strokeWidth="1dp"
+    card_view:cardBackgroundColor="?attr/colorBackgroundFloating"
     card_view:cardCornerRadius="8dp"
     android:layout_height="@dimen/routine_card_height"
     android:layout_width="@dimen/routine_card_width">
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,19 +23,24 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="75dp"
+            android:src="@mipmap/hci"
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="false"
-            android:layout_alignParentTop="false"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:text="@string/textview" />
+            android:layout_centerHorizontal="true"
+            android:text="@string/textview"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
