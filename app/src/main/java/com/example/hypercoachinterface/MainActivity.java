@@ -52,15 +52,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        app.getRoutineRepository().getRoutines().observe(this, r -> {
-            if(r.getStatus() == Status.SUCCESS) {
-                for(Routine routine : r.getData()) {
-                    Log.d("Routine", "-----------------------------");
-                    Log.d("Routine", routine.toString());
-                }
-            }
-        });
-
         BottomNavigationView navView = findViewById(R.id.bottom_nav_menu);
         NavigationView landNavView = findViewById(R.id.land_nav_menu);
         // Passing each menu ID as a set of Ids because each
