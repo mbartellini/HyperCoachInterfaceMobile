@@ -16,13 +16,14 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private static final String TAG = "ItemAdapter";
-    private ArrayList<String> dataSet;
+    private List<String> dataSet;
 
-    public ItemAdapter(ArrayList<String> dataSet) {
+    public ItemAdapter(List<String> dataSet) {
         this.dataSet = dataSet;
     }
 
