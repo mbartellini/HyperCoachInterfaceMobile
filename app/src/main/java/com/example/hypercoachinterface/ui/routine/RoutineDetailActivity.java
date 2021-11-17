@@ -1,16 +1,30 @@
 package com.example.hypercoachinterface.ui.routine;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Routine;
+import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
+import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityMainBinding;
 import com.example.hypercoachinterface.databinding.ActivityRoutineDetailBinding;
+import com.example.hypercoachinterface.databinding.FragmentFavoritesBinding;
+import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
+import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
+import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
+import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoutineDetailActivity extends AppCompatActivity {
 
@@ -38,10 +52,15 @@ public class RoutineDetailActivity extends AppCompatActivity {
         routineId = b.getInt("routineId");
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 
+        List<RoutineCycle> cycles = new ArrayList<>();
+        CycleAdapter adapter = new CycleAdapter(cycles);
+        binding.cycleCardsView.setAdapter(adapter);
 
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
             if (r.getStatus() == Status.SUCCESS) {
                 fillActivityData(r.getData());
+                cycles.addAll(r.getData().getMetadata().getCycles());
+                adapter.notifyItemRangeInserted(0, cycles.size());
             }
         });
 

@@ -40,7 +40,13 @@
         android:id="@+id/routine_desc1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
         app:layout_constraintTop_toBottomOf="@id/routine_detail" >
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/routine_category"
@@ -48,24 +54,46 @@
             android:layout_height="wrap_content"
             android:layout_margin="8sp" />
 
-        <TextView
-            android:id="@+id/routine_difficulty"
-            android:layout_width="wrap_content"
+        <Space
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8sp" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/routine_likes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/routine_desc2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
         app:layout_constraintTop_toBottomOf="@id/routine_desc1" >
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/routine_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8sp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/routine_equipment"
@@ -73,7 +101,18 @@
             android:layout_height="wrap_content"
             android:layout_margin="8sp" />
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cycle_cards_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/routine_desc2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
