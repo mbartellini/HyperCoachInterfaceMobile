@@ -18,6 +18,7 @@ import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityMainBinding;
 import com.example.hypercoachinterface.databinding.ActivityRoutineDetailBinding;
 import com.example.hypercoachinterface.databinding.FragmentFavoritesBinding;
+import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
@@ -71,8 +72,10 @@ public class RoutineDetailActivity extends AppCompatActivity {
         binding.routineDetail.setText(routine.getDetail());
         binding.routineCategory.setText(routine.getRoutineCategory().getName());
         binding.routineDifficulty.setText(routine.getDifficulty());
-        binding.routineEquipment.setText(routine.getMetadata().getEquipment().toString());
+        if (routine.getMetadata() != null && routine.getMetadata().getEquipment() != null)
+            binding.routineEquipment.setText(routine.getMetadata().getEquipment().toString());
         binding.routineLikes.setText("TODO");
-        // TODO: binding.routineImage.setImageBitmap(routine.getMetadata().getImgSrc());
+        if (routine.getMetadata() != null)
+            Utils.setImageFromBase64(binding.routineImage, routine.getMetadata().getImgSrc());
     }
 }

@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.R;
 
+import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.routine.RoutineDetailActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,14 +45,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "Element " + position + " set.");
+        Log.d(TAG, "onBindViewHolder: " + dataSet.get(position).getImgSrc());
 
         holder.textView.setText(dataSet.get(position).getName());
-        if (dataSet.get(position).getImgSrc() != null) {
-            String imageDataBytes = dataSet.get(position).getImgSrc().substring(dataSet.get(position).getImgSrc().indexOf(",")+1);
-            byte[] decodedString = Base64.decode(imageDataBytes, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            holder.imageView.setImageBitmap(decodedByte);
-        }
+        Utils.setImageFromBase64(holder.imageView, dataSet.get(position).getImgSrc());
     }
 
     @Override
