@@ -6,18 +6,20 @@
     android:layout_height="wrap_content"
     tools:context=".ui.home.HomeFragment">
 
+<!--    TODO: show title properly    -->
+
     <TextView
-        android:id="@+id/all_routines_text"
+        android:id="@+id/recent_routines_text"
         android:layout_width="227dp"
         android:layout_height="50dp"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="337dp"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:text="@string/all_routines"
+        android:text="@string/recent_routines"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="?attr/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/all_routines_view"
+        app:layout_constraintBottom_toTopOf="@+id/recent_routines_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +27,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/all_routines_view"
+        android:id="@+id/recent_routines_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/wrapper_routine_card_height"
         android:scrollbars="horizontal"
@@ -34,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_routines_text"
+        app:layout_constraintTop_toBottomOf="@+id/recent_routines_text"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -51,7 +53,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_routines_view"
+        app:layout_constraintTop_toBottomOf="@+id/recent_routines_view"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView

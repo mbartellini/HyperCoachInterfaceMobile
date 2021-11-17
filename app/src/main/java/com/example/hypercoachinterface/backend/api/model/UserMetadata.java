@@ -3,16 +3,16 @@ package com.example.hypercoachinterface.backend.api.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Metadata {
+public class UserMetadata {
 
     @SerializedName("img_src")
     @Expose
     private String imgSrc;
 
-    public Metadata() {
+    public UserMetadata() {
     }
 
-    public Metadata(String imgSrc) {
+    public UserMetadata(String imgSrc) {
         super();
         this.imgSrc = imgSrc;
     }
