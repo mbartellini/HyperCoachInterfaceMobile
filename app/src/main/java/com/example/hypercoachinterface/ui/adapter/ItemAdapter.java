@@ -73,11 +73,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 Context context = getCardView().getContext();
                 Intent intent = new Intent(context, RoutineDetailActivity.class);
                 Bundle b = new Bundle();
-                b.putInt("key", 1); //Your id
-                intent.putExtras(b); //Put your id to your next Intent
+                b.putInt("routineId", dataSet.get(getAdapterPosition()).getRoutineId());
+                intent.putExtras(b);
                 context.startActivity(intent);
-                // finish();
-
+                // context.finish();
             });
             cardView = itemView.findViewById(R.id.cardview);
             textView = (TextView)itemView
