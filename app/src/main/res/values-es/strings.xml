@@ -4,7 +4,7 @@
     <string name="title_profile">Perfil</string>
     <string name="title_favorites">Favoritos</string>
     <string name="prompt_password">Contraseña</string>
-    <string name="prompt_email" translatable="false">Correo electrónico</string>
+    <string name="prompt_username" translatable="false">Nombre de usuario</string>
     <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
     <string name="welcome">¡Bienvenido! </string>
@@ -12,5 +12,38 @@
     <string name="invalid_password">La contraseña debe tener al menos 5 caracteres de longitud.</string>
     <string name="title_activity_login">Iniciar Sesión</string>
     <string name="login_failed">Error al iniciar sesión</string>
+    <string name="login_success">Inicio de sesión exitoso</string>
+    <string name="username_desc">Nombre de usuario:</string>
+    <string name="name_desc">Nombre:</string>
+    <string name="profile_pic_desc">Foto de perfil</string>
+    <string name="email_desc">Correo:</string>
+    <string name="gender_desc">Sexo:</string>
+    <string name="lastname_desc">Apellido:</string>
+    <string name="birth_desc">Fecha de nacimiento:</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="male">Masculino</string>
+    <string name="female">Femenino</string>
+    <string name="other">Otro</string>
+    <string name="placeholder">…</string>
+    <string name="recent_routines">Recientes</string>
+    <string name="my_routines">Mis rutinas</string>
+    <string name="favourites_routines">Favoritas</string>
+    <string name="all_routines">Todas las Rutinas</string>
+    <string name="filter_by_text">Filtrar por</string>
+    <string name="order_by_text">Ordenar por</string>
+    <string-array name="order_by_options">
+<!--        TODO: add options-->
+        <item>Category</item>
+        <item>Kotlin</item>
+        <item>Python</item>
+        <item>CPP</item>
+    </string-array>
+    <string-array name="filter_by_options">
+<!--        TODO: add categories-->
+        <item>Java</item>
+        <item>Kotlin</item>
+        <item>Python</item>
+        <item>CPP</item>
+    </string-array>
     <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
 </resources>

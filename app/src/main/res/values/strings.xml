@@ -4,8 +4,8 @@
     <string name="title_search">Search</string>
     <string name="title_profile">Profile</string>
     <string name="title_favorites">Favorites</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
+    <string name="title_activity_login">Login</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -13,6 +13,49 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="login_success">"Login successful"</string>
+    <string name="username_desc">Username:</string>
+    <string name="name_desc">Name:</string>
+    <string name="profile_pic_desc">Profile picture</string>
+    <string name="email_desc">Email:</string>
+    <string name="gender_desc">Gender:</string>
+    <string name="lastname_desc">Last name:</string>
+    <string name="birth_desc">Date of birth:</string>
+    <string name="logout">Log out</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="placeholder">…</string>
+    <string name="cardview_contents" translatable="false">This is a CardView widget. CardView widgets can have
+        shadows and rounded corners.
+        \n\nTo create a card with a shadow, use the <font fgcolor="#FFFFFFFF">android:elevation</font>
+        attribute.
+        \n\nTo set the corner radius in your layouts, use the <font
+            fgcolor="#FFFFFFFF">card_view:cardCornerRadius</font> attribute.
+    </string>
+    <string name="cardview_radius_seekbar_text" translatable="false">Radius</string>
+    <string name="cardview_elevation_seekbar_text" translatable="false">Elevation</string>
+    <string name="textview" translatable="false">TextView</string>
+    <string name="recent_routines">Recent</string>
+    <string name="all_routines">All Routines</string>
+    <string name="my_routines">My Routines</string>
+    <string name="favourites_routines">Favourites</string>
+    <string name="filter_by_text">Filter by</string>
+    <string name="order_by_text">Order by</string>
+    <string-array name="order_by_options">
+        <!--        TODO: add options-->
+        <item>Category</item>
+        <item>Kotlin</item>
+        <item>Python</item>
+        <item>CPP</item>
+    </string-array>
+    <string-array name="filter_by_options">
+        <!--        TODO: add categories-->
+        <item>Java</item>
+        <item>Kotlin</item>
+        <item>Python</item>
+        <item>CPP</item>
+    </string-array>
     <string name="title_activity_routine_detail" translatable="false">RoutineDetailActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label" translatable="false">First Fragment</string>
