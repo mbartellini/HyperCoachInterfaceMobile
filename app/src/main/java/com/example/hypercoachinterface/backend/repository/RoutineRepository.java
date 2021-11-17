@@ -12,7 +12,9 @@ import com.example.hypercoachinterface.backend.api.ApiRoutineService;
 import com.example.hypercoachinterface.backend.api.model.PagedList;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoutineRepository {
 
@@ -25,12 +27,22 @@ public class RoutineRepository {
     }
 
     public LiveData<Resource<List<Routine>>> getRoutines() {
+        return getRoutines(null, null, null, null);
+    }
+
+    public LiveData<Resource<List<Routine>>> getRoutines(
+            Integer page, Integer size, String orderBy, String direction) {
         return new NetworkBoundResource<PagedList<Routine>, List<Routine>>()
         {
             @NonNull
             @Override
             protected LiveData<ApiResponse<PagedList<Routine>>> createCall() {
-                return apiRoutineService.getRoutines();
+                Map<String, String> options = new HashMap<>();
+                if(page != null) options.put("page", page.toString());
+                if(size != null) options.put("size", size.toString());
+                if(orderBy != null) options.put("orderBy", orderBy);
+                if(direction != null) options.put("direction", direction);
+                return apiRoutineService.getRoutines(options);
             }
 
             @NonNull
@@ -42,6 +54,8 @@ public class RoutineRepository {
             }
         }.asLiveData();
     }
+
+
 
     public LiveData<Resource<Routine>> getRoutine(int routineId) {
         return new NetworkBoundResource<Routine, Routine>()

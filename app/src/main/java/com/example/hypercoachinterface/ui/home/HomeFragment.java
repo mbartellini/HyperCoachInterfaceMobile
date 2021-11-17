@@ -17,8 +17,8 @@ import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentHomeBinding;
-import com.example.hypercoachinterface.ui.home.adapter.ItemAdapter;
-import com.example.hypercoachinterface.ui.home.adapter.RoutineSummary;
+import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
+import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,6 @@ public class HomeFragment extends Fragment {
     private static final int NUMBER_PER_CATEGORY = 5;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
-    private ItemAdapter adapter;
     private App app;
 
 
@@ -45,23 +44,23 @@ public class HomeFragment extends Fragment {
 
 
         /* All Routines */
-        binding.allRoutinesView.setLayoutManager(new LinearLayoutManager(
+        binding.recentRoutinesView.setLayoutManager(new LinearLayoutManager(
                 this.getContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false));
 
-        List<RoutineSummary> allRoutines = new ArrayList<>();
-        ItemAdapter allRoutinesAdapter = new ItemAdapter(allRoutines);
+        List<RoutineSummary> recentRoutines = new ArrayList<>();
+        ItemAdapter recentRoutinesAdapter = new ItemAdapter(recentRoutines);
 
-        app.getRoutineRepository().getRoutines().observe(getViewLifecycleOwner(), r -> {
+        app.getRoutineRepository().getRoutines(0, 5, null, "desc").observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 for(Routine routine : r.getData()) {
-                    allRoutines.add(new RoutineSummary(routine.getId(), 0, routine.getName()));
+                    recentRoutines.add(new RoutineSummary(routine.getId(), 0, routine.getName()));
                 }
-                allRoutinesAdapter.notifyItemRangeInserted(0, r.getData().size());
+                recentRoutinesAdapter.notifyItemRangeInserted(0, r.getData().size());
             }
         });
-        binding.allRoutinesView.setAdapter(allRoutinesAdapter);
+        binding.recentRoutinesView.setAdapter(recentRoutinesAdapter);
 
         /* My Routines */
         binding.myRoutinesView.setLayoutManager(new LinearLayoutManager(
@@ -74,10 +73,10 @@ public class HomeFragment extends Fragment {
 
         app.getUserRepository().getUserRoutines().observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
-                for(Routine routine : r.getData().getContent()) {
+                for(Routine routine : r.getData()) {
                     myRoutines.add(new RoutineSummary(routine.getId(), 0, routine.getName()));
                 }
-                myRoutinesAdapter.notifyItemRangeInserted(0, r.getData().getContent().size());
+                myRoutinesAdapter.notifyItemRangeInserted(0, r.getData().size());
             }
         });
 

@@ -36,7 +36,7 @@
     <string name="cardview_radius_seekbar_text" translatable="false">Radius</string>
     <string name="cardview_elevation_seekbar_text" translatable="false">Elevation</string>
     <string name="textview" translatable="false">TextView</string>
-    <string name="all_routines">All routines</string>
+    <string name="recent_routines">Recent</string>
     <string name="my_routines">My routines</string>
-    <string name="favourites_routines">Favourites</string>
+    <string name="favourites_routines">Favorites</string>
 </resources>

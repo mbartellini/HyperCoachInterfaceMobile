@@ -1,8 +1,9 @@
-package com.example.hypercoachinterface.ui.home.adapter;
+package com.example.hypercoachinterface.ui.adapter;
 
 public class RoutineSummary {
+
     private Integer routineId, favCount;
-    private String name;
+    private String name, imgSrc;
 
     public RoutineSummary(Integer routineId, Integer favCount, String name) {
         this.routineId = routineId;
@@ -32,5 +33,13 @@ public class RoutineSummary {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImgSrc() {
+        return imgSrc;
+    }
+
+    public void setImgSrc(String imgSrc) {
+        this.imgSrc = imgSrc;
     }
 }
