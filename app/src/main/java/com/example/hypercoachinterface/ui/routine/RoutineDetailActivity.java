@@ -49,5 +49,11 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
     private void fillActivityData(Routine routine) {
         binding.routineTitle.setText(routine.getName());
+        binding.routineDetail.setText(routine.getDetail());
+        binding.routineCategory.setText(routine.getRoutineCategory().getName());
+        binding.routineDifficulty.setText(routine.getDifficulty());
+        binding.routineEquipment.setText(routine.getMetadata().getEquipment().toString());
+        binding.routineLikes.setText("TODO");
+        // TODO: binding.routineImage.setImageBitmap(routine.getMetadata().getImgSrc());
     }
 }
