@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     tools:context=".ui.home.HomeFragment">
 
+<!--    TODO: show title properly    -->
+
     <TextView
         android:id="@+id/all_routines_text"
         android:layout_width="227dp"

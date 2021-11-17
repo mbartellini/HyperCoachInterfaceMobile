@@ -3,6 +3,8 @@ package com.example.hypercoachinterface.backend.api;
 import androidx.lifecycle.LiveData;
 
 import com.example.hypercoachinterface.backend.api.model.Credentials;
+import com.example.hypercoachinterface.backend.api.model.PagedList;
+import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.api.model.Token;
 import com.example.hypercoachinterface.backend.api.model.User;
 import retrofit2.http.Body;
@@ -18,4 +20,7 @@ public interface ApiUserService {
 
     @GET("users/current")
     LiveData<ApiResponse<User>> getCurrentUser();
+
+    @GET("users/current/routines")
+    LiveData<ApiResponse<PagedList<Routine>>> getUserRoutines();
 }

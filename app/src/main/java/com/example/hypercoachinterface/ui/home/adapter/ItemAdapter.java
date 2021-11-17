@@ -1,6 +1,5 @@
 package com.example.hypercoachinterface.ui.home.adapter;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +14,14 @@ import com.example.hypercoachinterface.R;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private static final String TAG = "ItemAdapter";
-    private List<String> dataSet;
+    protected final List<RoutineSummary> dataSet;
 
-    public ItemAdapter(List<String> dataSet) {
+    public ItemAdapter(List<RoutineSummary> dataSet) {
         this.dataSet = dataSet;
     }
 
@@ -39,7 +37,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "Element " + position + " set.");
 
-        holder.textView.setText(dataSet.get(position));
+        holder.textView.setText(dataSet.get(position).getName());
     }
 
     @Override
@@ -49,14 +47,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final CardView cardView;
-        private TextView textView;
+        private final TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             itemView.setOnClickListener(view1 -> {
-                getCardView().setCardBackgroundColor(Color.BLACK);
-                Snackbar.make(itemView, "Element " + getAdapterPosition() + " clicked", BaseTransientBottomBar.LENGTH_LONG).show();
+                Snackbar.make(itemView, "Routine " +  dataSet.get(getAdapterPosition()).getRoutineId() + " clicked", BaseTransientBottomBar.LENGTH_LONG).show();
             });
             cardView = itemView.findViewById(R.id.cardview);
             textView = (TextView)itemView

@@ -24,8 +24,8 @@
     <string name="male">Masculino</string>
     <string name="female">Femenino</string>
     <string name="other">Otro</string>
-    <string name="placeholder">...</string>
-    <string name="all_routines">Todas las Rutinas</string>
-    <string name="my_routines">Mis Rutinas</string>
-    <string name="favourites_routines">Favoritos</string>
+    <string name="placeholder">…</string>
+    <string name="all_routines">Todas las rutinas</string>
+    <string name="my_routines">Mis rutinas</string>
+    <string name="favourites_routines">Favoritas</string>
 </resources>
