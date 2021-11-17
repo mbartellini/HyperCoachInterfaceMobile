@@ -21,19 +21,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.databinding.FragmentSearchBinding;
-import com.example.hypercoachinterface.ui.favorites.adapter.FavItemAdapter;
-import com.example.hypercoachinterface.ui.search.adapter.filterItemAdapter;
+import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
+import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SearchFragment extends Fragment {
 
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
-    private ArrayList<String> dataSet = new ArrayList<>();
-    private filterItemAdapter adapter;
+    private final List<RoutineSummary> dataSet = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,9 +44,9 @@ public class SearchFragment extends Fragment {
         View root = binding.getRoot();
 
         for (int i = 1; i <= 50; i++)
-            dataSet.add("Item " + i);
+            dataSet.add(new RoutineSummary(i, 0,"Routine " + i));
 
-        adapter = new filterItemAdapter(dataSet);
+        ItemAdapter adapter = new ItemAdapter(dataSet);
 
         int columns = 0;
 
