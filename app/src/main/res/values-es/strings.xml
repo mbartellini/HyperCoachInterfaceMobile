@@ -45,4 +45,5 @@
         <item>Python</item>
         <item>CPP</item>
     </string-array>
+    <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
 </resources>
