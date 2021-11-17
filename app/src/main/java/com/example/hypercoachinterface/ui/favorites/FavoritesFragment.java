@@ -84,12 +84,11 @@ public class FavoritesFragment extends Fragment {
 
         favoritesViewModel.getFavourites().observe(getViewLifecycleOwner(), r -> {
             if (r.getStatus() == Status.SUCCESS) {
-                int prevSize = favourites.size();
                 favourites.clear();
                 if (r.getData() != null) {
                     int pos = binding.allFavouritesRoutinesView.getVerticalScrollbarPosition();
                     for(Routine routine : r.getData()) {
-                        favourites.add(RoutineSummary.fromRoutine(routine, 0);
+                        favourites.add(RoutineSummary.fromRoutine(routine, 0));
                     }
                     adapter.notifyItemRangeChanged(0, r.getData().size());
                     binding.allFavouritesRoutinesView.setVerticalScrollbarPosition(pos);

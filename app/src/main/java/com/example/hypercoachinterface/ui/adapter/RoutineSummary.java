@@ -1,5 +1,7 @@
 package com.example.hypercoachinterface.ui.adapter;
 
+import android.util.Log;
+
 import com.example.hypercoachinterface.backend.api.model.Routine;
 
 public class RoutineSummary {
@@ -11,6 +13,7 @@ public class RoutineSummary {
         this.routineId = routineId;
         this.favCount = favCount;
         this.name = name;
+        this.imgSrc = imgSrc;
     }
 
     public static RoutineSummary fromRoutine(Routine routine, Integer favCount) {

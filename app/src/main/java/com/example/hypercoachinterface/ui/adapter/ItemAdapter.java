@@ -44,9 +44,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
-        Log.d(TAG, "Element " + position + " set.");
         Log.d(TAG, "onBindViewHolder: " + dataSet.get(position).getImgSrc());
-
+        Log.d(TAG, "onBindViewHolder: " + dataSet.get(position).getName() + " " + dataSet.get(position).getImgSrc());
         holder.textView.setText(dataSet.get(position).getName());
         Utils.setImageFromBase64(holder.imageView, dataSet.get(position).getImgSrc());
     }
