@@ -11,8 +11,10 @@ import android.view.View;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Exercise;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
+import com.example.hypercoachinterface.backend.api.model.RoutineExercise;
 import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityMainBinding;
@@ -25,7 +27,9 @@ import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoutineDetailActivity extends AppCompatActivity {
 
@@ -52,7 +56,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 
         List<RoutineCycle> cycles = new ArrayList<>();
-        CycleAdapter adapter = new CycleAdapter(cycles);
+        Map<Integer, Exercise> exerciseMap = new HashMap<>();
+        CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap);
         binding.cycleCardsView.setAdapter(adapter);
 
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
@@ -62,6 +67,17 @@ public class RoutineDetailActivity extends AppCompatActivity {
                     invalidRoutineHandler();
                 cycles.addAll(r.getData().getMetadata().getCycles());
                 adapter.notifyItemRangeInserted(0, cycles.size());
+                for (int i = 0; i < cycles.size(); i++) {
+                    for (RoutineExercise routineExercise : cycles.get(i).getExercises()) {
+                        int finalI = i;
+                        app.getExerciseRepository().getExercise(routineExercise.getId()).observe(this, r2 -> {
+                            if (r2.getStatus() == Status.SUCCESS) {
+                                exerciseMap.put(routineExercise.getId(), r2.getData());
+                                adapter.notifyItemChanged(finalI);
+                            }
+                        });
+                    }
+                }
             }
         });
 

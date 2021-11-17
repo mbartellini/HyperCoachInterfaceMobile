@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.R;
 
+import com.example.hypercoachinterface.backend.api.model.Exercise;
 import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
 import com.example.hypercoachinterface.backend.api.model.RoutineExercise;
 import com.example.hypercoachinterface.ui.routine.RoutineDetailActivity;
@@ -25,15 +26,19 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> {
 
     private static final String TAG = "CycleAdapter";
     protected final List<RoutineCycle> dataSet;
+    protected final Map<Integer, Exercise> exerciseMap;
 
-    public CycleAdapter(List<RoutineCycle> dataSet) {
+    public CycleAdapter(List<RoutineCycle> dataSet, Map<Integer, Exercise> exerciseMap) {
         this.dataSet = dataSet;
+        this.exerciseMap = exerciseMap;
     }
 
     @NonNull
@@ -51,7 +56,7 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> 
         holder.title.setText(dataSet.get(position).getName());
         holder.reps.setText(String.format("x%d rep%s.", dataSet.get(position).getRepetitions(), dataSet.get(position).getRepetitions() > 1 ? "s" : ""));
         List<RoutineExercise> exerciseList = new ArrayList<>(dataSet.get(position).getExercises());
-        ExerciseAdapter adapter = new ExerciseAdapter(exerciseList);
+        ExerciseAdapter adapter = new ExerciseAdapter(exerciseList, exerciseMap);
         holder.exercises.setAdapter(adapter);
     }
 
