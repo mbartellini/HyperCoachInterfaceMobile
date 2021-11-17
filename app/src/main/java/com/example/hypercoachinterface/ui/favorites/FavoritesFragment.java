@@ -86,12 +86,11 @@ public class FavoritesFragment extends Fragment {
             if (r.getStatus() == Status.SUCCESS) {
                 favourites.clear();
                 if (r.getData() != null) {
-                    int pos = binding.allFavouritesRoutinesView.getVerticalScrollbarPosition();
                     for(Routine routine : r.getData()) {
                         favourites.add(RoutineSummary.fromRoutine(routine, 0));
                     }
                     adapter.notifyItemRangeChanged(0, r.getData().size());
-                    binding.allFavouritesRoutinesView.setVerticalScrollbarPosition(pos);
+                    binding.allFavouritesRoutinesView.scrollToPosition(favourites.size()-1);
                 }
             }
         });

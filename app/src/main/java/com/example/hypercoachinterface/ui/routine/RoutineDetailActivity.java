@@ -90,12 +90,18 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private void fillActivityData(Routine routine) {
         binding.routineTitle.setText(routine.getName());
         binding.routineDetail.setText(routine.getDetail());
-        binding.routineCategory.setText(routine.getRoutineCategory().getName());
-        binding.routineDifficulty.setText(routine.getDifficulty());
-        if (routine.getMetadata() != null && routine.getMetadata().getEquipment() != null)
-            binding.routineEquipment.setText(routine.getMetadata().getEquipment().toString());
-        binding.routineLikes.setText("TODO");
-        if (routine.getMetadata() != null)
+        binding.routineCategoryChip.setText(routine.getRoutineCategory().getName());
+        binding.routineDifficultyChip.setText(routine.getDifficulty());
+        if (routine.getMetadata() != null) {
             Utils.setImageFromBase64(binding.routineImage, routine.getMetadata().getImgSrc());
+            if (routine.getMetadata().getEquipment() != null) {
+                if (routine.getMetadata().getEquipment()) {
+                    binding.routineEquipmentChip.setText(getString(R.string.yes_equipment));
+                } else {
+                    binding.routineEquipmentChip.setText(getString(R.string.no_equipment));
+                }
+            }
+        }
+        binding.routineLikesChip.setText("TODO");
     }
 }

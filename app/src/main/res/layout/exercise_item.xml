@@ -13,7 +13,7 @@
         android:id="@+id/exercise_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Exercise"
+        android:text="@string/placeholder"
         android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
