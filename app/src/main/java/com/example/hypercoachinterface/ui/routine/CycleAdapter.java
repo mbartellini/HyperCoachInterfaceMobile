@@ -27,7 +27,7 @@ import java.util.List;
 
 public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> {
 
-    private static final String TAG = "ItemAdapter";
+    private static final String TAG = "CycleAdapter";
     protected final List<RoutineCycle> dataSet;
 
     public CycleAdapter(List<RoutineCycle> dataSet) {
