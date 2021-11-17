@@ -120,4 +120,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routine_desc2" />
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:iconGravity="start"
+        android:layout_margin="@dimen/fab_margin"
+        android:text="Comenzar"
+        app:icon="@android:drawable/star_big_off"  />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

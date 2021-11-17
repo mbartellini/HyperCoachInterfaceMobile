@@ -19,10 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.R;
 
 import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
+import com.example.hypercoachinterface.backend.api.model.RoutineExercise;
 import com.example.hypercoachinterface.ui.routine.RoutineDetailActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> {
@@ -46,6 +48,11 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull CycleAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "Element " + position + " set.");
         // holder.getCardView().textholder.textView.setText(dataSet.get(position).getName());
+        holder.title.setText(dataSet.get(position).getName());
+        holder.reps.setText(String.format("x%d rep%s.", dataSet.get(position).getRepetitions(), dataSet.get(position).getRepetitions() > 1 ? "s" : ""));
+        List<RoutineExercise> exerciseList = new ArrayList<>(dataSet.get(position).getExercises());
+        ExerciseAdapter adapter = new ExerciseAdapter(exerciseList);
+        holder.exercises.setAdapter(adapter);
     }
 
     @Override
@@ -54,17 +61,20 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         private final CardView cardView;
-        private final TextView textView;
-        private final ImageView imageView;
+        private final TextView title;
+        private final TextView reps;
+        private final RecyclerView exercises;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.cardview);
-            textView = (TextView)itemView
-                    .findViewById(R.id.textView);
-            imageView = itemView.findViewById(R.id.imageView);
+            title = (TextView)itemView
+                    .findViewById(R.id.cycle_title);
+            reps = itemView.findViewById(R.id.cycle_reps);
+            exercises = itemView.findViewById(R.id.cycle_exercises);
         }
 
         public CardView getCardView() {

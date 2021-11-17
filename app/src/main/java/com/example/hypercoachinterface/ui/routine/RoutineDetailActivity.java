@@ -46,10 +46,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Bundle b = getIntent().getExtras();
-        if (b == null) {
-            // TODO: Handle error
-            // Volver a la página principal mostrando un error de invalid id
-        }
+        if (b == null)
+            invalidRoutineHandler();
         routineId = b.getInt("routineId");
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 
@@ -60,11 +58,17 @@ public class RoutineDetailActivity extends AppCompatActivity {
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
             if (r.getStatus() == Status.SUCCESS) {
                 fillActivityData(r.getData());
+                if (r.getData() == null || r.getData().getMetadata() == null)
+                    invalidRoutineHandler();
                 cycles.addAll(r.getData().getMetadata().getCycles());
                 adapter.notifyItemRangeInserted(0, cycles.size());
             }
         });
 
+    }
+
+    private void invalidRoutineHandler() {
+        // TODO: Go back to previous or to home
     }
 
     private void fillActivityData(Routine routine) {
