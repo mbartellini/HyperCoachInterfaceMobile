@@ -18,7 +18,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         if(b != null)
-            routineId = b.getInt("key");
+            routineId = b.getInt("routineId");
 
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 
