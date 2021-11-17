@@ -11,13 +11,14 @@
         android:id="@+id/routine_image"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="250dp"
+        android:maxHeight="@dimen/routine_image_height"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@mipmap/hci"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/routine_title"
@@ -26,6 +27,7 @@
         android:layout_margin="8dp"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:textColor="?attr/colorOnBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/routine_image" />
 

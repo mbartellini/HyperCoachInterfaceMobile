@@ -31,6 +31,7 @@
     <string name="all_routines">Todas las Rutinas</string>
     <string name="filter_by_text">Filtrar por</string>
     <string name="order_by_text">Ordenar por</string>
+    <string name="title_routine_detail_activity">Detalle de rutina</string>
     <string-array name="order_by_options">
 <!--        TODO: add options-->
         <item>Category</item>

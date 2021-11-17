@@ -41,6 +41,7 @@
     <string name="favourites_routines">Favourites</string>
     <string name="filter_by_text">Filter by</string>
     <string name="order_by_text">Order by</string>
+    <string name="title_routine_detail_activity">Routine detail</string>
     <string-array name="order_by_options">
         <!--        TODO: add options-->
         <item>Category</item>

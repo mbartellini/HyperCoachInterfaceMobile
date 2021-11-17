@@ -15,13 +15,14 @@
         android:theme="@style/Theme.HyperCoachInterface">
         <activity
             android:name=".ui.routine.RoutineDetailActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="@string/title_routine_detail_activity"/>
         <activity
             android:name=".ui.login.LoginActivity"
             android:clearTaskOnLaunch="true"
             android:exported="true"
             android:label="@string/title_activity_login"
-            android:noHistory="true"></activity>
+            android:noHistory="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
