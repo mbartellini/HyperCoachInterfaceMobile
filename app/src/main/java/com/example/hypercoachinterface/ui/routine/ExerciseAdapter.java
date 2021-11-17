@@ -36,6 +36,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ExerciseAdapter.ViewHolder holder, int position) {
+
         // holder.title.setText(dataSet.get(position).);
         holder.reps.setText(String.format("%d %s", dataSet.get(position).getLimit(), dataSet.get(position).getLimitType()));
     }
