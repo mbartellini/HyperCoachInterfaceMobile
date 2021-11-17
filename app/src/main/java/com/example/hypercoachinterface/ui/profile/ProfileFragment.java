@@ -52,7 +52,6 @@ public class ProfileFragment extends Fragment {
 
         ViewModelProvider.Factory viewModelFactory = new RepositoryViewModelFactory<>(UserRepository.class, app.getUserRepository());
         userViewModel = new ViewModelProvider(this, viewModelFactory).get(UserViewModel.class);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

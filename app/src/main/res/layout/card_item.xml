@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:src="@mipmap/hci"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent" />
@@ -37,6 +38,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:text="@string/textview"
+            android:ellipsize="end"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
