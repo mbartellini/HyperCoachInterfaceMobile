@@ -1,7 +1,10 @@
 package com.example.hypercoachinterface.ui.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.R;
 
+import com.example.hypercoachinterface.ui.routine.RoutineDetailActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -65,6 +69,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             itemView.setOnClickListener(view1 -> {
                 Snackbar.make(itemView, "Routine " +  dataSet.get(getAdapterPosition()).getRoutineId() + " clicked", BaseTransientBottomBar.LENGTH_LONG).show();
+
+                Context context = getCardView().getContext();
+                Intent intent = new Intent(context, RoutineDetailActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("key", 1); //Your id
+                intent.putExtras(b); //Put your id to your next Intent
+                context.startActivity(intent);
+                // finish();
+
             });
             cardView = itemView.findViewById(R.id.cardview);
             textView = (TextView)itemView
