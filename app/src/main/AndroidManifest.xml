@@ -16,7 +16,8 @@
         <activity
             android:name=".ui.routine.RoutineDetailActivity"
             android:exported="true"
-            android:label="@string/title_routine_detail_activity"/>
+            android:label="@string/title_routine_detail_activity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ui.login.LoginActivity"
             android:clearTaskOnLaunch="true"
