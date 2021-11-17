@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment {
         View root = binding.getRoot();
 
         for (int i = 1; i <= 50; i++)
-            dataSet.add(new RoutineSummary(i, 0,"Routine " + i));
+            dataSet.add(new RoutineSummary(i, 0,"Routine " + i, null));
 
         ItemAdapter adapter = new ItemAdapter(dataSet);
 
