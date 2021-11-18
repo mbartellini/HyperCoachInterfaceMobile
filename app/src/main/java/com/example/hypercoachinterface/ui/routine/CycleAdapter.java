@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.R;
 
@@ -58,6 +59,7 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> 
         List<RoutineExercise> exerciseList = new ArrayList<>(dataSet.get(position).getExercises());
         ExerciseAdapter adapter = new ExerciseAdapter(exerciseList, exerciseMap);
         holder.exercises.setAdapter(adapter);
+        holder.exercises.addItemDecoration(new DividerItemDecoration(holder.exercises.getContext(), DividerItemDecoration.VERTICAL));
     }
 
     @Override
