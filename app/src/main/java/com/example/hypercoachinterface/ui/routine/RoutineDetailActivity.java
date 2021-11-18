@@ -208,7 +208,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private String translateDifficulty(String difficulty) {
         switch (difficulty) {
             case "beginner": return getResources().getString(R.string.beginner);
-            case "intermediate": return getResources().getString(R.string.intermidiate);
+            case "intermediate": return getResources().getString(R.string.intermediate);
             case "advanced": return getResources().getString(R.string.advanced);
             default: return difficulty;
         }

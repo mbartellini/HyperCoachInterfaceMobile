@@ -71,6 +71,6 @@
     <string name="begin_routine_btn">Begin Routine Button</string>
     <string name="start_routine">Start</string>
     <string name="beginner">Beginner</string>
-    <string name="intermidiate">Intermidiate</string>
+    <string name="intermediate">Intermidiate</string>
     <string name="advanced">Advanced</string>
 </resources>
