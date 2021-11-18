@@ -66,8 +66,10 @@ public class RoutineDetailActivity extends AppCompatActivity {
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
             if (r.getStatus() == Status.SUCCESS) {
                 fillActivityData(r.getData());
-                if (r.getData() == null || r.getData().getMetadata() == null)
+                if (r.getData() == null || r.getData().getMetadata() == null) {
                     invalidRoutineHandler();
+                    return;
+                }
                 cycles.addAll(r.getData().getMetadata().getCycles());
                 adapter.notifyItemRangeInserted(0, cycles.size());
                 for (int i = 0; i < cycles.size(); i++) {
@@ -87,6 +89,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
     }
 
     private void invalidRoutineHandler() {
+        Log.d(TAG, "invalidRoutineHandler: Invalid Routine (wasn't created with the website)");
+        finish();
         // TODO: Go back to previous or to home
     }
 
@@ -104,6 +108,9 @@ public class RoutineDetailActivity extends AppCompatActivity {
             // fav
         } else if (id == R.id.share_btn) {
             // share
+        } else if (id == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
