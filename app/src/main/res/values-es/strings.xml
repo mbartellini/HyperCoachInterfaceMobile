@@ -50,4 +50,7 @@
     </string-array>
     <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
     <string name="start_routine">Comenzar</string>
+    <string name="beginner">Principiante</string>
+    <string name="intermidiate">Intermedio</string>
+    <string name="advanced">Avanzado</string>
 </resources>

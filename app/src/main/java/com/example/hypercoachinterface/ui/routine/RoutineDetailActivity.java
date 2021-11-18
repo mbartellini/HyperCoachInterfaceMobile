@@ -181,7 +181,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
         binding.routineTitle.setText(routine.getName());
         binding.routineDetail.setText(routine.getDetail());
         binding.routineCategoryChip.setText(routine.getRoutineCategory().getName());
-        binding.routineDifficultyChip.setText(routine.getDifficulty());
+        binding.routineDifficultyChip.setText(translateDifficulty(routine.getDifficulty()));
         if (routine.getMetadata() != null) {
             Utils.setImageFromBase64(binding.routineImage, routine.getMetadata().getImgSrc());
             if (routine.getMetadata().getEquipment() != null) {
@@ -203,5 +203,14 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 binding.routineFavsChip.setText(favCount);
             }
         });
+    }
+
+    private String translateDifficulty(String difficulty) {
+        switch (difficulty) {
+            case "beginner": return getResources().getString(R.string.beginner);
+            case "intermediate": return getResources().getString(R.string.intermidiate);
+            case "advanced": return getResources().getString(R.string.advanced);
+            default: return difficulty;
+        }
     }
 }
