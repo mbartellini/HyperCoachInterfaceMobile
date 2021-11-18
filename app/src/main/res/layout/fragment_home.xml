@@ -32,11 +32,11 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="?attr/colorPrimary" />
 
-        <Button
+        <ImageButton
             android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            app:icon=""/>
+            android:layout_width="wrap_content"
+            app:icon="@drawable/ic_baseline_skip_next_24"/>
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
