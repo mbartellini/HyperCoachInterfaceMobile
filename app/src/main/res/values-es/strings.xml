@@ -28,7 +28,7 @@
     <string name="recent_routines">Recientes</string>
     <string name="my_routines">Mis rutinas</string>
     <string name="favourites_routines">Favoritas</string>
-    <string name="all_routines">Todas las Rutinas</string>
+    <string name="all_routines">Todas las rutinas</string>
     <string name="filter_by_text">Filtrar por</string>
     <string name="order_by_text">Ordenar por</string>
     <string name="title_routine_detail_activity">Detalle de rutina</string>
@@ -48,4 +48,5 @@
         <item>Python</item>
         <item>CPP</item>
     </string-array>
+    <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
 </resources>

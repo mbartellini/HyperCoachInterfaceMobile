@@ -36,9 +36,9 @@
     <string name="cardview_elevation_seekbar_text" translatable="false">Elevation</string>
     <string name="textview" translatable="false">TextView</string>
     <string name="recent_routines">Recent</string>
-    <string name="all_routines">All Routines</string>
-    <string name="my_routines">My Routines</string>
-    <string name="favourites_routines">Favourites</string>
+    <string name="all_routines">All routines</string>
+    <string name="my_routines">My routines</string>
+    <string name="favourites_routines">Favorites</string>
     <string name="filter_by_text">Filter by</string>
     <string name="order_by_text">Order by</string>
     <string name="title_routine_detail_activity">Routine detail</string>
@@ -58,4 +58,15 @@
         <item>Python</item>
         <item>CPP</item>
     </string-array>
+    <string name="title_activity_routine_detail" translatable="false">RoutineDetailActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
+
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
+    <string name="button_star_desc" translatable="false">Favourite</string>
+    <string name="begin_routine_btn">Begin Routine Button</string>
 </resources>
