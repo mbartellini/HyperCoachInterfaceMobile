@@ -104,6 +104,9 @@ public class RoutineDetailActivity extends AppCompatActivity {
             // fav
         } else if (id == R.id.share_btn) {
             // share
+        } else if (id == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
