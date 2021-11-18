@@ -126,6 +126,16 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 }
             }
         }
-        binding.routineLikesChip.setText("TODO");
+        app.getReviewRepository().getReviews(routineId).observe(this, r -> {
+            if(r.getStatus() == Status.SUCCESS) {
+                String favCount;
+                if(r.getData().getTotalCount() == 0)
+                    favCount = "0";
+                else
+                    favCount = r.getData().getContent().get(0).getReview();
+                favCount += " " + new String(Character.toChars(0x2605));
+                binding.routineFavsChip.setText(favCount);
+            }
+        });
     }
 }

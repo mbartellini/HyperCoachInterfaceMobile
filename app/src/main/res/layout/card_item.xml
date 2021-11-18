@@ -31,18 +31,31 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_marginHorizontal="5dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_alignParentStart="false"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:textColor="?attr/colorOnBackground"
-            android:text="@string/textview"
+            android:layout_marginHorizontal="5dp"
             android:ellipsize="end"
+            android:text="@string/textview"
+            android:textColor="?attr/colorOnBackground"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/favCount"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="5dp"
+            android:ellipsize="end"
+            android:textColor="?attr/colorOnBackground"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
