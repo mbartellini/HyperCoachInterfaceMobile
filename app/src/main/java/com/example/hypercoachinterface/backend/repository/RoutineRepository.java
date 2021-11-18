@@ -55,8 +55,6 @@ public class RoutineRepository {
         }.asLiveData();
     }
 
-
-
     public LiveData<Resource<Routine>> getRoutine(int routineId) {
         return new NetworkBoundResource<Routine, Routine>()
         {
