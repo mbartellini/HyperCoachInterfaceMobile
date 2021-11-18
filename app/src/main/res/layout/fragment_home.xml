@@ -8,23 +8,36 @@
 
 <!--    TODO: show title properly    -->
 
-    <TextView
-        android:id="@+id/recent_routines_text"
-        android:layout_width="227dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="337dp"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:text="@string/recent_routines"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="?attr/colorPrimary"
+    <LinearLayout
+        android:id="@+id/recent_routines_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/recent_routines_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        >
+        <TextView
+            android:id="@+id/recent_routines_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@string/recent_routines"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="?attr/colorPrimary" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:icon=""/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recent_routines_view"
@@ -36,16 +49,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recent_routines_text"
+        app:layout_constraintTop_toBottomOf="@+id/recent_routines_layout"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/my_routines_text"
-        android:layout_width="197dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="353dp"
         android:text="@string/my_routines"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="?attr/colorPrimary"
@@ -72,11 +84,10 @@
 
     <TextView
         android:id="@+id/favourites_routines_text"
-        android:layout_width="197dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="353dp"
         android:text="@string/favourites_routines"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="?attr/colorPrimary"
@@ -112,6 +123,5 @@
         app:layout_constraintStart_toStartOf="@+id/favourites_routines_view"
         app:layout_constraintTop_toBottomOf="@+id/favourites_routines_view"
         app:layout_constraintVertical_bias="1.0" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
