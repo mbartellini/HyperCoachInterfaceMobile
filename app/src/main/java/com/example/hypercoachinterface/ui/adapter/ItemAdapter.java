@@ -64,7 +64,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             super(itemView);
 
             itemView.setOnClickListener(view1 -> {
-                Log.d(TAG, "ViewHolder: " + dataSet.get(getAdapterPosition()).getRoutineId());
+                Log.d(TAG, "ViewHolder of ItemAdapter at position " + getAdapterPosition() + ": " + dataSet.get(getAdapterPosition()).getRoutineId());
 
                 Context context = getCardView().getContext();
                 Intent intent = new Intent(context, RoutineDetailActivity.class);

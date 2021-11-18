@@ -1,5 +1,7 @@
 package com.example.hypercoachinterface.ui.search;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,10 +17,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SearchViewModel extends RepositoryViewModel<RoutineRepository> {
 
     private final static int PAGE_SIZE = 10;
+    private static final String TAG = "SearchViewModel";
 
     private RoutineRepository repository;
     private int searchPage = 0;
@@ -31,16 +35,7 @@ public class SearchViewModel extends RepositoryViewModel<RoutineRepository> {
         super(repository);
         this.repository = repository;
         this.options = new HashMap<>();
-    }
-
-    public void setSearch(Map<String, String> options) {
-        this.options.clear();
-        this.options.put("page", String.valueOf(searchPage));
         this.options.put("size", String.valueOf(PAGE_SIZE));
-        this.options.putAll(options);
-        searchPage = 0;
-        isLastSearchPage = false;
-        allSearches.clear();
     }
 
     public LiveData<Resource<List<Routine>>> getSearches() {
@@ -48,19 +43,40 @@ public class SearchViewModel extends RepositoryViewModel<RoutineRepository> {
         return searches;
     }
 
+    public void setSearch(Map<String, String> options) {
+        this.options.clear();
+        this.options.putAll(options);
+        searchPage = 0;
+        isLastSearchPage = false;
+        allSearches.clear();
+        getMoreSearches();
+    }
+
     public void getMoreSearches() {
         if (isLastSearchPage)
             return;
 
+        Log.d(TAG, "getMoreFavourites: requesting " + searchPage);
+
+        int requestedPage = searchPage;
+
+        options.put("page", String.valueOf(requestedPage));
         searches.addSource(repository.getRoutines(options), resource -> {
             if (resource.getStatus() == Status.SUCCESS) {
                 if ((resource.getData() == null) || (resource.getData().size() == 0) || (resource.getData().size() < PAGE_SIZE))
                     isLastSearchPage = true;
 
+                if (requestedPage < searchPage)
+                    return;
+
                 searchPage++;
 
-                if (resource.getData() != null)
+                Log.d(TAG, "getMoreSearches: requestedPage " + requestedPage + " hasContent " + !resource.getData().isEmpty());
+
+                if (resource.getData() != null) {
                     allSearches.addAll(resource.getData());
+                }
+
                 searches.setValue(Resource.success(allSearches));
             } else if (resource.getStatus() == Status.LOADING) {
                 searches.setValue(resource);

@@ -3,6 +3,7 @@ package com.example.hypercoachinterface.ui.search;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,13 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.repository.RoutineRepository;
+import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentSearchBinding;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
@@ -32,6 +36,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class SearchFragment extends Fragment {
 
@@ -42,7 +47,7 @@ public class SearchFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        app = (App) getActivity().getApplication();
+        app = (App) requireActivity().getApplication();
 
         ViewModelProvider.Factory viewModelFactory = new RepositoryViewModelFactory<>(RoutineRepository.class, app.getRoutineRepository());
         searchViewModel = new ViewModelProvider(this, viewModelFactory).get(SearchViewModel.class);
@@ -50,11 +55,7 @@ public class SearchFragment extends Fragment {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        for (int i = 1; i <= 50; i++)
-            dataSet.add(new RoutineSummary(i, 0,"Routine " + i, null));
-
-        ItemAdapter adapter = new ItemAdapter(dataSet);
-
+        /* Horizontal or Vertical Layout Management */
         int columns = 0;
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -84,7 +85,6 @@ public class SearchFragment extends Fragment {
                 columns,
                 GridLayoutManager.VERTICAL,
                 false));
-        binding.filterRoutinesView.setAdapter(adapter);
 
 
         // TODO: Move out and save on destroy to avoid losing the filter
@@ -101,6 +101,36 @@ public class SearchFragment extends Fragment {
 
         filterOptions.setAdapter(filterArrayAdapter);
         orderOptions.setAdapter(orderArrayAdapter);
+
+        /* Fetching routines from API */
+        ItemAdapter adapter = new ItemAdapter(dataSet);
+
+        searchViewModel.getSearches().observe(getViewLifecycleOwner(), r -> {
+            if (r.getStatus() == Status.SUCCESS) {
+                dataSet.clear();
+                if (r.getData() != null) {
+                    for(Routine routine : r.getData()) {
+                        dataSet.add(RoutineSummary.fromRoutine(routine, 0));
+                    }
+                    adapter.notifyItemRangeChanged(dataSet.size() - r.getData().size() - 1, r.getData().size());
+                }
+            }
+        });
+
+        binding.filterRoutinesView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (! binding.filterRoutinesView.canScrollVertically(1)) {
+                    Log.d("scroll", "onScrollStateChanged: AAA");
+                    searchViewModel.getMoreSearches();
+                    Log.d("SearchFragment", "onScrollStateChanged: there are " + dataSet.size() + " routines");
+                }
+            }
+        });
+
+        binding.filterRoutinesView.setAdapter(adapter);
 
         return root;
     }
