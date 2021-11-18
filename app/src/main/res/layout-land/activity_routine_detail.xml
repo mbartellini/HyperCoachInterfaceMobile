@@ -10,8 +10,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,11 +21,13 @@
 
         <ImageView
             android:id="@+id/routine_image"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="TODO"
-            android:maxHeight="@dimen/routine_image_height"
+            android:maxHeight="100dp"
+            android:maxWidth="100dp"
+            android:layout_marginTop="@dimen/margin_medium"
             android:scaleType="centerCrop"
             android:src="@mipmap/hci"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingBottom="@dimen/margin_small"
             android:textColor="?attr/colorOnBackground"
             android:textSize="32sp"
             android:textStyle="bold"
@@ -46,7 +48,7 @@
 
         <HorizontalScrollView
             android:id="@+id/routine_description"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
             android:requiresFadingEdge="horizontal|vertical"
@@ -85,11 +87,27 @@
 
         <TextView
             android:id="@+id/routine_detail"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:paddingBottom="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/routine_description" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/pastel_green"
+            android:text="@string/start_routine"
+            android:textColor="@color/white"
+            app:icon="@android:drawable/ic_media_play"
+            app:iconGravity="start"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/routine_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -103,20 +121,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/pastel_green"
-        android:text="@string/start_routine"
-        android:textColor="@color/white"
-        app:icon="@android:drawable/ic_media_play"
-        app:iconGravity="start"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/cycle_cards_view"
-        app:layout_constraintEnd_toEndOf="@+id/cycle_cards_view"
-        app:layout_constraintStart_toStartOf="@+id/cycle_cards_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
