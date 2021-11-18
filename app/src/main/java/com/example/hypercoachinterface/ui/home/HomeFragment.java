@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
         app.getRoutineRepository().getRoutines(0, 5, null, "desc").observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 for(Routine routine : r.getData()) {
-                    recentRoutines.add(new RoutineSummary(routine.getId(), 0, routine.getName()));
+                    recentRoutines.add(RoutineSummary.fromRoutine(routine, 0));
                 }
                 recentRoutinesAdapter.notifyItemRangeInserted(0, r.getData().size());
             }
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
         app.getUserRepository().getUserRoutines().observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 for(Routine routine : r.getData()) {
-                    myRoutines.add(new RoutineSummary(routine.getId(), 0, routine.getName()));
+                    myRoutines.add(RoutineSummary.fromRoutine(routine, 0));
                 }
                 myRoutinesAdapter.notifyItemRangeInserted(0, r.getData().size());
             }
@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
             if (r.getStatus() == Status.SUCCESS) {
                 Log.d(TAG, "onCreateView: " + r.getData().size());
                 for(Routine routine : r.getData()) {
-                    favourites.add(new RoutineSummary(routine.getId(), 0, routine.getName()));
+                    favourites.add(RoutineSummary.fromRoutine(routine, 0));
                 }
                 favouriteAdapter.notifyItemRangeInserted(0, r.getData().size());
             }

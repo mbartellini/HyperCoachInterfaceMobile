@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.AppPreferences;
+import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.login.LoginActivity;
 import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.api.model.User;
@@ -93,11 +94,8 @@ public class ProfileFragment extends Fragment {
         DateFormat df = android.text.format.DateFormat.getDateFormat(getContext());
         binding.birth.setText(df.format(data.getBirthdate()));
 
-        if (data.getMetadata() != null && data.getMetadata().getImgSrc() != null) {
-            String imageDataBytes = data.getMetadata().getImgSrc().substring(data.getMetadata().getImgSrc().indexOf(",")+1);
-            byte[] decodedString = Base64.decode(imageDataBytes, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            binding.imageView.setImageBitmap(decodedByte);
+        if (data.getMetadata() != null) {
+            Utils.setImageFromBase64(binding.imageView, data.getMetadata().getImgSrc());
         }
 
     }
