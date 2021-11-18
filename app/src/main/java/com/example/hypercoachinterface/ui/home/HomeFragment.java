@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Routine;
@@ -55,11 +56,23 @@ public class HomeFragment extends Fragment {
         app.getRoutineRepository().getRoutines(0, 5, null, "desc").observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 for(Routine routine : r.getData()) {
-                    recentRoutines.add(RoutineSummary.fromRoutine(routine, 0));
+                    RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
+                    recentRoutines.add(rs);
+                    app.getReviewRepository().getReviews(routine.getId()).observe(getViewLifecycleOwner(), r2 -> {
+                        if(r2.getStatus() == Status.SUCCESS) {
+                            if(r2.getData().getTotalCount() == 0)
+                                rs.setFavCount(0);
+                            else
+                                rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
+                            recentRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
+                        }
+                    });
+
                 }
-                recentRoutinesAdapter.notifyItemRangeInserted(0, r.getData().size());
+                recentRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
             }
         });
+
         binding.recentRoutinesView.setAdapter(recentRoutinesAdapter);
 
         /* My Routines */
@@ -74,13 +87,25 @@ public class HomeFragment extends Fragment {
         app.getUserRepository().getUserRoutines().observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 for(Routine routine : r.getData()) {
-                    myRoutines.add(RoutineSummary.fromRoutine(routine, 0));
+                    RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
+                    myRoutines.add(rs);
+                    app.getReviewRepository().getReviews(routine.getId()).observe(getViewLifecycleOwner(), r2 -> {
+                        if(r2.getStatus() == Status.SUCCESS) {
+                            if(r2.getData().getTotalCount() == 0)
+                                rs.setFavCount(0);
+                            else
+                                rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
+                            myRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
+                        }
+                    });
+
                 }
-                myRoutinesAdapter.notifyItemRangeInserted(0, r.getData().size());
+                myRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
             }
         });
 
         binding.myRoutinesView.setAdapter(myRoutinesAdapter);
+
 
         /* Favourites */
         binding.favouritesRoutinesView.setLayoutManager(new LinearLayoutManager(
@@ -89,18 +114,28 @@ public class HomeFragment extends Fragment {
                 false));
         List<RoutineSummary> favourites = new ArrayList<>();
         ItemAdapter favouriteAdapter = new ItemAdapter(favourites);
-        app.getRoutineRepository().getFavourites(0, NUMBER_PER_CATEGORY).observe(getViewLifecycleOwner(), r -> {
-            if (r.getStatus() == Status.SUCCESS) {
-                Log.d(TAG, "onCreateView: " + r.getData().size());
+
+        app.getRoutineRepository().getFavourites(0, 5).observe(getViewLifecycleOwner(), r -> {
+            if(r.getStatus() == Status.SUCCESS) {
                 for(Routine routine : r.getData()) {
-                    favourites.add(RoutineSummary.fromRoutine(routine, 0));
+                    RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
+                    favourites.add(rs);
+                    app.getReviewRepository().getReviews(routine.getId()).observe(getViewLifecycleOwner(), r2 -> {
+                        if(r2.getStatus() == Status.SUCCESS) {
+                            if(r2.getData().getTotalCount() == 0)
+                                rs.setFavCount(0);
+                            else
+                                rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
+                            favouriteAdapter.notifyItemRangeChanged(0, r.getData().size());
+                        }
+                    });
+
                 }
-                favouriteAdapter.notifyItemRangeInserted(0, r.getData().size());
+                favouriteAdapter.notifyItemRangeChanged(0, r.getData().size());
             }
         });
+
         binding.favouritesRoutinesView.setAdapter(favouriteAdapter);
-
-
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -115,4 +150,5 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

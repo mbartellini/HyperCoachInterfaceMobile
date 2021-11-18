@@ -1,5 +1,6 @@
 package com.example.hypercoachinterface.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import com.example.hypercoachinterface.ui.routine.RoutineDetailActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
@@ -42,11 +44,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: " + dataSet.get(position).getImgSrc());
         Log.d(TAG, "onBindViewHolder: " + dataSet.get(position).getName() + " " + dataSet.get(position).getImgSrc());
         holder.textView.setText(dataSet.get(position).getName());
+        holder.favCount.setText(dataSet.get(position).getFavCount().toString() + " " + new String(Character.toChars(0x2605)));
         Utils.setImageFromBase64(holder.imageView, dataSet.get(position).getImgSrc());
     }
 
@@ -57,7 +61,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final CardView cardView;
-        private final TextView textView;
+        private final TextView textView, favCount;
         private final ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -78,6 +82,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             textView = (TextView)itemView
                     .findViewById(R.id.textView);
             imageView = itemView.findViewById(R.id.imageView);
+            favCount = itemView.findViewById(R.id.favCount);
+
         }
 
         public CardView getCardView() {
