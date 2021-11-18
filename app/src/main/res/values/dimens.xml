@@ -12,4 +12,9 @@
     <dimen name="nav_menu_width">170dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="detail_routine_image_width">150dp</dimen>
+    <dimen name="detail_routine_image_height">150dp</dimen>
+    <dimen name="routine_text_width">100dp</dimen>
+    <dimen name="button_width">30dp</dimen>
+    <dimen name="button_height">30dp</dimen>
 </resources>
