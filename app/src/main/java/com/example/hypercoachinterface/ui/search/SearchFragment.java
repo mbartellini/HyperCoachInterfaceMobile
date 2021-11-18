@@ -20,9 +20,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.hypercoachinterface.R;
+import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.databinding.FragmentSearchBinding;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
+import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
+import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -31,14 +35,17 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
+    private App app;
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
     private final List<RoutineSummary> dataSet = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        searchViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
+        app = (App) getActivity().getApplication();
+
+        ViewModelProvider.Factory viewModelFactory = new RepositoryViewModelFactory<>(RoutineRepository.class, app.getRoutineRepository());
+        searchViewModel = new ViewModelProvider(this, viewModelFactory).get(SearchViewModel.class);
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -95,12 +102,6 @@ public class SearchFragment extends Fragment {
         filterOptions.setAdapter(filterArrayAdapter);
         orderOptions.setAdapter(orderArrayAdapter);
 
-        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                return;
-            }
-        });
         return root;
     }
 
