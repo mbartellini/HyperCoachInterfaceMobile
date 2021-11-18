@@ -2,6 +2,7 @@ package com.example.hypercoachinterface.backend;
 
 import android.app.Application;
 
+import com.example.hypercoachinterface.backend.repository.CategoryRepository;
 import com.example.hypercoachinterface.backend.repository.ExerciseRepository;
 import com.example.hypercoachinterface.backend.repository.ReviewRepository;
 import com.example.hypercoachinterface.backend.repository.RoutineRepository;
@@ -16,6 +17,7 @@ public class App extends Application {
     private ExerciseRepository exerciseRepository;
     private RoutineRepository routineRepository;
     private ReviewRepository reviewRepository;
+    private CategoryRepository categoryRepository;
 
     public ExerciseRepository getExerciseRepository() {
         return exerciseRepository;
@@ -41,6 +43,10 @@ public class App extends Application {
         return reviewRepository;
     }
 
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,6 +57,7 @@ public class App extends Application {
         reviewRepository = new ReviewRepository(this);
         routineRepository = new RoutineRepository(this);
         exerciseRepository = new ExerciseRepository(this);
+        categoryRepository = new CategoryRepository(this);
 
     }
 }

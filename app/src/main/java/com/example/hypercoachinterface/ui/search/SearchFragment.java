@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Routine;
+import com.example.hypercoachinterface.backend.api.model.RoutineCategory;
 import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentSearchBinding;
@@ -40,6 +41,7 @@ import java.util.Objects;
 
 public class SearchFragment extends Fragment {
 
+    private static final String TAG = "SearchFragment";
     private App app;
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
@@ -49,8 +51,8 @@ public class SearchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         app = (App) requireActivity().getApplication();
 
-        ViewModelProvider.Factory viewModelFactory = new RepositoryViewModelFactory<>(RoutineRepository.class, app.getRoutineRepository());
-        searchViewModel = new ViewModelProvider(this, viewModelFactory).get(SearchViewModel.class);
+        searchViewModel = new ViewModelProvider(this,
+                new SearchViewModel.SearchViewModelFactory(app.getRoutineRepository(), app.getCategoryRepository())).get(SearchViewModel.class);
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -102,6 +104,17 @@ public class SearchFragment extends Fragment {
         filterOptions.setAdapter(filterArrayAdapter);
         orderOptions.setAdapter(orderArrayAdapter);
 
+        /* Fetching categories from API */
+        searchViewModel.getCategories().observe(getViewLifecycleOwner(), r -> {
+            if (r.getStatus() == Status.SUCCESS) {
+                for (RoutineCategory routineCategory : r.getData()) {
+                    // DO SOMEHTING
+                    // filter by: categoryId, difficulty
+                    // order by: name, date, difficulty, favs
+                }
+            }
+        });
+
         /* Fetching routines from API */
         ItemAdapter adapter = new ItemAdapter(dataSet);
 
@@ -123,9 +136,9 @@ public class SearchFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (! binding.filterRoutinesView.canScrollVertically(1)) {
-                    Log.d("scroll", "onScrollStateChanged: AAA");
+                    Log.d(TAG, "onScrollStateChanged: Reached bottom of scrollview, requesting more routines");
                     searchViewModel.getMoreSearches();
-                    Log.d("SearchFragment", "onScrollStateChanged: there are " + dataSet.size() + " routines");
+                    Log.d(TAG, "onScrollStateChanged: there are " + dataSet.size() + " routines");
                 }
             }
         });
