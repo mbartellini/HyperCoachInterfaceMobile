@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.hypercoachinterface.R;
@@ -85,6 +88,24 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
     private void invalidRoutineHandler() {
         // TODO: Go back to previous or to home
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.routine_detail_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.fav_btn) {
+            // fav
+        } else if (id == R.id.share_btn) {
+            // share
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void fillActivityData(Routine routine) {
