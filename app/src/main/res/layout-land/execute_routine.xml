@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/excercise_exec_image"
+        android:layout_width="@dimen/detail_routine_image_width"
+        android:layout_height="@dimen/detail_routine_image_height"
+        android:src="@mipmap/hci"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/layout_info"
+        app:layout_constraintBottom_toTopOf="@id/progressBar"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/progressBar"
+        app:layout_constraintLeft_toRightOf="@id/excercise_exec_image"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/cycle_title"
+                android:layout_width="@dimen/routine_text_width"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/placeholder" />
+
+            <TextView
+                android:id="@+id/remaining_cycles"
+                android:layout_width="@dimen/routine_text_width"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_gravity="center"
+                android:text="@string/placeholder"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/excercise_title"
+            android:layout_width="@dimen/routine_text_width"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/placeholder"/>
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="@dimen/routine_text_width"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@string/placeholder"/>
+
+        <LinearLayout
+            android:id="@+id/play_pause_stop_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <ImageButton
+                android:id="@+id/stop_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_stop_24"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:contentDescription="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"/>
+            <ImageButton
+                android:id="@+id/play_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_play_arrow_24"
+                android:scaleType="fitXY"
+                android:contentDescription="@null"
+                android:background="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"/>
+            <ImageButton
+                android:id="@+id/pause_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_pause_24"
+                android:scaleType="fitXY"
+                android:contentDescription="@null"
+                android:background="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small" />
+            <ImageButton
+                android:id="@+id/skip_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_skip_next_24"
+                android:scaleType="fitXY"
+                android:contentDescription="@null"
+                android:background="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--    TODO: Useful to implement the clock ? https://www.journaldev.com/9896/android-countdowntimer-example-->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="10"
+        android:minHeight="50dp"
+        android:minWidth="200dp"
+        android:progress="5"
+        android:layout_marginTop="@dimen/margin_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

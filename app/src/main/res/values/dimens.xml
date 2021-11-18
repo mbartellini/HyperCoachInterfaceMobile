@@ -11,5 +11,11 @@
     <dimen name="routine_radius_seekbar">1dp</dimen>
     <dimen name="nav_menu_width">170dp</dimen>
     <dimen name="margin_small">8dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="routine_image_height">150dp</dimen>
+    <dimen name="fab_margin">10dp</dimen>
+    <dimen name="routine_text_width">100dp</dimen>
+    <dimen name="detail_routine_image_width">250dp</dimen>
+    <dimen name="detail_routine_image_height">250dp</dimen>
+    <dimen name="button_width">50dp</dimen>
+    <dimen name="button_height">50dp</dimen>
 </resources>

@@ -1,7 +1,10 @@
 package com.example.hypercoachinterface.ui.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hypercoachinterface.R;
 
+import com.example.hypercoachinterface.ui.Utils;
+import com.example.hypercoachinterface.ui.routine.RoutineDetailActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -39,15 +44,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
-        Log.d(TAG, "Element " + position + " set.");
-
+        Log.d(TAG, "onBindViewHolder: " + dataSet.get(position).getImgSrc());
+        Log.d(TAG, "onBindViewHolder: " + dataSet.get(position).getName() + " " + dataSet.get(position).getImgSrc());
         holder.textView.setText(dataSet.get(position).getName());
-        if (dataSet.get(position).getImgSrc() != null) {
-            String imageDataBytes = dataSet.get(position).getImgSrc().substring(dataSet.get(position).getImgSrc().indexOf(",")+1);
-            byte[] decodedString = Base64.decode(imageDataBytes, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            holder.imageView.setImageBitmap(decodedByte);
-        }
+        Utils.setImageFromBase64(holder.imageView, dataSet.get(position).getImgSrc());
     }
 
     @Override
@@ -64,7 +64,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             super(itemView);
 
             itemView.setOnClickListener(view1 -> {
-                Snackbar.make(itemView, "Routine " +  dataSet.get(getAdapterPosition()).getRoutineId() + " clicked", BaseTransientBottomBar.LENGTH_LONG).show();
+                Log.d(TAG, "ViewHolder: " + dataSet.get(getAdapterPosition()).getRoutineId());
+
+                Context context = getCardView().getContext();
+                Intent intent = new Intent(context, RoutineDetailActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("routineId", dataSet.get(getAdapterPosition()).getRoutineId());
+                intent.putExtras(b);
+                context.startActivity(intent);
+                // context.finish();
             });
             cardView = itemView.findViewById(R.id.cardview);
             textView = (TextView)itemView

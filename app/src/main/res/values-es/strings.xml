@@ -24,13 +24,16 @@
     <string name="male">Masculino</string>
     <string name="female">Femenino</string>
     <string name="other">Otro</string>
-    <string name="placeholder">…</string>
+    <string name="placeholder">Cargando…</string>
     <string name="recent_routines">Recientes</string>
     <string name="my_routines">Mis rutinas</string>
     <string name="favourites_routines">Favoritas</string>
     <string name="all_routines">Todas las rutinas</string>
     <string name="filter_by_text">Filtrar por</string>
     <string name="order_by_text">Ordenar por</string>
+    <string name="title_routine_detail_activity">Detalle de rutina</string>
+    <string name="yes_equipment">Requiere equipamiento</string>
+    <string name="no_equipment">No requiere equipamiento</string>
     <string-array name="order_by_options">
 <!--        TODO: add options-->
         <item>Category</item>

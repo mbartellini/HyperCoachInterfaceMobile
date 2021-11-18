@@ -25,7 +25,15 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
-    <string name="placeholder">…</string>
+    <string name="placeholder">Loading…</string>
+    <string name="cardview_contents" translatable="false">This is a CardView widget. CardView widgets can have
+        shadows and rounded corners.
+        \n\nTo create a card with a shadow, use the <font fgcolor="#FFFFFFFF">android:elevation</font>
+        attribute.
+        \n\nTo set the corner radius in your layouts, use the <font fgcolor="#FFFFFFFF">card_view:cardCornerRadius</font> attribute.
+    </string>
+    <string name="cardview_radius_seekbar_text" translatable="false">Radius</string>
+    <string name="cardview_elevation_seekbar_text" translatable="false">Elevation</string>
     <string name="textview" translatable="false">TextView</string>
     <string name="recent_routines">Recent</string>
     <string name="all_routines">All routines</string>
@@ -33,6 +41,9 @@
     <string name="favourites_routines">Favorites</string>
     <string name="filter_by_text">Filter by</string>
     <string name="order_by_text">Order by</string>
+    <string name="title_routine_detail_activity">Routine detail</string>
+    <string name="yes_equipment">Requires equipment</string>
+    <string name="no_equipment">Doesn\'t require equipment</string>
     <string-array name="order_by_options">
         <!--        TODO: add options-->
         <item>Category</item>
