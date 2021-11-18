@@ -79,9 +79,9 @@
         android:layout_height="wrap_content"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/order_filter_layout" />
+        app:layout_constraintTop_toBottomOf="@id/order_filter_layout"
+        app:layout_constraintBottom_toTopOf="@id/place_holder"/>
 
     <androidx.constraintlayout.widget.Placeholder
         android:id="@+id/place_holder"
@@ -92,9 +92,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/filter_routines_view"
-        app:layout_constraintTop_toBottomOf="@+id/filter_routines_view"
-        app:layout_constraintVertical_bias="1.0" />
-
+        app:layout_constraintStart_toStartOf="@+id/filter_routines_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

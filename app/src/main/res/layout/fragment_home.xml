@@ -32,11 +32,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="?attr/colorPrimary" />
 
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            app:icon=""/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
