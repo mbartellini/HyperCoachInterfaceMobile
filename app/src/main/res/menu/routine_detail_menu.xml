@@ -2,10 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/fav_btn"
+        android:id="@+id/unfav_btn"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_star_24"
-        android:title="" />
+        android:title=""
+        android:visible="false" />
+
+    <item
+        android:id="@+id/fav_btn"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_star_outline_24"
+        android:title=""
+        android:visible="false" />
 
     <item
         android:id="@+id/share_btn"

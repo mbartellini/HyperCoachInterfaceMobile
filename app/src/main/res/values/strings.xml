@@ -4,11 +4,11 @@
     <string name="title_search">Search</string>
     <string name="title_profile">Profile</string>
     <string name="title_favorites">Favorites</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">Log in</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in">Log in</string>
+    <string name="action_sign_in_short">Log in</string>
     <string name="welcome">Welcome !</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -42,6 +42,7 @@
     <string name="search_dialog_title">Search</string>
     <string name="order_by_text">Order by</string>
     <string name="title_routine_detail_activity">Routine detail</string>
+    <string name="title_execute_routine_activity">Routine</string>
     <string name="yes_equipment">Requires equipment</string>
     <string name="no_equipment">Doesn\'t require equipment</string>
     <string-array name="order_by_options">
@@ -83,4 +84,18 @@
     <string name="favs_sort_criteria">Favorite count</string>
     <string name="asc">Ascending</string>
     <string name="desc">Descending</string>
+    <string name="start_routine">Start</string>
+    <string name="reps">Repetitions</string>
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
+    <string name="welcome_to_hyper_coach_interface">Welcome to Hyper Coach Interface</string>
+    <string name="share_text">Hey there! Check out this routine</string>
+    <string name="seconds">seconds</string>
+    <string name="repetitions">repetitions</string>
+    <string name="bodybuilding">Body building</string>
+    <string name="cardio">Cardio</string>
+    <string name="calisthenics">Calisthenics</string>
+    <string name="hit">HIT</string>
+    <string name="no_category">No category</string>
 </resources>
