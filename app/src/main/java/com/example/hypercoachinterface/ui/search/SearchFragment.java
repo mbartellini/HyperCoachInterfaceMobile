@@ -39,9 +39,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements FilterDialog.FilterDialogListener {
 
     private static final String TAG = "SearchFragment";
+    private static final int REQUEST_CODE = 1;
     private App app;
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
@@ -145,12 +146,25 @@ public class SearchFragment extends Fragment {
 
         binding.filterRoutinesView.setAdapter(adapter);
 
+        openFilterDialog();
+
         return root;
+    }
+
+    public void openFilterDialog() {
+        FilterDialog filterDialog = new FilterDialog();
+        filterDialog.setTargetFragment(SearchFragment.this, REQUEST_CODE);
+        filterDialog.show(getParentFragmentManager(), "Filter Dialog");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void setFilter() {
+        Log.d(TAG, "work: WORKING");
     }
 }

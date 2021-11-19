@@ -49,4 +49,7 @@
         <item>CPP</item>
     </string-array>
     <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
+    <string name="categories">Categorías</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 </resources>

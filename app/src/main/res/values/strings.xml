@@ -69,4 +69,7 @@
     <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
     <string name="button_star_desc" translatable="false">Favourite</string>
     <string name="begin_routine_btn">Begin Routine Button</string>
+    <string name="categories">Categories</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 </resources>
