@@ -66,9 +66,6 @@
     <string name="desc">Descendente</string>
     <string name="start_routine">Comenzar</string>
     <string name="reps">Repeticiones</string>
-    <string name="beginner">Principiante</string>
-    <string name="intermediate">Intermedio</string>
-    <string name="advanced">Avanzado</string>
     <string name="welcome_to_hyper_coach_interface">Bienvenido a Hyper Coach Interface</string>
     <string name="share_text">¡Oye! Échale un vistazo a esta rutina</string>
     <string name="seconds">segundos</string>
