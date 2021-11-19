@@ -2,9 +2,11 @@ package com.example.hypercoachinterface.ui.routine.execution;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.hypercoachinterface.R;
@@ -62,7 +64,6 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             return;
         }
         if (cycles.size() == 0) {
-
             int routineId = b.getInt("routineId");
 
             if (binding.cycleCardsView != null) binding.cycleCardsView.setAdapter(adapter);
@@ -92,7 +93,6 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                 }
             });
         } else {
-            if (binding.cycleCardsView != null) binding.cycleCardsView.setAdapter(adapter);
             fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(0).getExercises().get(0));
         }
     }
@@ -109,17 +109,24 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             binding.excerciseTitle.setText(exercise.getName());
         if (binding.cycleTitle != null)
             binding.cycleTitle.setText(cycle.getName());
+        currentCycleReps = cycle.getRepetitions();
+        if (binding.remainingCycles != null) {
+            binding.remainingCycles.setText(String.format("x%d rep%s.", currentCycleReps, currentCycleReps > 1 ? "s" : ""));
+        }
 
         binding.stopButton.setOnClickListener(view -> {
             myCountDownTimer.cancel();
             // TODO: go back to routine view
             finish();
         });
-        currentCycleReps = cycle.getRepetitions();
         binding.pauseButton.setOnClickListener(view -> {
+            binding.playButton.setBackgroundResource(0);
+            binding.pauseButton.setBackgroundResource(R.color.pastel_red);
             paused = true;
         });
         binding.playButton.setOnClickListener(view -> {
+            binding.playButton.setBackgroundResource(R.color.pastel_red);
+            binding.pauseButton.setBackgroundResource(0);
             paused = false;
         });
         binding.skipButton.setOnClickListener(view -> {
@@ -132,15 +139,34 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             time = Integer.MAX_VALUE;
             progress = 0;
             if (binding.progressBar != null) binding.progressBar.setProgress(progress);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    binding.playButton.setVisibility(View.INVISIBLE);
+                    binding.pauseButton.setVisibility(View.INVISIBLE);
+                }
+            });
         } else {
             binding.timer.setText(routineExercise.getLimit().toString());
             time = routineExercise.getLimit();
+            paused = false;
+            progress = 0;
             if (binding.progressBar != null) binding.progressBar.setMax(time);
             if (binding.progressBar != null) binding.progressBar.setProgress(progress);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    binding.playButton.setVisibility(View.VISIBLE);
+                    binding.pauseButton.setVisibility(View.VISIBLE);
+                }
+            });
         }
 
         if (binding.excerciseExecImage != null) {
-            Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
+            if (exercise.getMetadata() != null && !exercise.getMetadata().getImg_src().equals(""))
+                Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
+            else
+                binding.excerciseExecImage.setImageResource(R.mipmap.hci);
         }
         myCountDownTimer = new MyCountDownTimer(COUNTER_NAME);
     }
@@ -190,6 +216,13 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                                         time = Integer.MAX_VALUE;
                                         progress = 0;
                                         if (binding.progressBar != null) binding.progressBar.setProgress(progress);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                binding.playButton.setVisibility(View.INVISIBLE);
+                                                binding.pauseButton.setVisibility(View.INVISIBLE);
+                                            }
+                                        });
                                     } else {
                                         binding.timer.setText(ex.getLimit().toString());
                                         time = ex.getLimit();
@@ -197,6 +230,13 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                                         progress = 0;
                                         if (binding.progressBar != null) binding.progressBar.setMax(time);
                                         if (binding.progressBar != null) binding.progressBar.setProgress(progress);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                binding.playButton.setVisibility(View.VISIBLE);
+                                                binding.pauseButton.setVisibility(View.VISIBLE);
+                                            }
+                                        });
                                     }
                                     if (binding.excerciseTitle != null)
                                         binding.excerciseTitle.setText(exercise.getName());
@@ -209,7 +249,10 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
+                                                if (exercise.getMetadata() != null && !exercise.getMetadata().getImg_src().equals(""))
+                                                    Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
+                                                else
+                                                    binding.excerciseExecImage.setImageResource(R.mipmap.hci);
                                             }
                                         });
                                     }
