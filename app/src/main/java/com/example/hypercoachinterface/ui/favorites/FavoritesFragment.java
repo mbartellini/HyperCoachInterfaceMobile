@@ -84,6 +84,7 @@ public class FavoritesFragment extends Fragment {
 
         favoritesViewModel.getFavourites().observe(getViewLifecycleOwner(), r -> {
             if (r.getStatus() == Status.SUCCESS) {
+                binding.favouritesFragmentProgressBar.setVisibility(View.GONE);
                 favourites.clear();
                 if (r.getData() != null) {
                     for(Routine routine : r.getData()) {
@@ -91,6 +92,10 @@ public class FavoritesFragment extends Fragment {
                     }
                     adapter.notifyDataSetChanged();
                 }
+            } else if (r.getStatus() == Status.LOADING) {
+                binding.favouritesFragmentProgressBar.setVisibility(View.VISIBLE);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.favouritesFragmentProgressBar.setVisibility(View.GONE);
             }
         });
 

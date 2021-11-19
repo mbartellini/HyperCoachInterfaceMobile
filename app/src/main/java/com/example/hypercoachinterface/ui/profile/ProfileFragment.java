@@ -1,5 +1,6 @@
 package com.example.hypercoachinterface.ui.profile;
 
+import static com.example.hypercoachinterface.backend.repository.Status.LOADING;
 import static com.example.hypercoachinterface.backend.repository.Status.SUCCESS;
 
 import android.app.Activity;
@@ -61,10 +62,14 @@ public class ProfileFragment extends Fragment {
 
         userViewModel.getUser().observe(getViewLifecycleOwner(), r-> {
             if (r.getStatus() == Status.SUCCESS) {
+                binding.profileProgressBar.setVisibility(View.GONE);
                 Log.d(TAG, "Success");
                 updateProfile(r.getData());
             } else if (r.getStatus() == Status.LOADING) {
+                binding.profileProgressBar.setVisibility(View.VISIBLE);
                 defaultResourceHandler(r);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.profileProgressBar.setVisibility(View.GONE);
             }
         });
 
@@ -72,12 +77,19 @@ public class ProfileFragment extends Fragment {
         logoutBtn.setOnClickListener(v -> {
             app.getUserRepository().logout().observe(getViewLifecycleOwner(), r -> {
                 if (r.getStatus() == SUCCESS) {
+                    binding.profileProgressBar.setVisibility(View.GONE);
                     Log.d(TAG, "Success");
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     app.getPreferences().setAuthToken(null);
                     getActivity().finish();
+                } else if (r.getStatus() == Status.LOADING) {
+                    binding.logout.setClickable(false);
+                    binding.profileProgressBar.setVisibility(View.VISIBLE);
+                } else if (r.getStatus() == Status.ERROR) {
+                    binding.logout.setClickable(true);
+                    binding.profileProgressBar.setVisibility(View.GONE);
                 }
             });
         });

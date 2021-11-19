@@ -5,6 +5,7 @@ import static com.example.hypercoachinterface.ui.search.SearchDialog.SORT_CRITER
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,8 +92,11 @@ public class SearchFragment extends Fragment {
         /* Fetching categories from API */
         searchViewModel.getCategories().observe(getViewLifecycleOwner(), r -> {
             if (r.getStatus() == Status.SUCCESS) {
+                binding.searchButton.setClickable(true);
                 if (r.getData() != null)
                     categories.addAll(r.getData());
+            } else {
+                binding.searchButton.setClickable(false);
             }
         });
 
@@ -101,6 +105,7 @@ public class SearchFragment extends Fragment {
 
         searchViewModel.getSearches().observe(getViewLifecycleOwner(), r -> {
             if (r.getStatus() == Status.SUCCESS) {
+                binding.searchProgressBar.setVisibility(View.GONE);
                 dataSet.clear();
                 if (r.getData() != null) {
                     for(Routine routine : r.getData()) {
@@ -108,6 +113,10 @@ public class SearchFragment extends Fragment {
                     }
                     adapter.notifyDataSetChanged();
                 }
+            } else if (r.getStatus() == Status.LOADING) {
+                binding.searchProgressBar.setVisibility(View.VISIBLE);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.searchProgressBar.setVisibility(View.GONE);
             }
         });
 

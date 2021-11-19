@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
 
         app.getRoutineRepository().getRoutines(0, 5, null, "desc").observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
+                binding.recentProgressBar.setVisibility(View.GONE);
                 for(Routine routine : r.getData()) {
                     RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
                     recentRoutines.add(rs);
@@ -74,6 +75,10 @@ public class HomeFragment extends Fragment {
 
                 }
                 recentRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
+            } else if (r.getStatus() == Status.LOADING) {
+                binding.recentProgressBar.setVisibility(View.VISIBLE);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.recentProgressBar.setVisibility(View.GONE);
             }
         });
 
@@ -90,6 +95,7 @@ public class HomeFragment extends Fragment {
 
         app.getUserRepository().getUserRoutines().observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
+                binding.myRoutinesProgressBar.setVisibility(View.GONE);
                 for(Routine routine : r.getData()) {
                     RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
                     myRoutines.add(rs);
@@ -105,6 +111,10 @@ public class HomeFragment extends Fragment {
 
                 }
                 myRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
+            } else if (r.getStatus() == Status.LOADING) {
+                binding.myRoutinesProgressBar.setVisibility(View.VISIBLE);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.myRoutinesProgressBar.setVisibility(View.GONE);
             }
         });
 
@@ -121,6 +131,7 @@ public class HomeFragment extends Fragment {
 
         app.getRoutineRepository().getFavourites(0, 5).observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
+                binding.favouritesProgressBar.setVisibility(View.GONE);
                 for(Routine routine : r.getData()) {
                     RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
                     favourites.add(rs);
@@ -136,6 +147,10 @@ public class HomeFragment extends Fragment {
 
                 }
                 favouriteAdapter.notifyItemRangeChanged(0, r.getData().size());
+            } else if (r.getStatus() == Status.LOADING) {
+                binding.favouritesProgressBar.setVisibility(View.VISIBLE);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.favouritesProgressBar.setVisibility(View.GONE);
             }
         });
 
