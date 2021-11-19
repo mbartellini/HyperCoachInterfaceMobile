@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.View;
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Exercise;
+import com.example.hypercoachinterface.backend.api.model.Review;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
 import com.example.hypercoachinterface.backend.api.model.RoutineExercise;
@@ -27,6 +30,7 @@ import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
+import com.example.hypercoachinterface.ui.routine.execution.ExecuteRoutineActivity;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
 
 import java.util.ArrayList;
@@ -40,6 +44,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private ActivityRoutineDetailBinding binding;
     private App app;
     private int routineId = -1;
+    private boolean isFav = true;
 
 
     @Override
@@ -52,17 +57,12 @@ public class RoutineDetailActivity extends AppCompatActivity {
         binding = ActivityRoutineDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Bundle b = getIntent().getExtras();
-        if (b == null) {
-            invalidRoutineHandler();
-            return;
-        }
-        routineId = b.getInt("routineId");
+        routineId = Integer.parseInt(getIntent().getData().getQueryParameter("id"));
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 
         List<RoutineCycle> cycles = new ArrayList<>();
         Map<Integer, Exercise> exerciseMap = new HashMap<>();
-        CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap);
+        CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap,this);
         binding.cycleCardsView.setAdapter(adapter);
 
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
@@ -85,9 +85,42 @@ public class RoutineDetailActivity extends AppCompatActivity {
                         });
                     }
                 }
+
+                binding.startRoutine.setOnClickListener(view -> {
+                    Context context = binding.getRoot().getContext();
+                    Intent intent = new Intent(context, ExecuteRoutineActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("routineId", this.routineId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                    // context.finish();
+                });
+
             }
         });
 
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem fav = menu.findItem(R.id.fav_btn);
+        MenuItem unfav = menu.findItem(R.id.unfav_btn);
+        app.getRoutineRepository().getFavourites(0, 100).observe(this, r -> {
+            if (r.getStatus() == Status.SUCCESS) {
+                boolean found = false;
+                for (Routine routine : r.getData()) {
+                    if (routine.getId() == routineId) {
+                        found = true;
+                        unfav.setVisible(true);
+                        break;
+                    }
+                }
+                fav.setVisible(!found);
+            }
+        });
+
+
+        return true;
     }
 
     private void invalidRoutineHandler() {
@@ -107,9 +140,60 @@ public class RoutineDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.fav_btn) {
-            // fav
+            app.getRoutineRepository().postFavourite(routineId).observe(this, r -> {
+                if (r.getStatus() == Status.SUCCESS) {
+                    Log.d(TAG, String.format("Routine %d marked as fav", routineId));
+                }
+            });
+            app.getReviewRepository().getReviews(routineId).observe(this, r -> {
+                if (r.getStatus() == Status.SUCCESS) {
+                    int favCount;
+                    if (r.getData().getTotalCount() == 0)
+                        favCount = 0;
+                    else
+                        favCount = Integer.parseInt(r.getData().getContent().get(0).getReview());
+                    final int newCount = favCount + 1;
+                    app.getReviewRepository().addReview(routineId, new Review(0, Integer.toString(favCount + 1))).observe(this, r2 -> {
+                        if (r2.getStatus() == Status.SUCCESS)
+                            binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
+                    });
+                    invalidateOptionsMenu();
+                }
+            });
+
+        } else if (id == R.id.unfav_btn) {
+            app.getRoutineRepository().deleteFavourite(routineId).observe(this, r -> {
+                if (r.getStatus() == Status.SUCCESS) {
+                    Log.d(TAG, String.format("Routine %d marked as not fav", routineId));
+                }
+            });
+            app.getReviewRepository().getReviews(routineId).observe(this, r -> {
+                if (r.getStatus() == Status.SUCCESS) {
+                    int favCount;
+                    if (r.getData().getTotalCount() == 0)
+                        favCount = 0;
+                    else
+                        favCount = Integer.parseInt(r.getData().getContent().get(0).getReview());
+                    if (favCount <= 0) favCount = 1;
+                    final int newCount = favCount - 1;
+                    app.getReviewRepository().addReview(routineId, new Review(0, Integer.toString(favCount - 1))).observe(this, r2 -> {
+                        if (r2.getStatus() == Status.SUCCESS)
+                            binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
+                    });
+                    invalidateOptionsMenu();
+                }
+            });
         } else if (id == R.id.share_btn) {
-            // share
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "MyGym");
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("\n%s \uD83D\uDCAA \n\n", getResources().getString(R.string.share_text)));
+            sb.append("http://hypercoachinterface.com/routine?id=" + routineId + "\n\n");
+
+            String shareMessage = sb.toString();
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "Choose one"));
         } else if (id == android.R.id.home) {
             finish();
             return true;
@@ -120,8 +204,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private void fillActivityData(Routine routine) {
         binding.routineTitle.setText(routine.getName());
         binding.routineDetail.setText(routine.getDetail());
-        binding.routineCategoryChip.setText(routine.getRoutineCategory().getName());
-        binding.routineDifficultyChip.setText(routine.getDifficulty());
+        binding.routineCategoryChip.setText(translateCategory(routine.getRoutineCategory().getId()));
+        binding.routineDifficultyChip.setText(translateDifficulty(routine.getDifficulty()));
         if (routine.getMetadata() != null) {
             Utils.setImageFromBase64(binding.routineImage, routine.getMetadata().getImgSrc());
             if (routine.getMetadata().getEquipment() != null) {
@@ -132,6 +216,44 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 }
             }
         }
-        binding.routineLikesChip.setText("TODO");
+        app.getReviewRepository().getReviews(routineId).observe(this, r -> {
+            if (r.getStatus() == Status.SUCCESS) {
+                String favCount;
+                if (r.getData().getTotalCount() == 0)
+                    favCount = "0";
+                else
+                    favCount = r.getData().getContent().get(0).getReview();
+                favCount += " " + new String(Character.toChars(0x2605));
+                binding.routineFavsChip.setText(favCount);
+            }
+        });
+    }
+
+    private String translateDifficulty(String difficulty) {
+        switch (difficulty) {
+            case "beginner":
+                return getResources().getString(R.string.beginner);
+            case "intermediate":
+                return getResources().getString(R.string.intermediate);
+            case "advanced":
+                return getResources().getString(R.string.advanced);
+            default:
+                return difficulty;
+        }
+    }
+
+    private String translateCategory(int category) {
+        switch (category) {
+            case 1:
+                return getResources().getString(R.string.hit);
+            case 2:
+                return getResources().getString(R.string.cardio);
+            case 3:
+                return getResources().getString(R.string.calisthenics);
+            case 4:
+                return getResources().getString(R.string.bodybuilding);
+            default:
+                return getResources().getString(R.string.no_category);
+        }
     }
 }

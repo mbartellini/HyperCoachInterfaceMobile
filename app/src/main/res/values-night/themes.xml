@@ -14,5 +14,6 @@
         <item name="colorOnError">@color/white</item>
         <item name="backgroundTint">@color/dark_grey</item>
         <!-- Customize your theme here. -->
+        <item name="actionBarStyle">@style/Widget.MaterialComponents.ActionBar.Primary</item>
     </style>
 </resources>
