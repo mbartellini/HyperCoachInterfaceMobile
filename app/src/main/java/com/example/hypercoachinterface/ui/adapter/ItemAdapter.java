@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -70,11 +71,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             itemView.setOnClickListener(view1 -> {
                 Log.d(TAG, "ViewHolder: " + dataSet.get(getAdapterPosition()).getRoutineId());
 
+                Integer routineId = dataSet.get(getAdapterPosition()).getRoutineId();
                 Context context = getCardView().getContext();
                 Intent intent = new Intent(context, RoutineDetailActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("routineId", dataSet.get(getAdapterPosition()).getRoutineId());
-                intent.putExtras(b);
+                intent.setData(Uri.parse("http://hypercoachinterface.com/routine?id=" + routineId));
                 context.startActivity(intent);
                 // context.finish();
             });

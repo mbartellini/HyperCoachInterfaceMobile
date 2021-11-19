@@ -36,10 +36,12 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> 
     private static final String TAG = "CycleAdapter";
     protected final List<RoutineCycle> dataSet;
     protected final Map<Integer, Exercise> exerciseMap;
+    private final Context context;
 
-    public CycleAdapter(List<RoutineCycle> dataSet, Map<Integer, Exercise> exerciseMap) {
+    public CycleAdapter(List<RoutineCycle> dataSet, Map<Integer, Exercise> exerciseMap, Context context) {
         this.dataSet = dataSet;
         this.exerciseMap = exerciseMap;
+        this.context = context;
     }
 
     @NonNull
@@ -57,7 +59,7 @@ public class CycleAdapter extends RecyclerView.Adapter<CycleAdapter.ViewHolder> 
         holder.title.setText(dataSet.get(position).getName());
         holder.reps.setText(String.format("x%d rep%s.", dataSet.get(position).getRepetitions(), dataSet.get(position).getRepetitions() > 1 ? "s" : ""));
         List<RoutineExercise> exerciseList = new ArrayList<>(dataSet.get(position).getExercises());
-        ExerciseAdapter adapter = new ExerciseAdapter(exerciseList, exerciseMap);
+        ExerciseAdapter adapter = new ExerciseAdapter(exerciseList, exerciseMap, context);
         holder.exercises.setAdapter(adapter);
         holder.exercises.addItemDecoration(new DividerItemDecoration(holder.exercises.getContext(), DividerItemDecoration.VERTICAL));
     }
