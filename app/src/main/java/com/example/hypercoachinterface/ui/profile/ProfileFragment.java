@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -90,6 +91,10 @@ public class ProfileFragment extends Fragment {
         binding.lastName.setText(data.getLastName());
         binding.email.setText(data.getEmail());
         binding.gender.setText(translateGender(data.getGender()));
+
+        if (data.getMetadata() != null && !data.getMetadata().getImgSrc().equals("")) {
+            Utils.setImageFromBase64(binding.imageView, data.getAvatarUrl());
+        }
 
         DateFormat df = android.text.format.DateFormat.getDateFormat(getContext());
         binding.birth.setText(df.format(data.getBirthdate()));
