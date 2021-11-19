@@ -39,7 +39,7 @@
     <string name="all_routines">All routines</string>
     <string name="my_routines">My routines</string>
     <string name="favourites_routines">Favorites</string>
-    <string name="filter_by_text">Filter by</string>
+    <string name="search_dialog_title">Search</string>
     <string name="order_by_text">Order by</string>
     <string name="title_routine_detail_activity">Routine detail</string>
     <string name="yes_equipment">Requires equipment</string>
@@ -72,4 +72,15 @@
     <string name="categories">Categories</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
+    <string name="difficulty">Difficulties</string>
+    <string name="search_button_text">Filter</string>
+    <string name="name_sort_criteria">Name</string>
+    <string name="date_sort_criteria">Date</string>
+    <string name="diff_sort_criteria">Difficulty</string>
+    <string name="favs_sort_criteria">Favorite count</string>
+    <string name="asc">Ascending</string>
+    <string name="desc">Descending</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.hypercoachinterface.backend;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.hypercoachinterface.backend.repository.CategoryRepository;
 import com.example.hypercoachinterface.backend.repository.ExerciseRepository;
@@ -10,6 +11,8 @@ import com.example.hypercoachinterface.backend.repository.SportRepository;
 import com.example.hypercoachinterface.backend.repository.UserRepository;
 
 public class App extends Application {
+
+    private static Context context;
 
     private AppPreferences preferences;
     private UserRepository userRepository;
@@ -51,6 +54,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        this.context = getApplicationContext();
+
         preferences = new AppPreferences(this);
         userRepository = new UserRepository(this);
         sportRepository = new SportRepository(this);
@@ -59,5 +64,9 @@ public class App extends Application {
         exerciseRepository = new ExerciseRepository(this);
         categoryRepository = new CategoryRepository(this);
 
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

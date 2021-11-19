@@ -17,6 +17,8 @@ import com.example.hypercoachinterface.backend.repository.CategoryRepository;
 import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.backend.repository.Status;
+import com.example.hypercoachinterface.ui.Difficulty;
+import com.example.hypercoachinterface.ui.SortCriteria;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModel;
 
 import java.lang.reflect.Constructor;
@@ -31,20 +33,22 @@ public class SearchViewModel extends ViewModel {
     private final static int PAGE_SIZE = 10;
     private static final String TAG = "SearchViewModel";
 
-    private RoutineRepository routineRepository;
-    private CategoryRepository categoryRepository;
+    private final RoutineRepository routineRepository;
+    private final CategoryRepository categoryRepository;
 
     private int searchPage = 0;
     private boolean isLastSearchPage = false;
     private final List<Routine> allSearches = new ArrayList<>();
     private final MediatorLiveData<Resource<List<Routine>>> searches = new MediatorLiveData<>();
-    private final Map<String, String> options;
+    private RoutineCategory routineCategory;
+    private Difficulty difficulty;
+
+    private SortCriteria sortCriteria;
+    private Boolean sortSense;
 
     public SearchViewModel(RoutineRepository routineRepository, CategoryRepository categoryRepository) {
         this.routineRepository = routineRepository;
         this.categoryRepository = categoryRepository;
-        this.options = new HashMap<>();
-        this.options.put("size", String.valueOf(PAGE_SIZE));
     }
 
     public LiveData<Resource<List<RoutineCategory>>> getCategories() {
@@ -56,9 +60,7 @@ public class SearchViewModel extends ViewModel {
         return searches;
     }
 
-    public void setSearch(Map<String, String> options) {
-        this.options.clear();
-        this.options.putAll(options);
+    public void restart() {
         searchPage = 0;
         isLastSearchPage = false;
         allSearches.clear();
@@ -73,7 +75,14 @@ public class SearchViewModel extends ViewModel {
 
         int requestedPage = searchPage;
 
+        Map<String, String> options = new HashMap<>();
+        options.put("size", String.valueOf(PAGE_SIZE));
         options.put("page", String.valueOf(requestedPage));
+        if (routineCategory != null) options.put("categoryId", String.valueOf(routineCategory.getId()));
+        if (difficulty != null) options.put("difficulty", difficulty.getApiName());
+        if (sortCriteria != null) options.put("orderBy", sortCriteria.getApiName());
+        if (sortSense != null) options.put("direction", sortSense ? "asc" : "desc");
+
         searches.addSource(routineRepository.getRoutines(options), resource -> {
             if (resource.getStatus() == Status.SUCCESS) {
                 if ((resource.getData() == null) || (resource.getData().size() == 0) || (resource.getData().size() < PAGE_SIZE))
@@ -95,6 +104,38 @@ public class SearchViewModel extends ViewModel {
                 searches.setValue(resource);
             }
         });
+    }
+
+    public RoutineCategory getRoutineCategory() {
+        return routineCategory;
+    }
+
+    public void setRoutineCategory(RoutineCategory routineCategory) {
+        this.routineCategory = routineCategory;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public SortCriteria getSortCriteria() {
+        return sortCriteria;
+    }
+
+    public void setSortCriteria(SortCriteria sortCriteria) {
+        this.sortCriteria = sortCriteria;
+    }
+
+    public Boolean getSortSense() {
+        return sortSense;
+    }
+
+    public void setSortSense(Boolean sortSense) {
+        this.sortSense = sortSense;
     }
 
     public static class SearchViewModelFactory implements ViewModelProvider.Factory {

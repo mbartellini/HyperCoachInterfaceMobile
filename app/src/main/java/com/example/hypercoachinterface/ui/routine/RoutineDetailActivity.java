@@ -53,8 +53,10 @@ public class RoutineDetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Bundle b = getIntent().getExtras();
-        if (b == null)
+        if (b == null) {
             invalidRoutineHandler();
+            return;
+        }
         routineId = b.getInt("routineId");
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 

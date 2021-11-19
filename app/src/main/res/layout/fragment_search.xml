@@ -20,58 +20,18 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <LinearLayout
-        android:id="@+id/order_filter_layout"
+
+    <com.google.android.material.button.MaterialButton
+        app:iconGravity="start"
+        android:layout_margin="@dimen/fab_margin"
+        android:id="@+id/search_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filter_by"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:hint="@string/filter_by_text">
-
-            <AutoCompleteTextView
-                android:id="@+id/filter_options"
-                android:layout_width="match_parent"
-                android:background="@color/primary_grey"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/order_by"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:hint="@string/order_by_text">
-
-            <AutoCompleteTextView
-                android:id="@+id/order_options"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-
+        android:text="@string/search_button_text"
+        app:icon="@drawable/ic_baseline_filter_list_24"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filter_routines_view"
@@ -80,7 +40,7 @@
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/order_filter_layout"
+        app:layout_constraintTop_toBottomOf="@id/search_button"
         app:layout_constraintBottom_toTopOf="@id/place_holder"/>
 
     <androidx.constraintlayout.widget.Placeholder

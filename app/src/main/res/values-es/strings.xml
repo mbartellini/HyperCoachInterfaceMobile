@@ -29,7 +29,7 @@
     <string name="my_routines">Mis rutinas</string>
     <string name="favourites_routines">Favoritas</string>
     <string name="all_routines">Todas las rutinas</string>
-    <string name="filter_by_text">Filtrar por</string>
+    <string name="search_dialog_title">Búsqueda</string>
     <string name="order_by_text">Ordenar por</string>
     <string name="title_routine_detail_activity">Detalle de rutina</string>
     <string name="yes_equipment">Requiere equipamiento</string>
@@ -52,4 +52,15 @@
     <string name="categories">Categorías</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="beginner">Principiante</string>
+    <string name="intermediate">Intermedio</string>
+    <string name="advanced">Avanzado</string>
+    <string name="difficulty">Dificultades</string>
+    <string name="search_button_text">Filtrar</string>
+    <string name="name_sort_criteria">Nombre</string>
+    <string name="date_sort_criteria">Fecha</string>
+    <string name="diff_sort_criteria">Dificultad</string>
+    <string name="favs_sort_criteria">Número de favoritos</string>
+    <string name="asc">Ascendente</string>
+    <string name="desc">Descendente</string>
 </resources>

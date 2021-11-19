@@ -1,5 +1,8 @@
 package com.example.hypercoachinterface.ui.search;
 
+import static com.example.hypercoachinterface.ui.search.SearchDialog.FILTER_REQUEST_KEY;
+import static com.example.hypercoachinterface.ui.search.SearchDialog.SORT_CRITERIA_BUNDLE_KEY;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -9,14 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,27 +25,27 @@ import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.api.model.RoutineCategory;
-import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentSearchBinding;
+import com.example.hypercoachinterface.ui.Difficulty;
+import com.example.hypercoachinterface.ui.SortCriteria;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
-import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
-import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Predicate;
 
-public class SearchFragment extends Fragment implements FilterDialog.FilterDialogListener {
+public class SearchFragment extends Fragment {
 
     private static final String TAG = "SearchFragment";
-    private static final int REQUEST_CODE = 1;
+    private static final String FILTER_DIALOG_TAG = "Filter Dialog Tag";
     private App app;
     private SearchViewModel searchViewModel;
     private FragmentSearchBinding binding;
+    private final List<RoutineCategory> categories = new ArrayList<>();
     private final List<RoutineSummary> dataSet = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -82,37 +82,17 @@ public class SearchFragment extends Fragment implements FilterDialog.FilterDialo
             throw new IllegalStateException("Invalid screen size");
         }
 
-
         binding.filterRoutinesView.setLayoutManager(new GridLayoutManager(
                 this.getContext(),
                 columns,
                 GridLayoutManager.VERTICAL,
                 false));
 
-
-        // TODO: Move out and save on destroy to avoid losing the filter
-        TextInputLayout filter =  binding.filterBy;
-        AutoCompleteTextView filterOptions = binding.filterOptions;
-        TextInputLayout order = binding.orderBy;
-        AutoCompleteTextView orderOptions = binding.orderOptions;
-
-        ArrayList<String> orderOptionsDataSet = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.order_by_options)));
-        ArrayList<String> filterOptionsDataSet = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.filter_by_options)));
-
-        ArrayAdapter<String> orderArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_item, orderOptionsDataSet);
-        ArrayAdapter<String> filterArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.dropdown_item, filterOptionsDataSet);
-
-        filterOptions.setAdapter(filterArrayAdapter);
-        orderOptions.setAdapter(orderArrayAdapter);
-
         /* Fetching categories from API */
         searchViewModel.getCategories().observe(getViewLifecycleOwner(), r -> {
             if (r.getStatus() == Status.SUCCESS) {
-                for (RoutineCategory routineCategory : r.getData()) {
-                    // DO SOMEHTING
-                    // filter by: categoryId, difficulty
-                    // order by: name, date, difficulty, favs
-                }
+                if (r.getData() != null)
+                    categories.addAll(r.getData());
             }
         });
 
@@ -126,7 +106,7 @@ public class SearchFragment extends Fragment implements FilterDialog.FilterDialo
                     for(Routine routine : r.getData()) {
                         dataSet.add(RoutineSummary.fromRoutine(routine, 0));
                     }
-                    adapter.notifyItemRangeChanged(dataSet.size() - r.getData().size() - 1, r.getData().size());
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -146,25 +126,47 @@ public class SearchFragment extends Fragment implements FilterDialog.FilterDialo
 
         binding.filterRoutinesView.setAdapter(adapter);
 
-        openFilterDialog();
+        /* Search Dialog Handling */
+        binding.searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSearchDialog();
+            }
+        });
+        getParentFragmentManager().setFragmentResultListener(FILTER_REQUEST_KEY, this, (requestKey, result) -> {
+            RoutineCategory selectedCategory = null;
+            Difficulty selectedDifficulty = null;
+            SortCriteria selectedSortCriteria = null;
+            Boolean selectedSortSense = false;
+
+            if (result.containsKey(SearchDialog.CATEGORY_BUNDLE_KEY))
+                selectedCategory = categories.stream().filter(routineCategory1 -> routineCategory1.getId().equals(result.getInt(SearchDialog.CATEGORY_BUNDLE_KEY))).findFirst().get();
+            if (result.containsKey(SearchDialog.DIFFICULTY_BUNDLE_KEY))
+                selectedDifficulty = Difficulty.valueOf(result.getString(SearchDialog.DIFFICULTY_BUNDLE_KEY));
+            if (result.containsKey(SearchDialog.SORT_CRITERIA_BUNDLE_KEY))
+                selectedSortCriteria = SortCriteria.valueOf(result.getString(SearchDialog.SORT_CRITERIA_BUNDLE_KEY));
+            if (result.containsKey(SearchDialog.SORT_SENSE_BUNDLE_KEY))
+            selectedSortSense = result.getBoolean(SearchDialog.SORT_SENSE_BUNDLE_KEY);
+            Log.d(TAG, String.format("onFragmentResult: Received response from SearchDialog: %s, %s, %s, %s",
+                    selectedCategory, selectedDifficulty, selectedSortCriteria, selectedSortSense));
+            searchViewModel.setRoutineCategory(selectedCategory);
+            searchViewModel.setDifficulty(selectedDifficulty);
+            searchViewModel.setSortCriteria(selectedSortCriteria);
+            searchViewModel.setSortSense(selectedSortSense);
+            searchViewModel.restart();
+        });
 
         return root;
     }
 
-    public void openFilterDialog() {
-        FilterDialog filterDialog = new FilterDialog();
-        filterDialog.setTargetFragment(SearchFragment.this, REQUEST_CODE);
-        filterDialog.show(getParentFragmentManager(), "Filter Dialog");
+    public void openSearchDialog() {
+        SearchDialog filterDialog = new SearchDialog(categories, searchViewModel.getRoutineCategory(), searchViewModel.getDifficulty(), searchViewModel.getSortCriteria(), searchViewModel.getSortSense());
+        filterDialog.show(getParentFragmentManager(), FILTER_DIALOG_TAG);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    @Override
-    public void setFilter() {
-        Log.d(TAG, "work: WORKING");
     }
 }
