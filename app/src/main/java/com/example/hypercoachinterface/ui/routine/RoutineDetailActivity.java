@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +29,7 @@ import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
+import com.example.hypercoachinterface.ui.routine.execution.ExecuteRoutineActivity;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
 
 import java.util.ArrayList;
@@ -65,9 +68,10 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
             if (r.getStatus() == Status.SUCCESS) {
-                fillActivityData(r.getData());
-                if (r.getData() == null || r.getData().getMetadata() == null)
+                if (r.getData() == null || r.getData().getMetadata() == null) {
                     invalidRoutineHandler();
+                }
+                fillActivityData(r.getData());
                 cycles.addAll(r.getData().getMetadata().getCycles());
                 adapter.notifyItemRangeInserted(0, cycles.size());
                 for (int i = 0; i < cycles.size(); i++) {
@@ -81,6 +85,17 @@ public class RoutineDetailActivity extends AppCompatActivity {
                         });
                     }
                 }
+
+                binding.startRoutine.setOnClickListener(view -> {
+                    Context context = binding.getRoot().getContext();
+                    Intent intent = new Intent(context, ExecuteRoutineActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("routineId", this.routineId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                    // context.finish();
+                });
+
             }
         });
 

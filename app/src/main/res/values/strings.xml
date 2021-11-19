@@ -42,6 +42,7 @@
     <string name="filter_by_text">Filter by</string>
     <string name="order_by_text">Order by</string>
     <string name="title_routine_detail_activity">Routine detail</string>
+    <string name="title_execute_routine_activity">Routine</string>
     <string name="yes_equipment">Requires equipment</string>
     <string name="no_equipment">Doesn\'t require equipment</string>
     <string-array name="order_by_options">
@@ -70,4 +71,5 @@
     <string name="button_star_desc" translatable="false">Favourite</string>
     <string name="begin_routine_btn">Begin Routine Button</string>
     <string name="start_routine">Start</string>
+    <string name="reps">Repetitions</string>
 </resources>
