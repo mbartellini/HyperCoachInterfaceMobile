@@ -23,6 +23,8 @@ import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityLoginBinding;
+import com.example.hypercoachinterface.ui.Utils;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
@@ -73,7 +75,17 @@ public class LoginActivity extends AppCompatActivity {
             case ERROR:
                 binding.loading.setVisibility(View.GONE);
                 Error error = resource.getError();
-                String message = error.getDescription() + " " + error.getCode();
+                if(error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                    binding.getRoot().removeAllViews();
+                    Snackbar snackbar = Snackbar.make(this, binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction(R.string.retry, v -> {
+                        finish();
+                        startActivity(getIntent());
+                    });
+                    snackbar.show();
+                    return;
+                }
+                String message = Utils.getErrorMessage(this, error.getCode());
                 Log.d(TAG, message);
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
                 break;
