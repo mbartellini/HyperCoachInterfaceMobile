@@ -1,6 +1,8 @@
 package com.example.hypercoachinterface.ui.routine.execution;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -57,6 +59,15 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
         binding = ActivityExecuteRoutineBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if (savedInstanceState != null) {
+            currentExercise = savedInstanceState.getInt("currentExercise");
+            currentCycle = savedInstanceState.getInt("currentCycle");
+            currentCycleReps = savedInstanceState.getInt("currentCycleReps");
+            time = savedInstanceState.getInt("time");
+            progress = savedInstanceState.getInt("progress");
+            paused = savedInstanceState.getBoolean("paused");
+        }
+
         Bundle b = getIntent().getExtras();
         if (b == null) {
             invalidRoutineHandler();
@@ -83,7 +94,7 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                                     exerciseMap.put(routineExercise.getId(), r2.getData());
                                     adapter.notifyItemChanged(finalI);
                                     if (finalI == currentCycle) {
-                                        fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(currentCycle).getExercises().get(currentExercise));
+                                        fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(currentCycle).getExercises().get(currentExercise), savedInstanceState);
                                         myCountDownTimer.start();
                                     }
                                 }
@@ -93,8 +104,19 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                 }
             });
         } else {
-            fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(0).getExercises().get(0));
+            fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(currentCycle).getExercises().get(currentExercise), savedInstanceState);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentCycle", currentCycle);
+        outState.putInt("currentCycleReps", currentCycleReps);
+        outState.putInt("currentExercise", currentExercise);
+        outState.putInt("progress", progress);
+        outState.putInt("time", time);
+        outState.putBoolean("paused", paused);
     }
 
     @Override
@@ -104,12 +126,14 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
         return true;
     }
 
-    private void fillActivityData(RoutineCycle cycle, Exercise exercise, RoutineExercise routineExercise) {
+    private void fillActivityData(RoutineCycle cycle, Exercise exercise, RoutineExercise routineExercise, Bundle savedInstanceState) {
         if (binding.excerciseTitle != null)
             binding.excerciseTitle.setText(exercise.getName());
         if (binding.cycleTitle != null)
             binding.cycleTitle.setText(cycle.getName());
-        currentCycleReps = cycle.getRepetitions();
+        if (savedInstanceState == null) {
+            currentCycleReps = cycle.getRepetitions();
+        }
         if (binding.remainingCycles != null) {
             binding.remainingCycles.setText(String.format("x%d rep%s.", currentCycleReps, currentCycleReps > 1 ? "s" : ""));
         }
@@ -135,9 +159,11 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
 
         if (routineExercise.getLimitType().equals("repeticiones") || routineExercise.getLimitType().equals("repetitions")) {
             binding.timer.setText(String.format("x%d rep%s.", routineExercise.getLimit(), cycle.getRepetitions() > 1 ? "s" : ""));
-            paused = true;
-            time = Integer.MAX_VALUE;
-            progress = 0;
+            if (savedInstanceState == null) {
+                paused = true;
+                time = Integer.MAX_VALUE;
+                progress = 0;
+            }
             if (binding.progressBar != null) binding.progressBar.setProgress(progress);
             runOnUiThread(new Runnable() {
                 @Override
@@ -147,10 +173,12 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                 }
             });
         } else {
-            binding.timer.setText(routineExercise.getLimit().toString());
-            time = routineExercise.getLimit();
-            paused = false;
-            progress = 0;
+            binding.timer.setText(Integer.valueOf(time - progress).toString());
+            if (savedInstanceState == null) {
+                time = routineExercise.getLimit();
+                paused = false;
+                progress = 0;
+            }
             if (binding.progressBar != null) binding.progressBar.setMax(time);
             if (binding.progressBar != null) binding.progressBar.setProgress(progress);
             runOnUiThread(new Runnable() {
@@ -169,6 +197,23 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                 binding.excerciseExecImage.setImageResource(R.mipmap.hci);
         }
         myCountDownTimer = new MyCountDownTimer(COUNTER_NAME);
+        if (paused) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    binding.playButton.setBackgroundResource(R.color.pastel_red);
+                    binding.pauseButton.setBackgroundResource(0);
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    binding.pauseButton.setBackgroundResource(R.color.pastel_red);
+                    binding.playButton.setBackgroundResource(0);
+                }
+            });
+        }
     }
 
     public class MyCountDownTimer extends Timer {
