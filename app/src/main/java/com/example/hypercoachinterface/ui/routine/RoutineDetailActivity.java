@@ -68,7 +68,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
         List<RoutineCycle> cycles = new ArrayList<>();
         Map<Integer, Exercise> exerciseMap = new HashMap<>();
-        CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap,this);
+        CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap, this);
         binding.cycleCardsView.setAdapter(adapter);
 
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
@@ -87,6 +87,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
                             if (r2.getStatus() == Status.SUCCESS) {
                                 exerciseMap.put(routineExercise.getId(), r2.getData());
                                 adapter.notifyItemChanged(finalI);
+                            } else {
+                                defaultResourceHandler(r);
                             }
                         });
                     }
@@ -128,6 +130,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
                     }
                 }
                 fav.setVisible(!found);
+            } else {
+                defaultResourceHandler(r);
             }
         });
 
@@ -156,6 +160,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
             app.getRoutineRepository().postFavourite(routineId).observe(this, r -> {
                 if (r.getStatus() == Status.SUCCESS) {
                     Log.d(TAG, String.format("Routine %d marked as fav", routineId));
+                } else {
+                    defaultResourceHandler(r);
                 }
             });
             app.getReviewRepository().getReviews(routineId).observe(this, r -> {
@@ -167,10 +173,15 @@ public class RoutineDetailActivity extends AppCompatActivity {
                         favCount = Integer.parseInt(r.getData().getContent().get(0).getReview());
                     final int newCount = favCount + 1;
                     app.getReviewRepository().addReview(routineId, new Review(0, Integer.toString(favCount + 1))).observe(this, r2 -> {
-                        if (r2.getStatus() == Status.SUCCESS)
+                        if (r2.getStatus() == Status.SUCCESS) {
                             binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
+                        } else {
+                            defaultResourceHandler(r);
+                        }
                     });
                     invalidateOptionsMenu();
+                } else {
+                    defaultResourceHandler(r);
                 }
             });
 
@@ -178,6 +189,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
             app.getRoutineRepository().deleteFavourite(routineId).observe(this, r -> {
                 if (r.getStatus() == Status.SUCCESS) {
                     Log.d(TAG, String.format("Routine %d marked as not fav", routineId));
+                } else {
+                    defaultResourceHandler(r);
                 }
             });
             app.getReviewRepository().getReviews(routineId).observe(this, r -> {
@@ -194,6 +207,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
                             binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
                     });
                     invalidateOptionsMenu();
+                } else {
+                    defaultResourceHandler(r);
                 }
             });
         } else if (id == R.id.share_btn) {
@@ -238,6 +253,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
                     favCount = r.getData().getContent().get(0).getReview();
                 favCount += " " + new String(Character.toChars(0x2605));
                 binding.routineFavsChip.setText(favCount);
+            } else {
+                defaultResourceHandler(r);
             }
         });
     }
@@ -271,9 +288,9 @@ public class RoutineDetailActivity extends AppCompatActivity {
     }
 
     private void defaultResourceHandler(Resource<?> resource) {
-        if(resource.getStatus() == Status.ERROR) {
+        if (resource.getStatus() == Status.ERROR) {
             Error error = resource.getError();
-            if(error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
                 binding.getRoot().removeAllViews();
                 Snackbar snackbar = Snackbar.make(this, binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.retry, v -> {
