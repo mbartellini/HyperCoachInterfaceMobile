@@ -73,6 +73,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
             if (r.getStatus() == Status.SUCCESS) {
+                binding.routineProgressBar.setVisibility(View.GONE);
+                binding.routineDescription.setVisibility(View.VISIBLE);
                 fillActivityData(r.getData());
                 if (r.getData() == null || r.getData().getMetadata() == null) {
                     invalidRoutineHandler();
@@ -104,7 +106,12 @@ public class RoutineDetailActivity extends AppCompatActivity {
                     // context.finish();
                 });
 
-            } else {
+            } else if (r.getStatus() == Status.LOADING) {
+                binding.routineProgressBar.setVisibility(View.VISIBLE);
+                binding.routineDescription.setVisibility(View.GONE);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.routineProgressBar.setVisibility(View.GONE);
+                binding.routineDescription.setVisibility(View.GONE);
                 defaultResourceHandler(r);
             }
         });
