@@ -45,6 +45,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.routine.execution.ExecuteRoutineActivity"
+            android:clearTaskOnLaunch="true"
+            android:exported="true"
+            android:noHistory="true" />
     </application>
 
 </manifest>

@@ -34,7 +34,7 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
     private int currentCycleReps = 1;
     private final List<RoutineCycle> cycles = new ArrayList<>();
     private final Map<Integer, Exercise> exerciseMap = new HashMap<>();
-    private final CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap);
+    private final CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap, this);
     ProgressBar progressBar;
     Integer progress = 0, time = null;
     MyCountDownTimer myCountDownTimer = null;
