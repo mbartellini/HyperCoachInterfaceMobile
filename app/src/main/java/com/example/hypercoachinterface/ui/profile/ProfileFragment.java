@@ -3,6 +3,7 @@ package com.example.hypercoachinterface.ui.profile;
 import static com.example.hypercoachinterface.backend.repository.Status.SUCCESS;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +37,8 @@ import com.example.hypercoachinterface.backend.repository.UserRepository;
 import com.example.hypercoachinterface.databinding.FragmentProfileBinding;
 import com.example.hypercoachinterface.ui.login.LoginActivity;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,7 +67,7 @@ public class ProfileFragment extends Fragment {
             if (r.getStatus() == Status.SUCCESS) {
                 Log.d(TAG, "Success");
                 updateProfile(r.getData());
-            } else if (r.getStatus() == Status.LOADING) {
+            } else {
                 defaultResourceHandler(r);
             }
         });
@@ -78,6 +82,8 @@ public class ProfileFragment extends Fragment {
                     startActivity(intent);
                     app.getPreferences().setAuthToken(null);
                     getActivity().finish();
+                } else {
+                    defaultResourceHandler(r);
                 }
             });
         });
@@ -106,15 +112,20 @@ public class ProfileFragment extends Fragment {
     }
 
     private void defaultResourceHandler(Resource<?> resource) {
-        switch (resource.getStatus()) {
-            case LOADING:
-                Log.d(TAG, "Loading");
-                break;
-            case ERROR:
-                Error error = resource.getError();
-                String message = error.getDescription() + " " + error.getCode();
-                Log.d(TAG, message);
-                break;
+        if (resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+                    bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+                });
+                snackbar.show();
+                return;
+            }
+            String message = Utils.getErrorMessage(getActivity(), error.getCode());
+            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
         }
     }
 

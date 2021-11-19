@@ -1,6 +1,7 @@
 package com.example.hypercoachinterface.ui.favorites;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,13 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.api.model.Routine;
+import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentFavoritesBinding;
+import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +98,8 @@ public class FavoritesFragment extends Fragment {
                     }
                     adapter.notifyDataSetChanged();
                 }
+            } else {
+                defaultResourceHandler(r);
             }
         });
 
@@ -109,6 +118,24 @@ public class FavoritesFragment extends Fragment {
         binding.allFavouritesRoutinesView.setAdapter(adapter);
 
         return root;
+    }
+
+    private void defaultResourceHandler(Resource<?> resource) {
+        if (resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+                    bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
+                });
+                snackbar.show();
+                return;
+            }
+            String message = Utils.getErrorMessage(getActivity(), error.getCode());
+            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

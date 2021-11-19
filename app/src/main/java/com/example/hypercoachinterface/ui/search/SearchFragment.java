@@ -3,6 +3,7 @@ package com.example.hypercoachinterface.ui.search;
 import static com.example.hypercoachinterface.ui.search.SearchDialog.FILTER_REQUEST_KEY;
 import static com.example.hypercoachinterface.ui.search.SearchDialog.SORT_CRITERIA_BUNDLE_KEY;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,14 +25,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.api.model.RoutineCategory;
+import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentSearchBinding;
 import com.example.hypercoachinterface.ui.Difficulty;
 import com.example.hypercoachinterface.ui.SortCriteria;
+import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -93,6 +100,8 @@ public class SearchFragment extends Fragment {
             if (r.getStatus() == Status.SUCCESS) {
                 if (r.getData() != null)
                     categories.addAll(r.getData());
+            } else {
+                defaultResourceHandler(r);
             }
         });
 
@@ -108,6 +117,8 @@ public class SearchFragment extends Fragment {
                     }
                     adapter.notifyDataSetChanged();
                 }
+            } else {
+                defaultResourceHandler(r);
             }
         });
 
@@ -157,6 +168,24 @@ public class SearchFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void defaultResourceHandler(Resource<?> resource) {
+        if (resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+                    bottomNavigationView.setSelectedItemId(R.id.search_dialog_divider);
+                });
+                snackbar.show();
+                return;
+            }
+            String message = Utils.getErrorMessage(getActivity(), error.getCode());
+            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void openSearchDialog() {
