@@ -89,7 +89,7 @@ public class FavoritesFragment extends Fragment {
                     for(Routine routine : r.getData()) {
                         favourites.add(RoutineSummary.fromRoutine(routine, 0));
                     }
-                    adapter.notifyItemRangeChanged(favourites.size() - r.getData().size() - 1, r.getData().size());
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
