@@ -4,7 +4,7 @@
     <string name="title_profile">Perfil</string>
     <string name="title_favorites">Favoritos</string>
     <string name="prompt_password">Contraseña</string>
-    <string name="prompt_username" translatable="false">Nombre de usuario</string>
+    <string name="prompt_username">Nombre de usuario</string>
     <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
     <string name="welcome">¡Bienvenido! </string>
@@ -52,4 +52,16 @@
     <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
     <string name="start_routine">Comenzar</string>
     <string name="reps">Repeticiones</string>
+    <string name="beginner">Principiante</string>
+    <string name="intermediate">Intermedio</string>
+    <string name="advanced">Avanzado</string>
+    <string name="welcome_to_hyper_coach_interface">Bienvenido a Hyper Coach Interface</string>
+    <string name="share_text">¡Oye! Échale un vistazo a esta rutina</string>
+    <string name="seconds">segundos</string>
+    <string name="repetitions">repeticiones</string>
+    <string name="bodybuilding">Fisicoculturismo</string>
+    <string name="cardio">Cardio</string>
+    <string name="calisthenics">Calistenia</string>
+    <string name="hit">HIT</string>
+    <string name="no_category">Sin categoría</string>
 </resources>
