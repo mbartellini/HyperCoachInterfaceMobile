@@ -53,4 +53,5 @@
     <string name="beginner">Principiante</string>
     <string name="intermediate">Intermedio</string>
     <string name="advanced">Avanzado</string>
+    <string name="welcome_to_hyper_coach_interface">Bienvenido a Hyper Coach Interface</string>
 </resources>

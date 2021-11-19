@@ -48,9 +48,9 @@
 
         <HorizontalScrollView
             android:id="@+id/routine_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="10dp"
             android:requiresFadingEdge="horizontal|vertical"
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
