@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -54,15 +55,12 @@ public class RoutineDetailActivity extends AppCompatActivity {
         binding = ActivityRoutineDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Bundle b = getIntent().getExtras();
-        if (b == null)
-            invalidRoutineHandler();
-        routineId = b.getInt("routineId");
+        routineId = Integer.parseInt(getIntent().getData().getQueryParameter("id"));
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 
         List<RoutineCycle> cycles = new ArrayList<>();
         Map<Integer, Exercise> exerciseMap = new HashMap<>();
-        CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap);
+        CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap,this);
         binding.cycleCardsView.setAdapter(adapter);
 
         app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
@@ -139,7 +137,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
                         favCount = Integer.parseInt(r.getData().getContent().get(0).getReview());
                     final int newCount = favCount + 1;
                     app.getReviewRepository().addReview(routineId, new Review(0, Integer.toString(favCount + 1))).observe(this, r2 -> {
-                        if(r2.getStatus() == Status.SUCCESS)
+                        if (r2.getStatus() == Status.SUCCESS)
                             binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
                     });
                     invalidateOptionsMenu();
@@ -162,14 +160,23 @@ public class RoutineDetailActivity extends AppCompatActivity {
                     if (favCount <= 0) favCount = 1;
                     final int newCount = favCount - 1;
                     app.getReviewRepository().addReview(routineId, new Review(0, Integer.toString(favCount - 1))).observe(this, r2 -> {
-                        if(r2.getStatus() == Status.SUCCESS)
-                           binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
+                        if (r2.getStatus() == Status.SUCCESS)
+                            binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
                     });
                     invalidateOptionsMenu();
                 }
             });
         } else if (id == R.id.share_btn) {
-            // share
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "MyGym");
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("\n%s \uD83D\uDCAA \n\n", getResources().getString(R.string.share_text)));
+            sb.append("http://hypercoachinterface.com/routine?id=" + routineId + "\n\n");
+
+            String shareMessage = sb.toString();
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "Choose one"));
         } else if (id == android.R.id.home) {
             finish();
             return true;
@@ -180,7 +187,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private void fillActivityData(Routine routine) {
         binding.routineTitle.setText(routine.getName());
         binding.routineDetail.setText(routine.getDetail());
-        binding.routineCategoryChip.setText(routine.getRoutineCategory().getName());
+        binding.routineCategoryChip.setText(translateCategory(routine.getRoutineCategory().getId()));
         binding.routineDifficultyChip.setText(translateDifficulty(routine.getDifficulty()));
         if (routine.getMetadata() != null) {
             Utils.setImageFromBase64(binding.routineImage, routine.getMetadata().getImgSrc());
@@ -207,10 +214,29 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
     private String translateDifficulty(String difficulty) {
         switch (difficulty) {
-            case "beginner": return getResources().getString(R.string.beginner);
-            case "intermediate": return getResources().getString(R.string.intermediate);
-            case "advanced": return getResources().getString(R.string.advanced);
-            default: return difficulty;
+            case "beginner":
+                return getResources().getString(R.string.beginner);
+            case "intermediate":
+                return getResources().getString(R.string.intermediate);
+            case "advanced":
+                return getResources().getString(R.string.advanced);
+            default:
+                return difficulty;
+        }
+    }
+
+    private String translateCategory(int category) {
+        switch (category) {
+            case 1:
+                return getResources().getString(R.string.hit);
+            case 2:
+                return getResources().getString(R.string.cardio);
+            case 3:
+                return getResources().getString(R.string.calisthenics);
+            case 4:
+                return getResources().getString(R.string.bodybuilding);
+            default:
+                return getResources().getString(R.string.no_category);
         }
     }
 }
