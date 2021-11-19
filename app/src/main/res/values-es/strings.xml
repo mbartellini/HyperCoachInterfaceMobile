@@ -32,6 +32,7 @@
     <string name="filter_by_text">Filtrar por</string>
     <string name="order_by_text">Ordenar por</string>
     <string name="title_routine_detail_activity">Detalle de rutina</string>
+    <string name="title_execute_routine_activity">Rutina</string>
     <string name="yes_equipment">Requiere equipamiento</string>
     <string name="no_equipment">No requiere equipamiento</string>
     <string-array name="order_by_options">
@@ -50,6 +51,7 @@
     </string-array>
     <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
     <string name="start_routine">Comenzar</string>
+    <string name="reps">Repeticiones</string>
     <string name="beginner">Principiante</string>
     <string name="intermediate">Intermedio</string>
     <string name="advanced">Avanzado</string>
