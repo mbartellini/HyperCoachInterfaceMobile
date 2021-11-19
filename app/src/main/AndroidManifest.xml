@@ -14,12 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HyperCoachInterface">
         <activity
+            android:name=".ui.noconnection.NoConnectionActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.routine.RoutineDetailActivity"
             android:exported="true"
             android:label="@string/title_routine_detail_activity"
             android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 

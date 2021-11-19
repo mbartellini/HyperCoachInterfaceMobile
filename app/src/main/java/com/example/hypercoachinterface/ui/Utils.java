@@ -1,5 +1,6 @@
 package com.example.hypercoachinterface.ui;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -15,15 +16,23 @@ public class Utils {
             return;
 
         // TODO: generalize default case
-        if(imgSrc == null || imgSrc.equals("@/assets/hci.png") ) {
+        if (imgSrc == null || imgSrc.equals("@/assets/hci.png")) {
             imageView.setImageResource(R.mipmap.hci);
             return;
         }
 
-        String imageDataBytes = imgSrc.substring(imgSrc.indexOf(",")+1);
+        String imageDataBytes = imgSrc.substring(imgSrc.indexOf(",") + 1);
         byte[] decodedString = Base64.decode(imageDataBytes, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(decodedByte);
+    }
+
+    public static String getErrorMessage(Context context, int code) {
+        switch (code) {
+            case 3: return context.getResources().getString(R.string.code3);
+            case 4: return context.getResources().getString(R.string.code4);
+            default: return context.getResources().getString(R.string.code_default);
+        }
     }
 
 }

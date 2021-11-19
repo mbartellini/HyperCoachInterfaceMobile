@@ -13,14 +13,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.api.model.Exercise;
 import com.example.hypercoachinterface.backend.api.model.Review;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
 import com.example.hypercoachinterface.backend.api.model.RoutineExercise;
+import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.RoutineRepository;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityMainBinding;
@@ -32,6 +36,8 @@ import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
 import com.example.hypercoachinterface.ui.routine.execution.ExecuteRoutineActivity;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +50,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private ActivityRoutineDetailBinding binding;
     private App app;
     private int routineId = -1;
-    private boolean isFav = true;
+    private MenuItem fav, unfav, share;
 
 
     @Override
@@ -52,10 +58,10 @@ public class RoutineDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine_detail);
 
+
         app = (App) getApplication();
 
         binding = ActivityRoutineDetailBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
         routineId = Integer.parseInt(getIntent().getData().getQueryParameter("id"));
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
@@ -69,6 +75,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
             if (r.getStatus() == Status.SUCCESS) {
                 if (r.getData() == null || r.getData().getMetadata() == null) {
                     invalidRoutineHandler();
+                    return;
                 }
                 fillActivityData(r.getData());
                 cycles.addAll(r.getData().getMetadata().getCycles());
@@ -95,15 +102,21 @@ public class RoutineDetailActivity extends AppCompatActivity {
                     // context.finish();
                 });
 
+            } else {
+                defaultResourceHandler(r);
             }
         });
+
+        setContentView(binding.getRoot());
+
 
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem fav = menu.findItem(R.id.fav_btn);
-        MenuItem unfav = menu.findItem(R.id.unfav_btn);
+        fav = menu.findItem(R.id.fav_btn);
+        unfav = menu.findItem(R.id.unfav_btn);
+        share = menu.findItem(R.id.share_btn);
         app.getRoutineRepository().getFavourites(0, 100).observe(this, r -> {
             if (r.getStatus() == Status.SUCCESS) {
                 boolean found = false;
@@ -123,6 +136,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
     }
 
     private void invalidRoutineHandler() {
+        Toast.makeText(this, getResources().getString(R.string.invalid_routine), Toast.LENGTH_SHORT).show();
+        finish();
         // TODO: Go back to previous or to home
     }
 
@@ -190,7 +205,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
             String shareMessage = sb.toString();
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-            startActivity(Intent.createChooser(shareIntent, "Choose one"));
+            startActivity(Intent.createChooser(shareIntent, ""));
         } else if (id == android.R.id.home) {
             finish();
             return true;
@@ -251,6 +266,28 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 return getResources().getString(R.string.bodybuilding);
             default:
                 return getResources().getString(R.string.no_category);
+        }
+    }
+
+    private void defaultResourceHandler(Resource<?> resource) {
+        if(resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if(error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(this, binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    finish();
+                    startActivity(getIntent());
+                });
+                snackbar.show();
+                return;
+            } else if (error.getCode() == Error.NOT_FOUND_ERROR) {
+                invalidRoutineHandler();
+                return;
+            }
+            String message = Utils.getErrorMessage(this, error.getCode());
+            Log.d(TAG, message);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
 }

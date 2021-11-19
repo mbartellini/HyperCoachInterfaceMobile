@@ -64,4 +64,11 @@
     <string name="calisthenics">Calistenia</string>
     <string name="hit">HIT</string>
     <string name="no_category">Sin categoría</string>
+    <string name="code4">Usuario o contraseña inválidos</string>
+    <string name="code3">No pudimos encontrar el pedido</string>
+    <string name="code_default">Ha occurrido un error inesperado</string>
+    <string name="no_connection">Parece que no tienes conexión. Por favor, reintente más tarde.</string>
+    <string name="retry">Reintentar</string>
+    <string name="invalid_routine">Rutina inválida</string>
+
 </resources>

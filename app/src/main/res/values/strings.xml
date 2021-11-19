@@ -84,4 +84,11 @@
     <string name="calisthenics">Calisthenics</string>
     <string name="hit">HIT</string>
     <string name="no_category">No category</string>
+
+    <string name="code3">Request not found</string>
+    <string name="code4">Invalid username or password</string>
+    <string name="code_default">An unexpected error has occurred</string>
+    <string name="no_connection">It seems like you have no connection. Please try again later.</string>
+    <string name="retry">Retry</string>
+    <string name="invalid_routine">Invalid routine</string>
 </resources>

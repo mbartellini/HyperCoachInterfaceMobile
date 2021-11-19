@@ -8,6 +8,7 @@ import java.util.List;
 public class Error {
 
     public static final int LOCAL_UNEXPECTED_ERROR = 10;
+    public static final int NOT_FOUND_ERROR = 3;
 
     @SerializedName("code")
     @Expose
