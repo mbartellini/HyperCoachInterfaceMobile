@@ -89,8 +89,7 @@ public class FavoritesFragment extends Fragment {
                     for(Routine routine : r.getData()) {
                         favourites.add(RoutineSummary.fromRoutine(routine, 0));
                     }
-                    adapter.notifyItemRangeChanged(0, r.getData().size());
-                    binding.allFavouritesRoutinesView.scrollToPosition(favourites.size()-1);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -101,9 +100,8 @@ public class FavoritesFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (! binding.allFavouritesRoutinesView.canScrollVertically(1)) {
-                    Log.d("scroll", "onScrollStateChanged: AAA");
+                    Log.d("scroll", "onScrollStateChanged: Reached bottom of scrollview, requesting more routines");
                     favoritesViewModel.getMoreFavourites();
-                    adapter.notifyDataSetChanged();
                 }
             }
         });

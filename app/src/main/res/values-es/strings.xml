@@ -29,7 +29,7 @@
     <string name="my_routines">Mis rutinas</string>
     <string name="favourites_routines">Favoritas</string>
     <string name="all_routines">Todas las rutinas</string>
-    <string name="filter_by_text">Filtrar por</string>
+    <string name="search_dialog_title">Búsqueda</string>
     <string name="order_by_text">Ordenar por</string>
     <string name="title_routine_detail_activity">Detalle de rutina</string>
     <string name="title_execute_routine_activity">Rutina</string>
@@ -50,11 +50,22 @@
         <item>CPP</item>
     </string-array>
     <string name="begin_routine_btn">Botón de Comenzar Rutina</string>
-    <string name="start_routine">Comenzar</string>
-    <string name="reps">Repeticiones</string>
+    <string name="categories">Categorías</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
     <string name="beginner">Principiante</string>
     <string name="intermediate">Intermedio</string>
     <string name="advanced">Avanzado</string>
+    <string name="difficulty">Dificultades</string>
+    <string name="search_button_text">Filtrar</string>
+    <string name="name_sort_criteria">Nombre</string>
+    <string name="date_sort_criteria">Fecha</string>
+    <string name="diff_sort_criteria">Dificultad</string>
+    <string name="favs_sort_criteria">Número de favoritos</string>
+    <string name="asc">Ascendente</string>
+    <string name="desc">Descendente</string>
+    <string name="start_routine">Comenzar</string>
+    <string name="reps">Repeticiones</string>
     <string name="welcome_to_hyper_coach_interface">Bienvenido a Hyper Coach Interface</string>
     <string name="share_text">¡Oye! Échale un vistazo a esta rutina</string>
     <string name="seconds">segundos</string>
