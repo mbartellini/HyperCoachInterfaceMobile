@@ -44,7 +44,7 @@ public class SearchViewModel extends ViewModel {
     private Difficulty difficulty;
 
     private SortCriteria sortCriteria;
-    private Boolean sortSense;
+    private Boolean sortSense = true;
 
     public SearchViewModel(RoutineRepository routineRepository, CategoryRepository categoryRepository) {
         this.routineRepository = routineRepository;
