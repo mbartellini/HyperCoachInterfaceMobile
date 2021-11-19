@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/routine_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:paddingTop="@dimen/margin_small"
@@ -31,7 +31,24 @@
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/start_routine"
         app:layout_constraintTop_toBottomOf="@+id/routine_image" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start_routine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/pastel_green"
+        android:text="@string/start_routine"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        app:icon="@android:drawable/ic_media_play"
+        app:iconGravity="start"
+        app:layout_constraintBottom_toBottomOf="@+id/routine_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/routine_title" />
 
     <HorizontalScrollView
         android:id="@+id/routine_description"
@@ -89,21 +106,5 @@
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/routine_detail" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/start_routine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/pastel_green"
-        android:text="@string/start_routine"
-        android:textColor="@color/white"
-        app:iconTint="@color/white"
-        app:icon="@android:drawable/ic_media_play"
-        app:iconGravity="start"
-        app:layout_constraintBottom_toBottomOf="@+id/routine_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/routine_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

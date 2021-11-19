@@ -3,6 +3,7 @@ package com.example.hypercoachinterface.ui.routine.execution;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.ProgressBar;
 
@@ -35,7 +36,6 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
     private final List<RoutineCycle> cycles = new ArrayList<>();
     private final Map<Integer, Exercise> exerciseMap = new HashMap<>();
     private final CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap, this);
-    ProgressBar progressBar;
     Integer progress = 0, time = null;
     MyCountDownTimer myCountDownTimer = null;
     Boolean paused = false;
@@ -61,78 +61,40 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             finish();
             return;
         }
-        int routineId = b.getInt("routineId");
+        if (cycles.size() == 0) {
 
-        if (binding.cycleCardsView != null) binding.cycleCardsView.setAdapter(adapter);
+            int routineId = b.getInt("routineId");
 
-        app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
-            if (r.getStatus() == Status.SUCCESS) {
-                if (r.getData() == null || r.getData().getMetadata() == null) {
-                    invalidRoutineHandler();
-                }
-                fillActivityData(r.getData());
-                cycles.addAll(r.getData().getMetadata().getCycles());
-                adapter.notifyItemRangeInserted(0, cycles.size());
-                for (int i = 0; i < cycles.size(); i++) {
-                    for (RoutineExercise routineExercise : cycles.get(i).getExercises()) {
-                        int finalI = i;
-                        app.getExerciseRepository().getExercise(routineExercise.getId()).observe(this, r2 -> {
-                            if (r2.getStatus() == Status.SUCCESS) {
-                                exerciseMap.put(routineExercise.getId(), r2.getData());
-                                adapter.notifyItemChanged(finalI);
-                            }
-                        });
+            if (binding.cycleCardsView != null) binding.cycleCardsView.setAdapter(adapter);
+
+            app.getRoutineRepository().getRoutine(routineId).observe(this, r -> {
+                if (r.getStatus() == Status.SUCCESS) {
+                    if (r.getData() == null || r.getData().getMetadata() == null) {
+                        invalidRoutineHandler();
                     }
-                }
-                progressBar = binding.progressBar;
-                myCountDownTimer = new MyCountDownTimer(COUNTER_NAME);
-                if (cycles.size() > currentCycle) {
-                    RoutineCycle cycle = cycles.get(currentCycle);
-                    if (cycle != null && cycle.getExercises().size() > currentExercise) {
-                        RoutineExercise ex = cycle.getExercises().get(currentExercise);
-                        Exercise exercise = exerciseMap.getOrDefault(ex.getId(), null);
-                        if (exercise != null) {
-                            if (ex.getLimitType().equals("repeticiones") || ex.getLimitType().equals("repetitions")) {
-                                binding.timer.setText(ex.getLimit() + R.string.reps);
-                                paused = true;
-                            } else {
-                                binding.timer.setText(ex.getLimit());
-                                time = ex.getLimit();
-                                if (binding.progressBar != null) binding.progressBar.setMax(time);
-                            }
-                            if (binding.excerciseTitle != null) binding.excerciseTitle.setText(exercise.getName());
-                            if (binding.cycleTitle != null) binding.cycleTitle.setText(cycle.getName());
-                            if (binding.remainingCycles != null) binding.remainingCycles.setText(String.format("x%d rep%s.", cycle.getRepetitions(), cycle.getRepetitions() > 1 ? "s" : ""));
-                            binding.stopButton.setOnClickListener(view -> {
-                                // TODO: go back to routine view
-                                finish();
+                    cycles.addAll(r.getData().getMetadata().getCycles());
+                    adapter.notifyItemRangeInserted(0, cycles.size());
+                    for (int i = 0; i < cycles.size(); i++) {
+                        for (RoutineExercise routineExercise : cycles.get(i).getExercises()) {
+                            int finalI = i;
+                            app.getExerciseRepository().getExercise(routineExercise.getId()).observe(this, r2 -> {
+                                if (r2.getStatus() == Status.SUCCESS) {
+                                    exerciseMap.put(routineExercise.getId(), r2.getData());
+                                    adapter.notifyItemChanged(finalI);
+                                    if (finalI == currentCycle) {
+                                        fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(currentCycle).getExercises().get(currentExercise));
+                                        myCountDownTimer.start();
+                                    }
+                                }
                             });
-                            currentCycleReps = cycle.getRepetitions();
-                            binding.pauseButton.setOnClickListener(view -> {
-                                paused = true;
-                            });
-                            binding.playButton.setOnClickListener(view -> {
-                                paused = false;
-                            });
-                            binding.skipButton.setOnClickListener(view -> {
-                                time = progress;
-                            });
-
-                            if (binding.excerciseExecImage != null) {
-                                Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
-                            }
-                            myCountDownTimer.start();
-                        } else {
-                            finish();
                         }
-                    } else {
-                        finish();
                     }
-                } else {
-                    finish();
                 }
-            }
-        });
+            });
+        } else {
+            if (binding.cycleCardsView != null) binding.cycleCardsView.setAdapter(adapter);
+            fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(0).getExercises().get(0));
+        }
     }
 
     @Override
@@ -142,23 +104,45 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.fav_btn) {
-//            // fav
-//        } else if (id == R.id.share_btn) {
-//            // share
-//        } else if (id == android.R.id.home) {
-//            finish();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    private void fillActivityData(RoutineCycle cycle, Exercise exercise, RoutineExercise routineExercise) {
+        if (binding.excerciseTitle != null)
+            binding.excerciseTitle.setText(exercise.getName());
+        if (binding.cycleTitle != null)
+            binding.cycleTitle.setText(cycle.getName());
 
-    private void fillActivityData(Routine routine) {
-//        binding.routineTitle.setText(routine.getName());
+        binding.stopButton.setOnClickListener(view -> {
+            myCountDownTimer.cancel();
+            // TODO: go back to routine view
+            finish();
+        });
+        currentCycleReps = cycle.getRepetitions();
+        binding.pauseButton.setOnClickListener(view -> {
+            paused = true;
+        });
+        binding.playButton.setOnClickListener(view -> {
+            paused = false;
+        });
+        binding.skipButton.setOnClickListener(view -> {
+            time = progress;
+        });
 
+        if (routineExercise.getLimitType().equals("repeticiones") || routineExercise.getLimitType().equals("repetitions")) {
+            binding.timer.setText(String.format("x%d rep%s.", routineExercise.getLimit(), cycle.getRepetitions() > 1 ? "s" : ""));
+            paused = true;
+            time = Integer.MAX_VALUE;
+            progress = 0;
+            if (binding.progressBar != null) binding.progressBar.setProgress(progress);
+        } else {
+            binding.timer.setText(routineExercise.getLimit().toString());
+            time = routineExercise.getLimit();
+            if (binding.progressBar != null) binding.progressBar.setMax(time);
+            if (binding.progressBar != null) binding.progressBar.setProgress(progress);
+        }
+
+        if (binding.excerciseExecImage != null) {
+            Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
+        }
+        myCountDownTimer = new MyCountDownTimer(COUNTER_NAME);
     }
 
     public class MyCountDownTimer extends Timer {
@@ -171,62 +155,70 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (!paused && time != Integer.MAX_VALUE) {
-                        binding.timer.setText(time - progress);
+                    if (!paused && time != Integer.MAX_VALUE && !time.equals(progress)) {
+                        binding.timer.setText(Integer.valueOf(time - progress).toString());
                         progress+=1;
                         if (binding.progressBar != null) binding.progressBar.setProgress(progress);
                     }
                     if (time <= progress) {
                         progress = 0;
                         currentExercise += 1;
-                        if (currentExercise > cycles.get(currentCycle).getExercises().size()) {
+                        if (currentExercise >= cycles.get(currentCycle).getExercises().size()) {
                             currentExercise = 0;
-                            if (cycles.get(currentCycle).getRepetitions() > 1) {
+                            if (currentCycleReps > 1) {
                                 currentCycleReps-=1;
                             } else {
                                 currentCycle += 1;
-                                currentCycleReps = cycles.get(currentCycle).getRepetitions();
+                                if (currentCycle < cycles.size()) {
+                                    currentCycleReps = cycles.get(currentCycle).getRepetitions();
+                                }
                             }
                         }
-                        if (cycles.size() > currentCycle) {
-                            if (binding.cycleCardsView != null) binding.cycleCardsView.setAdapter(adapter);
 
+                        if (cycles.size() <= currentCycle) {
+                            myCountDownTimer.cancel();
+                            finish();
+                        } else {
                             RoutineCycle cycle = cycles.get(currentCycle);
-                            if (cycle != null && cycle.getExercises().size() > currentExercise) {
+                            if (cycle != null) {
                                 RoutineExercise ex = cycle.getExercises().get(currentExercise);
                                 Exercise exercise = exerciseMap.getOrDefault(ex.getId(), null);
                                 if (exercise != null) {
                                     if (ex.getLimitType().equals("repeticiones") || ex.getLimitType().equals("repetitions")) {
-                                        binding.timer.setText(ex.getLimit() + R.string.reps);
+                                        binding.timer.setText(String.format("x%d rep%s.", ex.getLimit(), cycle.getRepetitions() > 1 ? "s" : ""));
                                         paused = true;
                                         time = Integer.MAX_VALUE;
+                                        progress = 0;
+                                        if (binding.progressBar != null) binding.progressBar.setProgress(progress);
                                     } else {
-                                        binding.timer.setText(ex.getLimit());
+                                        binding.timer.setText(ex.getLimit().toString());
                                         time = ex.getLimit();
+                                        paused = false;
+                                        progress = 0;
                                         if (binding.progressBar != null) binding.progressBar.setMax(time);
+                                        if (binding.progressBar != null) binding.progressBar.setProgress(progress);
                                     }
                                     if (binding.excerciseTitle != null)
                                         binding.excerciseTitle.setText(exercise.getName());
                                     if (binding.cycleTitle != null)
                                         binding.cycleTitle.setText(cycle.getName());
                                     if (binding.remainingCycles != null)
-                                        binding.remainingCycles.setText(String.format("x%d rep%s.", cycle.getRepetitions(), cycle.getRepetitions() > 1 ? "s" : ""));
+                                        binding.remainingCycles.setText(String.format("x%d rep%s.", currentCycleReps, currentCycleReps > 1 ? "s" : ""));
 
                                     if (binding.excerciseExecImage != null) {
-                                        Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Utils.setImageFromBase64(binding.excerciseExecImage, exercise.getMetadata().getImg_src());
+                                            }
+                                        });
                                     }
-                                } else {
-                                    finish();
                                 }
-                            } else {
-                                finish();
                             }
-                        } else {
-                            finish();
                         }
                     }
                 }
-            }, 1000);  // 1 sec
+            }, 0, 1000);  // 1 sec
         }
 
     }

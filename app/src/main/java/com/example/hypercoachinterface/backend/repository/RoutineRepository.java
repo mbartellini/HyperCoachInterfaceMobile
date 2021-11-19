@@ -32,17 +32,21 @@ public class RoutineRepository {
 
     public LiveData<Resource<List<Routine>>> getRoutines(
             Integer page, Integer size, String orderBy, String direction) {
+        Map<String, String> options = new HashMap<>();
+        if(page != null) options.put("page", page.toString());
+        if(size != null) options.put("size", size.toString());
+        if(orderBy != null) options.put("orderBy", orderBy);
+        if(direction != null) options.put("direction", direction);
+        return getRoutines(options);
+    }
+
+    public LiveData<Resource<List<Routine>>> getRoutines(Map<String, String> options) {
         return new NetworkBoundResource<PagedList<Routine>, List<Routine>>()
         {
             @NonNull
             @Override
             protected LiveData<ApiResponse<PagedList<Routine>>> createCall() {
-                Map<String, String> options = new HashMap<>();
-                if(page != null) options.put("page", page.toString());
-                if(size != null) options.put("size", size.toString());
-                if(orderBy != null) options.put("orderBy", orderBy);
-                if(direction != null) options.put("direction", direction);
-                return apiRoutineService.getRoutines(options);
+                return apiRoutineService.getRoutines(options == null ? new HashMap<>() : options);
             }
 
             @NonNull
@@ -54,8 +58,6 @@ public class RoutineRepository {
             }
         }.asLiveData();
     }
-
-
 
     public LiveData<Resource<Routine>> getRoutine(int routineId) {
         return new NetworkBoundResource<Routine, Routine>()

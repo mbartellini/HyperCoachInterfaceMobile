@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_alignParentStart="false"
             android:layout_alignParentBottom="true"
@@ -41,8 +41,10 @@
             android:ellipsize="end"
             android:text="@string/textview"
             android:textColor="?attr/colorOnBackground"
+            android:singleLine="true"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toStartOf="@id/favCount"
             card_view:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <TextView
