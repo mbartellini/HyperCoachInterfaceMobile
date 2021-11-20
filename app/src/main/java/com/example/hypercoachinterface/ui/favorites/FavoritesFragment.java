@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.R;
@@ -87,6 +88,46 @@ public class FavoritesFragment extends Fragment {
                 GridLayoutManager.VERTICAL,
                 false));
 
+        getData();
+
+        return root;
+    }
+
+    private void defaultResourceHandler(Resource<?> resource) {
+        if (resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+                    if(bottomNavigationView != null) {
+                        bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
+                    } else {
+                        Navigation.findNavController(requireView()).navigate(R.id.navigation_favorites);
+                    }
+                });
+                snackbar.show();
+                return;
+            }
+            String message = Utils.getErrorMessage(getActivity(), error.getCode());
+            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    private void getData() {
         /* Getting favourites from api */
         List<RoutineSummary> favourites = new ArrayList<>();
         ItemAdapter adapter = new ItemAdapter(favourites);
@@ -142,35 +183,6 @@ public class FavoritesFragment extends Fragment {
         });
 
         binding.allFavouritesRoutinesView.setAdapter(adapter);
-
-        return root;
     }
 
-    private void defaultResourceHandler(Resource<?> resource) {
-        if (resource.getStatus() == Status.ERROR) {
-            Error error = resource.getError();
-            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
-                binding.getRoot().removeAllViews();
-                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.retry, v -> {
-                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-                    if(bottomNavigationView != null) {
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
-                    } else {
-                        Navigation.findNavController(requireView()).navigate(R.id.navigation_favorites);
-                    }
-                });
-                snackbar.show();
-                return;
-            }
-            String message = Utils.getErrorMessage(getActivity(), error.getCode());
-            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 }

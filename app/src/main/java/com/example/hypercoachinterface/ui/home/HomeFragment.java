@@ -57,6 +57,64 @@ public class HomeFragment extends Fragment {
         app = (App) getActivity().getApplication();
 
 
+        getData();
+
+        binding.gotoRecent.setOnClickListener(v -> {
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+            if(bottomNavigationView != null) {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_search);
+            } else {
+                Navigation.findNavController(v).navigate(R.id.navigation_search);
+            }
+        });
+
+        binding.gotoFavoritesRoutines.setOnClickListener(v -> {
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+            if(bottomNavigationView != null) {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
+            } else {
+                Navigation.findNavController(v).navigate(R.id.navigation_favorites);
+            }
+        });
+
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    private void defaultResourceHandler(Resource<?> resource) {
+        if (resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+                    if(bottomNavigationView != null) {
+                        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+                    } else {
+                        Navigation.findNavController(requireView()).navigate(R.id.navigation_home);
+                    }
+                });
+                snackbar.show();
+                return;
+            }
+            String message = Utils.getErrorMessage(getActivity(), error.getCode());
+            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    private void getData() {
         /* All Routines */
         binding.recentRoutinesView.setLayoutManager(new LinearLayoutManager(
                 this.getContext(),
@@ -188,54 +246,5 @@ public class HomeFragment extends Fragment {
         });
 
         binding.favouritesRoutinesView.setAdapter(favouriteAdapter);
-
-        binding.gotoRecent.setOnClickListener(v -> {
-            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-            if(bottomNavigationView != null) {
-                bottomNavigationView.setSelectedItemId(R.id.navigation_search);
-            } else {
-                Navigation.findNavController(v).navigate(R.id.navigation_search);
-            }
-        });
-
-        binding.gotoFavoritesRoutines.setOnClickListener(v -> {
-            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-            if(bottomNavigationView != null) {
-                bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
-            } else {
-                Navigation.findNavController(v).navigate(R.id.navigation_favorites);
-            }
-        });
-
-        return root;
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    private void defaultResourceHandler(Resource<?> resource) {
-        if (resource.getStatus() == Status.ERROR) {
-            Error error = resource.getError();
-            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
-                binding.getRoot().removeAllViews();
-                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.retry, v -> {
-                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-                    if(bottomNavigationView != null) {
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-                    } else {
-                        Navigation.findNavController(requireView()).navigate(R.id.navigation_home);
-                    }
-                });
-                snackbar.show();
-                return;
-            }
-            String message = Utils.getErrorMessage(getActivity(), error.getCode());
-            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
-        }
-    }
-
 }
