@@ -93,7 +93,7 @@ public class SearchDialog extends AppCompatDialogFragment {
         for (RoutineCategory routineCategory : categories) {
             Chip chip = (Chip) inflater.inflate(R.layout.chip, categoryChipGroup, false);
             chip.setId(View.generateViewId());
-            chip.setText(routineCategory.getName());
+            chip.setText(getCategoryName(routineCategory));
             chip.setOnCheckedChangeListener((buttonView, isChecked) -> chip.setCloseIconVisible(isChecked));
             categoryChipGroup.addView(chip);
             if (selectedCategory != null && routineCategory.getId().equals(selectedCategory.getId()))
@@ -130,4 +130,20 @@ public class SearchDialog extends AppCompatDialogFragment {
 
         return builder.create();
     }
+
+    private String getCategoryName(RoutineCategory routineCategory) {
+        switch (routineCategory.getId()) {
+            case 1:
+                return getResources().getString(R.string.hit);
+            case 2:
+                return getResources().getString(R.string.cardio);
+            case 3:
+                return getResources().getString(R.string.calisthenics);
+            case 4:
+                return getResources().getString(R.string.bodybuilding);
+            default:
+                return getResources().getString(R.string.no_category);
+        }
+    }
+
 }
