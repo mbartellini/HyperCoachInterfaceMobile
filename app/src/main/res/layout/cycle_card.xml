@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16sp"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="?android:attr/colorBackground" />
 
