@@ -43,15 +43,16 @@
 
         <TextView
             android:id="@+id/routine_title"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:layout_marginStart="24dp"
             android:textColor="?attr/colorOnBackground"
             android:textSize="32sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline3"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="@+id/routine_image"
+            app:layout_constraintStart_toEndOf="@+id/routine_image"
+            app:layout_constraintTop_toTopOf="@+id/routine_image" />
 
         <HorizontalScrollView
             android:id="@+id/routine_description"
@@ -60,10 +61,10 @@
             android:paddingHorizontal="10dp"
             android:requiresFadingEdge="horizontal|vertical"
             android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@id/routine_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/routine_title"
-            app:layout_constraintBottom_toTopOf="@id/routine_detail">
+            app:layout_constraintTop_toBottomOf="@+id/routine_image">
 
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
