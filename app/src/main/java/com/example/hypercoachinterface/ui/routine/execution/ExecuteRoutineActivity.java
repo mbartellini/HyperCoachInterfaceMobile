@@ -146,11 +146,11 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
         });
         binding.pauseButton.setOnClickListener(view -> {
             binding.playButton.setBackgroundResource(0);
-            binding.pauseButton.setBackgroundResource(R.color.pastel_red);
+            binding.pauseButton.setBackgroundResource(R.color.secondary_grey);
             paused = true;
         });
         binding.playButton.setOnClickListener(view -> {
-            binding.playButton.setBackgroundResource(R.color.pastel_red);
+            binding.playButton.setBackgroundResource(R.color.secondary_grey);
             binding.pauseButton.setBackgroundResource(0);
             paused = false;
         });
@@ -202,7 +202,7 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    binding.playButton.setBackgroundResource(R.color.pastel_red);
+                    binding.playButton.setBackgroundResource(R.color.secondary_grey);
                     binding.pauseButton.setBackgroundResource(0);
                 }
             });
@@ -210,7 +210,7 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    binding.pauseButton.setBackgroundResource(R.color.pastel_red);
+                    binding.pauseButton.setBackgroundResource(R.color.secondary_grey);
                     binding.playButton.setBackgroundResource(0);
                 }
             });
