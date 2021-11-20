@@ -14,78 +14,128 @@
         android:requiresFadingEdge="horizontal|vertical"
         android:paddingBottom="5dp"
         app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/timer"
+        app:layout_constraintBottom_toTopOf="@id/layout_info"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/timer"
-        android:layout_width="@dimen/cycle_title_width"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        style="@style/TextAppearance.AppCompat.Display1"
-        android:layout_gravity="center"
-        android:ellipsize="end"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:text="@string/placeholder"
-        app:layout_constraintTop_toBottomOf="@id/cycle_cards_view"
-        app:layout_constraintBottom_toBottomOf="@id/play_pause_stop_buttons"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"/>
-
     <LinearLayout
-        android:id="@+id/play_pause_stop_buttons"
+        android:id="@+id/layout_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/cycle_cards_view"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_gravity="center">
-        <ImageButton
-            android:id="@+id/stop_button"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:src="@drawable/ic_baseline_stop_24"
-            android:scaleType="fitXY"
-            android:background="@null"
-            android:contentDescription="@null"
-            android:layout_marginRight="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"/>
-        <ImageButton
-            android:id="@+id/play_button"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:src="@drawable/ic_baseline_play_arrow_24"
-            android:scaleType="fitXY"
-            android:contentDescription="@null"
-            android:background="@null"
-            android:layout_marginRight="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"/>
-        <ImageButton
-            android:id="@+id/pause_button"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:src="@drawable/ic_baseline_pause_24"
-            android:scaleType="fitXY"
-            android:contentDescription="@null"
-            android:background="@null"
-            android:layout_marginRight="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small" />
-        <ImageButton
-            android:id="@+id/skip_button"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:src="@drawable/ic_baseline_skip_next_24"
-            android:scaleType="fitXY"
-            android:contentDescription="@null"
-            android:background="@null"
-            android:layout_marginRight="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/cycle_title"
+                android:layout_width="@dimen/cycle_title_width"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/placeholder" />
+
+            <TextView
+                android:id="@+id/remaining_cycles"
+                android:layout_width="@dimen/routine_text_width"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:maxLines="1"
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:ellipsize="end"
+                android:layout_gravity="center"
+                android:text="@string/placeholder"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/excercise_title"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:ellipsize="end"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/placeholder"/>
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            style="@style/TextAppearance.AppCompat.Display2"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@string/placeholder"/>
+
+        <LinearLayout
+            android:id="@+id/play_pause_stop_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <ImageButton
+                android:id="@+id/play_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_play_arrow_24"
+                android:scaleType="fitXY"
+                android:contentDescription="@null"
+                android:background="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"/>
+            <ImageButton
+                android:id="@+id/stop_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_stop_24"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:contentDescription="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"/>
+            <ImageButton
+                android:id="@+id/skip_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_skip_next_24"
+                android:scaleType="fitXY"
+                android:contentDescription="@null"
+                android:background="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small" />
+            <ImageButton
+                android:id="@+id/pause_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:src="@drawable/ic_baseline_pause_24"
+                android:scaleType="fitXY"
+                android:contentDescription="@null"
+                android:background="@null"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
