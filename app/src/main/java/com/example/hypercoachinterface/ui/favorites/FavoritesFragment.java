@@ -38,6 +38,7 @@ import java.util.List;
 
 public class FavoritesFragment extends Fragment {
 
+    private static final String TAG = "Fav";
     private FavoritesViewModel favoritesViewModel;
     private FragmentFavoritesBinding binding;
     private final List<Routine> dataSet = new ArrayList<>();
@@ -108,6 +109,7 @@ public class FavoritesFragment extends Fragment {
                 binding.allFavouritesEmptyTextview.setVisibility(View.GONE);
                 binding.favouritesFragmentProgressBar.setVisibility(View.VISIBLE);
             } else if (r.getStatus() == Status.ERROR) {
+                Log.d(TAG, "Error");
                 binding.allFavouritesEmptyTextview.setVisibility(View.GONE);
                 binding.favouritesFragmentProgressBar.setVisibility(View.GONE);
                 defaultResourceHandler(r);

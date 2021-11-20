@@ -65,7 +65,7 @@ public class FavoritesViewModel extends RepositoryViewModel<RoutineRepository> {
                 }
 
                 favourites.setValue(Resource.success(allFavourites));
-            } else if (resource.getStatus() == Status.LOADING) {
+            } else {
                 favourites.setValue(resource);
             }
         });

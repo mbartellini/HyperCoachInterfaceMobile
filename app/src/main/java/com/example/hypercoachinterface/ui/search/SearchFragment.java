@@ -190,7 +190,7 @@ public class SearchFragment extends Fragment {
                 Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.retry, v -> {
                     BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-                    bottomNavigationView.setSelectedItemId(R.id.search_dialog_divider);
+                    bottomNavigationView.setSelectedItemId(R.id.navigation_search);
                 });
                 snackbar.show();
                 return;

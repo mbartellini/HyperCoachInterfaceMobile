@@ -100,7 +100,7 @@ public class SearchViewModel extends ViewModel {
                 }
 
                 searches.setValue(Resource.success(allSearches));
-            } else if (resource.getStatus() == Status.LOADING) {
+            } else {
                 searches.setValue(resource);
             }
         });
