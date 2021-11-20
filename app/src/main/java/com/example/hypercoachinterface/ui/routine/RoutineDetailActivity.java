@@ -168,6 +168,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 if (r.getStatus() == Status.SUCCESS) {
                     Log.d(TAG, String.format("Routine %d marked as fav", routineId));
                 } else {
+                    Log.d(TAG, "onOptionsItemSelected: couldn't post");
                     defaultResourceHandler(r);
                 }
             });

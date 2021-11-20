@@ -85,16 +85,23 @@ public class FavoritesFragment extends Fragment {
         favoritesViewModel.getFavourites().observe(getViewLifecycleOwner(), r -> {
             if (r.getStatus() == Status.SUCCESS) {
                 binding.favouritesFragmentProgressBar.setVisibility(View.GONE);
+                binding.allFavouritesEmptyTextview.setVisibility(View.VISIBLE);
                 favourites.clear();
                 if (r.getData() != null) {
+                    if (!r.getData().isEmpty())
+                        binding.allFavouritesEmptyTextview.setVisibility(View.GONE);
+                    Log.d("TAG", "onCreateView: ACA " + r.getData().isEmpty());
+
                     for(Routine routine : r.getData()) {
                         favourites.add(RoutineSummary.fromRoutine(routine, 0));
                     }
                     adapter.notifyDataSetChanged();
                 }
             } else if (r.getStatus() == Status.LOADING) {
+                binding.allFavouritesEmptyTextview.setVisibility(View.GONE);
                 binding.favouritesFragmentProgressBar.setVisibility(View.VISIBLE);
             } else if (r.getStatus() == Status.ERROR) {
+                binding.allFavouritesEmptyTextview.setVisibility(View.GONE);
                 binding.favouritesFragmentProgressBar.setVisibility(View.GONE);
             }
         });

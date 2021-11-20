@@ -60,6 +60,9 @@ public class HomeFragment extends Fragment {
         app.getRoutineRepository().getRoutines(0, 5, null, "desc").observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 binding.recentProgressBar.setVisibility(View.GONE);
+                binding.recentEmptyTextview.setVisibility(View.GONE);
+                if (r.getData().isEmpty())
+                    binding.recentEmptyTextview.setVisibility(View.VISIBLE);
                 for(Routine routine : r.getData()) {
                     RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
                     recentRoutines.add(rs);
@@ -77,8 +80,10 @@ public class HomeFragment extends Fragment {
                 recentRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
             } else if (r.getStatus() == Status.LOADING) {
                 binding.recentProgressBar.setVisibility(View.VISIBLE);
+                binding.recentEmptyTextview.setVisibility(View.GONE);
             } else if (r.getStatus() == Status.ERROR) {
                 binding.recentProgressBar.setVisibility(View.GONE);
+                binding.recentEmptyTextview.setVisibility(View.GONE);
             }
         });
 
@@ -96,6 +101,9 @@ public class HomeFragment extends Fragment {
         app.getUserRepository().getUserRoutines().observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 binding.myRoutinesProgressBar.setVisibility(View.GONE);
+                binding.myRoutinesEmptyTextview.setVisibility(View.GONE);
+                if (r.getData().isEmpty())
+                    binding.myRoutinesEmptyTextview.setVisibility(View.VISIBLE);
                 for(Routine routine : r.getData()) {
                     RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
                     myRoutines.add(rs);
@@ -113,8 +121,10 @@ public class HomeFragment extends Fragment {
                 myRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
             } else if (r.getStatus() == Status.LOADING) {
                 binding.myRoutinesProgressBar.setVisibility(View.VISIBLE);
+                binding.myRoutinesEmptyTextview.setVisibility(View.GONE);
             } else if (r.getStatus() == Status.ERROR) {
                 binding.myRoutinesProgressBar.setVisibility(View.GONE);
+                binding.myRoutinesEmptyTextview.setVisibility(View.GONE);
             }
         });
 
@@ -132,6 +142,9 @@ public class HomeFragment extends Fragment {
         app.getRoutineRepository().getFavourites(0, 5).observe(getViewLifecycleOwner(), r -> {
             if(r.getStatus() == Status.SUCCESS) {
                 binding.favouritesProgressBar.setVisibility(View.GONE);
+                binding.favouritesEmptyTextview.setVisibility(View.GONE);
+                if (r.getData().isEmpty())
+                    binding.favouritesEmptyTextview.setVisibility(View.VISIBLE);
                 for(Routine routine : r.getData()) {
                     RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
                     favourites.add(rs);
@@ -148,8 +161,10 @@ public class HomeFragment extends Fragment {
                 }
                 favouriteAdapter.notifyItemRangeChanged(0, r.getData().size());
             } else if (r.getStatus() == Status.LOADING) {
+                binding.favouritesEmptyTextview.setVisibility(View.GONE);
                 binding.favouritesProgressBar.setVisibility(View.VISIBLE);
             } else if (r.getStatus() == Status.ERROR) {
+                binding.favouritesEmptyTextview.setVisibility(View.GONE);
                 binding.favouritesProgressBar.setVisibility(View.GONE);
             }
         });

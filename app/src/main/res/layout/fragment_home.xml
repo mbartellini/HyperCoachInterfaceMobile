@@ -45,6 +45,16 @@
         app:layout_constraintBottom_toBottomOf="@id/my_routines_view"/>
 
     <TextView
+        android:id="@+id/my_routines_empty_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/my_routines_view"
+        app:layout_constraintBottom_toBottomOf="@id/my_routines_view"
+        android:text="@string/empty_list"/>
+
+    <TextView
         android:id="@+id/recent_routines_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,6 +103,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/recent_routines_view"
         app:layout_constraintBottom_toBottomOf="@id/recent_routines_view"/>
+
+    <TextView
+        android:id="@+id/recent_empty_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recent_routines_view"
+        app:layout_constraintBottom_toBottomOf="@id/recent_routines_view"
+        android:text="@string/empty_list"/>
 
     <TextView
         android:id="@+id/favourites_routines_text"
@@ -144,5 +164,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/favourites_routines_view"
         app:layout_constraintBottom_toBottomOf="@id/favourites_routines_view"/>
+
+    <TextView
+        android:id="@+id/favourites_empty_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/favourites_routines_view"
+        app:layout_constraintBottom_toBottomOf="@id/favourites_routines_view"
+        android:text="@string/empty_list"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

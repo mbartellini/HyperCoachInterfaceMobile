@@ -81,5 +81,6 @@
     <string name="no_connection">Parece que no tienes conexión. Por favor, reintente más tarde.</string>
     <string name="retry">Reintentar</string>
     <string name="invalid_routine">Rutina inválida</string>
+    <string name="empty_list">No hay rutinas</string>
 
 </resources>

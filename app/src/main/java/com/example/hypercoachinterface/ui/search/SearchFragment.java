@@ -106,16 +106,21 @@ public class SearchFragment extends Fragment {
         searchViewModel.getSearches().observe(getViewLifecycleOwner(), r -> {
             if (r.getStatus() == Status.SUCCESS) {
                 binding.searchProgressBar.setVisibility(View.GONE);
+                binding.searchEmptyTextview.setVisibility(View.VISIBLE);
                 dataSet.clear();
                 if (r.getData() != null) {
+                    if (!r.getData().isEmpty())
+                        binding.searchEmptyTextview.setVisibility(View.GONE);
                     for(Routine routine : r.getData()) {
                         dataSet.add(RoutineSummary.fromRoutine(routine, 0));
                     }
                     adapter.notifyDataSetChanged();
                 }
             } else if (r.getStatus() == Status.LOADING) {
+                binding.searchEmptyTextview.setVisibility(View.GONE);
                 binding.searchProgressBar.setVisibility(View.VISIBLE);
             } else if (r.getStatus() == Status.ERROR) {
+                binding.searchEmptyTextview.setVisibility(View.GONE);
                 binding.searchProgressBar.setVisibility(View.GONE);
             }
         });
