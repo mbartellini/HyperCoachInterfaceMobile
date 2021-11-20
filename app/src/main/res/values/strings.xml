@@ -103,4 +103,8 @@
     <string name="retry">Retry</string>
     <string name="invalid_routine">Invalid routine</string>
     <string name="empty_list">No routines</string>
+    <string name="stop_execution_warning">Stopping the routine will erase your progress so far. Are you sure?</string>
+    <string name="stop_execution">Stop</string>
+    <string name="continue_execution">Continue</string>
+    <string name="stop_dialog_title">Stop routine</string>
 </resources>
