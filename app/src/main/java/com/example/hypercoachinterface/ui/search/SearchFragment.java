@@ -120,7 +120,19 @@ public class SearchFragment extends Fragment {
                     if (!r.getData().isEmpty())
                         binding.searchEmptyTextview.setVisibility(View.GONE);
                     for(Routine routine : r.getData()) {
-                        dataSet.add(RoutineSummary.fromRoutine(routine, 0));
+                        RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
+                        dataSet.add(rs);
+                        app.getReviewRepository().getReviews(routine.getId()).observe(getViewLifecycleOwner(), r2 -> {
+                            if(r2.getStatus() == Status.SUCCESS) {
+                                if(r2.getData().getTotalCount() == 0)
+                                    rs.setFavCount(0);
+                                else
+                                    rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
+                                adapter.notifyItemRangeChanged(0, r.getData().size());
+                            } else {
+                                defaultResourceHandler(r2);
+                            }
+                        });
                     }
                     adapter.notifyDataSetChanged();
                 }

@@ -28,6 +28,7 @@ import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -188,12 +189,18 @@ public class HomeFragment extends Fragment {
 
         binding.gotoRecent.setOnClickListener(v -> {
             BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-            bottomNavigationView.setSelectedItemId(R.id.navigation_search);
+            NavigationView landNavigationView = requireActivity().findViewById(R.id.land_nav_menu);
+            if(bottomNavigationView != null)
+                bottomNavigationView.setSelectedItemId(R.id.navigation_search);
+            else if(landNavigationView != null){
+
+            }
         });
 
         binding.gotoFavoritesRoutines.setOnClickListener(v -> {
             BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-            bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
+            if(bottomNavigationView != null)
+                bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
         });
 
         return root;
