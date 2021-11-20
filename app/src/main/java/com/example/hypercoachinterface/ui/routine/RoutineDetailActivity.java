@@ -34,6 +34,7 @@ import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.example.hypercoachinterface.ui.favorites.FavoritesViewModel;
+import com.example.hypercoachinterface.ui.login.LoginActivity;
 import com.example.hypercoachinterface.ui.routine.execution.ExecuteRoutineActivity;
 import com.example.hypercoachinterface.viewmodel.RepositoryViewModelFactory;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -60,6 +61,11 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
 
         app = (App) getApplication();
+
+        if(app.getPreferences().getAuthToken() == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
 
         binding = ActivityRoutineDetailBinding.inflate(getLayoutInflater());
 
