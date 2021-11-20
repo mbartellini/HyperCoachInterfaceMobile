@@ -168,7 +168,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 if (r.getStatus() == Status.SUCCESS) {
                     Log.d(TAG, String.format("Routine %d marked as fav", routineId));
                 } else {
-//                    defaultResourceHandler(r);
+                    defaultResourceHandler(r);
                 }
             });
             app.getReviewRepository().getReviews(routineId).observe(this, r -> {

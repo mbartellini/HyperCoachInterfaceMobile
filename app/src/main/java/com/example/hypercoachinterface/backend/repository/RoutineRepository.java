@@ -89,12 +89,12 @@ public class RoutineRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<Routine>> postFavourite(int routineId) {
-        return new NetworkBoundResource<Routine, Routine>()
+    public LiveData<Resource<Void>> postFavourite(int routineId) {
+        return new NetworkBoundResource<Void, Void>()
         {
             @NonNull
             @Override
-            protected LiveData<ApiResponse<Routine>> createCall() {
+            protected LiveData<ApiResponse<Void>> createCall() {
                 return apiFavouriteService.postFavourite(routineId);
             }
         }.asLiveData();

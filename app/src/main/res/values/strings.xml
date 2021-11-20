@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">HyperCoachInterface</string>
     <string name="title_home">Home</string>
-    <string name="title_search">Search</string>
+    <string name="title_search">Explore</string>
     <string name="title_profile">Profile</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_activity_login">Log in</string>
