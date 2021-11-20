@@ -20,7 +20,7 @@ public interface ApiFavouriteService {
     LiveData<ApiResponse<PagedList<Routine>>> getFavourites(@Query("page") int page, @Query("size") int size);
 
     @POST("favourites/{routineId}")
-    LiveData<ApiResponse<Routine>> postFavourite(@Path("routineId") int routineId);
+    LiveData<ApiResponse<Void>> postFavourite(@Path("routineId") int routineId);
 
     @DELETE("favourites/{routineId}")
     LiveData<ApiResponse<Void>> deleteFavourite(@Path("routineId") int routineId);
