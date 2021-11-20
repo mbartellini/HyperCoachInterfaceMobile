@@ -168,8 +168,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 if (r.getStatus() == Status.SUCCESS) {
                     Log.d(TAG, String.format("Routine %d marked as fav", routineId));
                 } else {
-                    Log.d(TAG, "onOptionsItemSelected: couldn't post");
-                    defaultResourceHandler(r);
+//                    defaultResourceHandler(r);
                 }
             });
             app.getReviewRepository().getReviews(routineId).observe(this, r -> {
@@ -184,7 +183,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
                         if (r2.getStatus() == Status.SUCCESS) {
                             binding.routineFavsChip.setText(String.format("%d %s", newCount, new String(Character.toChars(0x2605))));
                         } else {
-                            defaultResourceHandler(r);
+                            defaultResourceHandler(r2);
                         }
                     });
                     invalidateOptionsMenu();

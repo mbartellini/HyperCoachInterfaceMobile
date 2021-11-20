@@ -1,10 +1,12 @@
 package com.example.hypercoachinterface.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +19,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.api.model.Routine;
+import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.FragmentHomeBinding;
+import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.adapter.ItemAdapter;
 import com.example.hypercoachinterface.ui.adapter.RoutineSummary;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +79,8 @@ public class HomeFragment extends Fragment {
                             else
                                 rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
                             recentRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
+                        } else {
+                            defaultResourceHandler(r2);
                         }
                     });
 
@@ -84,6 +92,7 @@ public class HomeFragment extends Fragment {
             } else if (r.getStatus() == Status.ERROR) {
                 binding.recentProgressBar.setVisibility(View.GONE);
                 binding.recentEmptyTextview.setVisibility(View.GONE);
+                defaultResourceHandler(r);
             }
         });
 
@@ -114,6 +123,8 @@ public class HomeFragment extends Fragment {
                             else
                                 rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
                             myRoutinesAdapter.notifyItemRangeChanged(0, r.getData().size());
+                        } else {
+                            defaultResourceHandler(r2);
                         }
                     });
 
@@ -125,6 +136,7 @@ public class HomeFragment extends Fragment {
             } else if (r.getStatus() == Status.ERROR) {
                 binding.myRoutinesProgressBar.setVisibility(View.GONE);
                 binding.myRoutinesEmptyTextview.setVisibility(View.GONE);
+                defaultResourceHandler(r);
             }
         });
 
@@ -155,6 +167,8 @@ public class HomeFragment extends Fragment {
                             else
                                 rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
                             favouriteAdapter.notifyItemRangeChanged(0, r.getData().size());
+                        } else {
+                            defaultResourceHandler(r2);
                         }
                     });
 
@@ -166,17 +180,15 @@ public class HomeFragment extends Fragment {
             } else if (r.getStatus() == Status.ERROR) {
                 binding.favouritesEmptyTextview.setVisibility(View.GONE);
                 binding.favouritesProgressBar.setVisibility(View.GONE);
+                defaultResourceHandler(r);
             }
         });
 
         binding.favouritesRoutinesView.setAdapter(favouriteAdapter);
 
-        binding.gotoRecent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-                bottomNavigationView.setSelectedItemId(R.id.navigation_search);
-            }
+        binding.gotoRecent.setOnClickListener(v -> {
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_search);
         });
 
         binding.gotoFavoritesRoutines.setOnClickListener(v -> {
@@ -191,6 +203,24 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void defaultResourceHandler(Resource<?> resource) {
+        if (resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
+                    bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+                });
+                snackbar.show();
+                return;
+            }
+            String message = Utils.getErrorMessage(getActivity(), error.getCode());
+            Toast.makeText((Context) getViewLifecycleOwner(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
