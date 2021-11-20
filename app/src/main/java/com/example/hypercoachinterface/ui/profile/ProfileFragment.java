@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
@@ -130,7 +131,11 @@ public class ProfileFragment extends Fragment {
                 Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.retry, v -> {
                     BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-                    bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+                    if(bottomNavigationView != null) {
+                        bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+                    } else {
+                        Navigation.findNavController(requireView()).navigate(R.id.navigation_profile);
+                    }
                 });
                 snackbar.show();
                 return;

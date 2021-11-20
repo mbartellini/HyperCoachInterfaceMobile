@@ -10,10 +10,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -189,18 +191,20 @@ public class HomeFragment extends Fragment {
 
         binding.gotoRecent.setOnClickListener(v -> {
             BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-            NavigationView landNavigationView = requireActivity().findViewById(R.id.land_nav_menu);
-            if(bottomNavigationView != null)
+            if(bottomNavigationView != null) {
                 bottomNavigationView.setSelectedItemId(R.id.navigation_search);
-            else if(landNavigationView != null){
-
+            } else {
+                Navigation.findNavController(v).navigate(R.id.navigation_search);
             }
         });
 
         binding.gotoFavoritesRoutines.setOnClickListener(v -> {
             BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-            if(bottomNavigationView != null)
+            if(bottomNavigationView != null) {
                 bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
+            } else {
+                Navigation.findNavController(v).navigate(R.id.navigation_favorites);
+            }
         });
 
         return root;
@@ -220,7 +224,11 @@ public class HomeFragment extends Fragment {
                 Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.retry, v -> {
                     BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-                    bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+                    if(bottomNavigationView != null) {
+                        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+                    } else {
+                        Navigation.findNavController(requireView()).navigate(R.id.navigation_home);
+                    }
                 });
                 snackbar.show();
                 return;

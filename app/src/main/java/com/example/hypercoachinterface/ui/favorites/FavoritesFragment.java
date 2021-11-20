@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -153,7 +154,11 @@ public class FavoritesFragment extends Fragment {
                 Snackbar snackbar = Snackbar.make(requireActivity(), binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.retry, v -> {
                     BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav_menu);
-                    bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
+                    if(bottomNavigationView != null) {
+                        bottomNavigationView.setSelectedItemId(R.id.navigation_favorites);
+                    } else {
+                        Navigation.findNavController(requireView()).navigate(R.id.navigation_favorites);
+                    }
                 });
                 snackbar.show();
                 return;
