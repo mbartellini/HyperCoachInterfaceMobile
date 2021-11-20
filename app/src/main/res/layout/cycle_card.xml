@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:card_view="http://schemas.android.com/apk/res-auto"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/cycle_card"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:elevation="25sp"
-card_view:cardCornerRadius="8dp"
-card_view:cardElevation="10dp"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintStart_toStartOf="parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cycle_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="25sp"
+    android:layout_margin="@dimen/margin_medium"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="10dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
 
     <LinearLayout
     android:layout_width="match_parent"

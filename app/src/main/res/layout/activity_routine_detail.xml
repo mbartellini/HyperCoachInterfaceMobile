@@ -101,7 +101,6 @@
         android:id="@+id/cycle_cards_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="@dimen/margin_small"
         android:requiresFadingEdge="horizontal|vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
