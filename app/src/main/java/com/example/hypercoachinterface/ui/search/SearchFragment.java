@@ -44,6 +44,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -218,7 +219,14 @@ public class SearchFragment extends Fragment {
                                     rs.setFavCount(0);
                                 else
                                     rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
-                                adapter.notifyItemRangeChanged(0, r.getData().size());
+                                if (SortCriteria.FAVS.equals(searchViewModel.getSortCriteria())) {
+                                    if (searchViewModel.getSortSense()) {
+                                        dataSet.sort(Comparator.comparing(RoutineSummary::getFavCount));
+                                    } else {
+                                        dataSet.sort(Comparator.comparing(RoutineSummary::getFavCount).reversed());
+                                    }
+                                }
+                                adapter.notifyDataSetChanged();
                             } else {
                                 defaultResourceHandler(r2);
                             }
