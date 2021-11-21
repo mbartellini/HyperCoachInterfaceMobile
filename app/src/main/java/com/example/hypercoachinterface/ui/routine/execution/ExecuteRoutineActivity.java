@@ -14,14 +14,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
+import com.example.hypercoachinterface.backend.api.model.Error;
 import com.example.hypercoachinterface.backend.api.model.Exercise;
 import com.example.hypercoachinterface.backend.api.model.Routine;
 import com.example.hypercoachinterface.backend.api.model.RoutineCategory;
 import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
 import com.example.hypercoachinterface.backend.api.model.RoutineExercise;
+import com.example.hypercoachinterface.backend.repository.Resource;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityExecuteRoutineBinding;
 import com.example.hypercoachinterface.ui.Difficulty;
@@ -29,6 +32,7 @@ import com.example.hypercoachinterface.ui.SortCriteria;
 import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.routine.CycleAdapter;
 import com.example.hypercoachinterface.ui.search.SearchDialog;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,10 +110,14 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
                                         fillActivityData(cycles.get(currentCycle), exerciseMap.get(cycles.get(currentCycle).getExercises().get(currentExercise).getId()), cycles.get(currentCycle).getExercises().get(currentExercise), savedInstanceState);
                                         myCountDownTimer.start();
                                     }
+                                } else {
+                                    defaultResourceHandler(r2);
                                 }
                             });
                         }
                     }
+                } else {
+                    defaultResourceHandler(r);
                 }
             });
         } else {
@@ -325,6 +333,27 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
     public void openStopDialog() {
         StopDialog stopDialog = new StopDialog();
         stopDialog.show(getSupportFragmentManager(), STOP_DIALOG_TAG);
+    }
+
+    private void defaultResourceHandler(Resource<?> resource) {
+        if (resource.getStatus() == Status.ERROR) {
+            Error error = resource.getError();
+            if (error.getCode() == Error.LOCAL_UNEXPECTED_ERROR) {
+                binding.getRoot().removeAllViews();
+                Snackbar snackbar = Snackbar.make(this, binding.getRoot(), getResources().getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, v -> {
+                    finish();
+                    startActivity(getIntent());
+                });
+                snackbar.show();
+                return;
+            } else if (error.getCode() == Error.NOT_FOUND_ERROR) {
+                invalidRoutineHandler();
+                return;
+            }
+            String message = Utils.getErrorMessage(this, error.getCode());
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
