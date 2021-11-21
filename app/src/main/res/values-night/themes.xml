@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.HyperCoachInterface" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/silver</item>
-        <item name="colorPrimaryVariant">@color/dark_silver</item>
+        <item name="colorPrimary">@color/dark_silver</item>
+        <item name="colorPrimaryVariant">@color/silver</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/blueish_grey</item>
