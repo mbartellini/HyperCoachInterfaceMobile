@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:chipBackgroundColor="@color/chip_bg"
+    android:textColor="?attr/colorOnPrimary"
     android:clickable="true"
     android:checkable="true"
     app:checkedIconEnabled="false">
