@@ -53,7 +53,7 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
     private final List<RoutineCycle> cycles = new ArrayList<>();
     private final Map<Integer, Exercise> exerciseMap = new HashMap<>();
     private final CycleAdapter adapter = new CycleAdapter(cycles, exerciseMap, this);
-    Integer progress = 0, time = null;
+    Integer progress = 0, time = 0;
     MyCountDownTimer myCountDownTimer = null;
     Boolean paused = false;
 
