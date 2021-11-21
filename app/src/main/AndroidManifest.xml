@@ -47,8 +47,17 @@
         <activity
             android:name=".ui.routine.execution.ExecuteRoutineActivity"
             android:clearTaskOnLaunch="true"
-            android:exported="true"
-            android:noHistory="true" />
+            android:label="@string/title_execute_routine_activity"
+            android:exported="true">
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data
+                android:host="hypercoachinterface.com"
+                android:pathPrefix="/routine"
+                android:scheme="http" />
+        </intent-filter></activity>
     </application>
 
 </manifest>
