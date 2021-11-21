@@ -82,7 +82,7 @@
     <string name="retry">Reintentar</string>
     <string name="invalid_routine">Rutina inválida</string>
     <string name="empty_list">No hay rutinas</string>
-    <string name="stop_execution_warning">Si terminas tu rutina, perderás tu progreso hasta aquí. ¿Quieres detenerte?</string>
+    <string name="stop_execution_warning">Si terminas tu rutina, perderás tu progreso hasta aquí. ¿Quieres terminar?</string>
     <string name="stop_execution">Terminar</string>
     <string name="continue_execution">Continuar</string>
     <string name="stop_dialog_title">Terminar rutina</string>
