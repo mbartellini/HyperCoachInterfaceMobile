@@ -86,5 +86,6 @@
     <string name="stop_execution">Terminar</string>
     <string name="continue_execution">Continuar</string>
     <string name="stop_dialog_title">Terminar rutina</string>
+    <string name="finish_execution">You finished the routine!</string>
 
 </resources>

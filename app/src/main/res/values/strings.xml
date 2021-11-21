@@ -107,4 +107,5 @@
     <string name="stop_execution">Stop</string>
     <string name="continue_execution">Continue</string>
     <string name="stop_dialog_title">Stop routine</string>
+    <string name="finish_execution">You finished the routine!</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -285,6 +286,7 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
 
                         if (cycles.size() <= currentCycle) {
                             myCountDownTimer.cancel();
+                            ExecuteRoutineActivity.this.runOnUiThread(() -> Toast.makeText(ExecuteRoutineActivity.this, getString(R.string.finish_execution), Toast.LENGTH_LONG).show());
                             finish();
                         } else {
                             RoutineCycle cycle = cycles.get(currentCycle);
