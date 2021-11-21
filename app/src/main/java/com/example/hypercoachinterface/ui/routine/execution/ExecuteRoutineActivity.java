@@ -137,6 +137,18 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        currentExercise = savedInstanceState.getInt("currentExercise");
+        currentCycle = savedInstanceState.getInt("currentCycle");
+        currentCycleReps = savedInstanceState.getInt("currentCycleReps");
+        time = savedInstanceState.getInt("time");
+        progress = savedInstanceState.getInt("progress");
+        paused = savedInstanceState.getBoolean("paused");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //        MenuInflater inflater = getMenuInflater();
 //        inflater.inflate(R.menu.routine_detail_menu, menu);
@@ -156,6 +168,9 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
         }
 
         binding.stopButton.setOnClickListener(view -> {
+            binding.playButton.setBackgroundResource(0);
+            binding.pauseButton.setBackgroundResource(R.color.secondary_grey);
+            paused = true;
             new StopDialog().show(getSupportFragmentManager(), STOP_DIALOG_TAG);
         });
         getSupportFragmentManager().setFragmentResultListener(STOP_REQUEST_KEY, this, (requestKey, result) -> {
