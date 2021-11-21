@@ -74,7 +74,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 Integer routineId = dataSet.get(getAdapterPosition()).getRoutineId();
                 Context context = getCardView().getContext();
                 Intent intent = new Intent(context, RoutineDetailActivity.class);
-                intent.setData(Uri.parse("http://hypercoachinterface.com/routine?id=" + routineId));
+//                intent.setData(Uri.parse("http://hypercoachinterface.com/routine?id=" + routineId));
+                Bundle b = new Bundle();
+                b.putInt("routineId", dataSet.get(getAdapterPosition()).getRoutineId());
+                intent.putExtras(b);
                 context.startActivity(intent);
                 // context.finish();
             });

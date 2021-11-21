@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.hypercoachinterface.MainActivity;
 import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Error;
@@ -52,6 +53,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private App app;
     private int routineId = -1;
     private MenuItem fav, unfav, share;
+    private boolean fromLink;
 
 
     @Override
@@ -59,17 +61,24 @@ public class RoutineDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine_detail);
 
-
         app = (App) getApplication();
 
-        if(app.getPreferences().getAuthToken() == null){
+        if (app.getPreferences().getAuthToken() == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
 
         binding = ActivityRoutineDetailBinding.inflate(getLayoutInflater());
 
-        routineId = Integer.parseInt(getIntent().getData().getQueryParameter("id"));
+
+        Bundle b = getIntent().getExtras();
+        fromLink = getIntent().getData() != null;
+
+        if(fromLink) {
+            routineId = Integer.parseInt(getIntent().getData().getQueryParameter("id"));
+        } else {
+            routineId = b.getInt("routineId");
+        }
         Log.d(TAG, "onCreate: " + String.valueOf(routineId));
 
         List<RoutineCycle> cycles = new ArrayList<>();
@@ -155,8 +164,13 @@ public class RoutineDetailActivity extends AppCompatActivity {
     private void invalidRoutineHandler() {
         Toast.makeText(this, getResources().getString(R.string.invalid_routine), Toast.LENGTH_SHORT).show();
         Log.d(TAG, "invalidRoutineHandler: Invalid Routine (wasn't created with the website)");
-        finish();
-        // TODO: Go back to previous or to home
+        if(!fromLink) {
+            finish();
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -236,7 +250,13 @@ public class RoutineDetailActivity extends AppCompatActivity {
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
             startActivity(Intent.createChooser(shareIntent, ""));
         } else if (id == android.R.id.home) {
-            finish();
+            if(!fromLink) {
+                finish();
+            } else {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
