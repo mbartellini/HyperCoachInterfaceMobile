@@ -44,6 +44,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -109,43 +110,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        /* Fetching routines from API */
-        ItemAdapter adapter = new ItemAdapter(dataSet);
-
-        searchViewModel.getSearches().observe(getViewLifecycleOwner(), r -> {
-            if (r.getStatus() == Status.SUCCESS) {
-                binding.searchProgressBar.setVisibility(View.GONE);
-                binding.searchEmptyTextview.setVisibility(View.VISIBLE);
-                dataSet.clear();
-                if (r.getData() != null) {
-                    if (!r.getData().isEmpty())
-                        binding.searchEmptyTextview.setVisibility(View.GONE);
-                    for(Routine routine : r.getData()) {
-                        RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
-                        dataSet.add(rs);
-                        app.getReviewRepository().getReviews(routine.getId()).observe(getViewLifecycleOwner(), r2 -> {
-                            if(r2.getStatus() == Status.SUCCESS) {
-                                if(r2.getData().getTotalCount() == 0)
-                                    rs.setFavCount(0);
-                                else
-                                    rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
-                                adapter.notifyItemRangeChanged(0, r.getData().size());
-                            } else {
-                                defaultResourceHandler(r2);
-                            }
-                        });
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            } else if (r.getStatus() == Status.LOADING) {
-                binding.searchEmptyTextview.setVisibility(View.GONE);
-                binding.searchProgressBar.setVisibility(View.VISIBLE);
-            } else if (r.getStatus() == Status.ERROR) {
-                binding.searchEmptyTextview.setVisibility(View.GONE);
-                binding.searchProgressBar.setVisibility(View.GONE);
-                defaultResourceHandler(r);
-            }
-        });
+        getData();
 
         binding.filterRoutinesView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -160,7 +125,6 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        binding.filterRoutinesView.setAdapter(adapter);
 
         /* Search Dialog Handling */
         binding.searchButton.setOnClickListener(new View.OnClickListener() {
@@ -226,5 +190,60 @@ public class SearchFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    private void getData() {
+        /* Fetching routines from API */
+        ItemAdapter adapter = new ItemAdapter(dataSet);
+
+        searchViewModel.getSearches().observe(getViewLifecycleOwner(), r -> {
+            if (r.getStatus() == Status.SUCCESS) {
+                binding.searchProgressBar.setVisibility(View.GONE);
+                binding.searchEmptyTextview.setVisibility(View.VISIBLE);
+                dataSet.clear();
+                if (r.getData() != null) {
+                    if (!r.getData().isEmpty())
+                        binding.searchEmptyTextview.setVisibility(View.GONE);
+                    for(Routine routine : r.getData()) {
+                        RoutineSummary rs = RoutineSummary.fromRoutine(routine, 0);
+                        dataSet.add(rs);
+                        app.getReviewRepository().getReviews(routine.getId()).observe(getViewLifecycleOwner(), r2 -> {
+                            if(r2.getStatus() == Status.SUCCESS) {
+                                if(r2.getData().getTotalCount() == 0)
+                                    rs.setFavCount(0);
+                                else
+                                    rs.setFavCount(Integer.parseInt(r2.getData().getContent().get(0).getReview()));
+                                if (SortCriteria.FAVS.equals(searchViewModel.getSortCriteria())) {
+                                    if (searchViewModel.getSortSense()) {
+                                        dataSet.sort(Comparator.comparing(RoutineSummary::getFavCount));
+                                    } else {
+                                        dataSet.sort(Comparator.comparing(RoutineSummary::getFavCount).reversed());
+                                    }
+                                }
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                defaultResourceHandler(r2);
+                            }
+                        });
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            } else if (r.getStatus() == Status.LOADING) {
+                binding.searchEmptyTextview.setVisibility(View.GONE);
+                binding.searchProgressBar.setVisibility(View.VISIBLE);
+            } else if (r.getStatus() == Status.ERROR) {
+                binding.searchEmptyTextview.setVisibility(View.GONE);
+                binding.searchProgressBar.setVisibility(View.GONE);
+                defaultResourceHandler(r);
+            }
+        });
+
+        binding.filterRoutinesView.setAdapter(adapter);
     }
 }

@@ -1,5 +1,8 @@
 package com.example.hypercoachinterface.ui.routine.execution;
 
+import static com.example.hypercoachinterface.ui.routine.execution.StopDialog.STOP_REQUEST_KEY;
+import static com.example.hypercoachinterface.ui.search.SearchDialog.FILTER_REQUEST_KEY;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,12 +19,16 @@ import com.example.hypercoachinterface.R;
 import com.example.hypercoachinterface.backend.App;
 import com.example.hypercoachinterface.backend.api.model.Exercise;
 import com.example.hypercoachinterface.backend.api.model.Routine;
+import com.example.hypercoachinterface.backend.api.model.RoutineCategory;
 import com.example.hypercoachinterface.backend.api.model.RoutineCycle;
 import com.example.hypercoachinterface.backend.api.model.RoutineExercise;
 import com.example.hypercoachinterface.backend.repository.Status;
 import com.example.hypercoachinterface.databinding.ActivityExecuteRoutineBinding;
+import com.example.hypercoachinterface.ui.Difficulty;
+import com.example.hypercoachinterface.ui.SortCriteria;
 import com.example.hypercoachinterface.ui.Utils;
 import com.example.hypercoachinterface.ui.routine.CycleAdapter;
+import com.example.hypercoachinterface.ui.search.SearchDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +40,7 @@ import java.util.TimerTask;
 public class ExecuteRoutineActivity extends AppCompatActivity {
 
     private static final String COUNTER_NAME = "ExecuteRoutineActivity";
+    private static final String STOP_DIALOG_TAG = "Stop Dialog Tag";
     private ActivityExecuteRoutineBinding binding;
     private App app;
     private int currentCycle = 0;
@@ -140,8 +148,10 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
         }
 
         binding.stopButton.setOnClickListener(view -> {
+            new StopDialog().show(getSupportFragmentManager(), STOP_DIALOG_TAG);
+        });
+        getSupportFragmentManager().setFragmentResultListener(STOP_REQUEST_KEY, this, (requestKey, result) -> {
             myCountDownTimer.cancel();
-            // TODO: go back to routine view
             finish();
         });
         binding.pauseButton.setOnClickListener(view -> {
@@ -310,6 +320,11 @@ public class ExecuteRoutineActivity extends AppCompatActivity {
             }, 0, 1000);  // 1 sec
         }
 
+    }
+
+    public void openStopDialog() {
+        StopDialog stopDialog = new StopDialog();
+        stopDialog.show(getSupportFragmentManager(), STOP_DIALOG_TAG);
     }
 
 }
